@@ -7,8 +7,8 @@ import TeamVolume from "@/Components/TeamVolume";
 const SalaryRewardsSection = () => {
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-br from-blue-50 to-purple-50">
-      <div className="px-4 md:px-8 lg:px-24 xl:px-[100px]">
-        <div className="max-w-screen-xl mx-auto">
+      <div className="px-0 md:px-8 lg:px-24 xl:px-[100px]">
+        <div className=" mx-auto">
           {/* Salary Rewards Header */}
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
