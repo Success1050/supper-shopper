@@ -71,7 +71,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="px-4">
+    <section>
       <SuperShopperSection
         backgroundImage="images/how-it-works.png"
         hasButton={false}
