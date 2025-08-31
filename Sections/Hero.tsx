@@ -108,17 +108,7 @@ const HeroSection = () => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
-                >
-                  {/* Shopping bags overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                  <div className="absolute top-2 left-2 md:top-4 md:left-4">
-                    <div className="flex space-x-1">
-                      <div className="w-3 h-4 md:w-4 md:h-5 bg-red-400 rounded-sm"></div>
-                      <div className="w-3 h-4 md:w-4 md:h-5 bg-blue-400 rounded-sm"></div>
-                      <div className="w-3 h-4 md:w-4 md:h-5 bg-green-400 rounded-sm"></div>
-                    </div>
-                  </div>
-                </div>
+                ></div>
               </div>
             </div>
           </div>
