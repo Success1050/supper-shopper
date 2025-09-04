@@ -64,10 +64,10 @@ const Header = () => {
         {/* Desktop Auth Buttons */}
         <div className="desktop_btn">
           <Link
-            href="/signin"
+            href="/signup"
             className="text-gray-700 hover:text-[#2563EB] transition-colors"
           >
-            Sign In
+            Sign Up
           </Link>
           <Link href="/login" className="login">
             Login
