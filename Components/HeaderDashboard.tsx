@@ -2,14 +2,24 @@
 
 import { Bell, HelpCircle, Settings } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
+
+type SidebarItem = {
+  icon: React.ElementType;
+  label: string;
+  url: string;
+  active?: boolean;
+};
 
 const HeaderDashboard = ({
   setMenuId,
   menuIId,
+  sidebarItems,
 }: {
   menuIId?: number;
   setMenuId?: (id: number) => void;
+  sidebarItems?: SidebarItem[];
 }) => {
   // const [activeTab, setActiveTab] = useState("Home");
 
@@ -49,20 +59,21 @@ const HeaderDashboard = ({
             </div>
           </div>
         </div>
-        <div className="md:hidden mb-6 w-full flex-1 p-0">
-          <nav className=" inline-flex w-full flex-1 gap-2">
-            {navItems.map((item, index) => (
-              <button
-                key={item.name}
-                onClick={() => setMenuId && setMenuId(index)}
-                className={`w-[100px] text-center py-2 rounded-md text-[10px] font-medium transition-all duration-200 border border-[#FFFFFF1A] ${
-                  menuIId === index
-                    ? "bg-white text-indigo-900 shadow-sm"
-                    : "text-white hover:text-gray-200"
-                }`}
-              >
-                {item.name}
-              </button>
+        <div className="md:hidden mb-6 p-0">
+          <nav className="flex  items-center w-[100%] gap-6">
+            {sidebarItems?.map((item, index) => (
+              <Link href={item.url} key={index}>
+                <button
+                  onClick={() => setMenuId && setMenuId(index)}
+                  className={`w-fit px-[5px] text-center py-2 rounded-md text-[10px] font-medium transition-all duration-200 border border-[#FFFFFF1A] ${
+                    menuIId === index
+                      ? "bg-white text-indigo-900 shadow-sm"
+                      : "text-white hover:text-gray-200"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </Link>
             ))}
           </nav>
         </div>

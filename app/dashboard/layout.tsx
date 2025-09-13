@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   // Sidebar for desktop
   const sidebarItems = [
     { icon: Home, label: "Home", active: true, url: "/dashboard" },
-    { icon: TestTube, label: "Test Center", url: "/dashboard/taskCenter" },
+    { icon: TestTube, label: "Task Center", url: "/dashboard/taskCenter" },
     { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
     { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
     { icon: FileText, label: "Record", url: "/dashboard/records" },
@@ -97,9 +97,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Mobile Layout */}
       <div className="md:hidden pb-20">
-        <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
+        <HeaderDashboard
+          setMenuId={setMenuId}
+          menuIId={menuIId}
+          sidebarItems={sidebarItems}
+        />
 
-        {/* Active Page Content */}
         {children || menus[menuIId]}
       </div>
 
@@ -107,16 +110,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="fixed bottom-0 left-0 right-0 bg-blue-800/90 backdrop-blur-sm md:hidden">
         <div className="flex items-center justify-around py-2">
           {mobileNavItems.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => setMenuId(index)}
-              className={`flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer transition-colors ${
-                index === menuIId ? "text-white" : "text-blue-300"
-              }`}
-            >
-              <item.icon size={20} />
-              <span className="text-xs mt-1 font-medium">{item.label}</span>
-            </div>
+            <Link href={sidebarItems[index].url} key={index}>
+              <div
+                onClick={() => setMenuId(index)}
+                className={`flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer transition-colors ${
+                  index === menuIId ? "text-white" : "text-blue-300"
+                }`}
+              >
+                <item.icon size={20} />
+                <span className="text-xs mt-1 font-medium">{item.label}</span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>
