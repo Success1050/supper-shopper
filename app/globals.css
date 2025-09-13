@@ -61,10 +61,10 @@ a {
 }
 
 .header {
-  @apply w-full px-4 md:px-8 lg:px-24 xl:px-[100px] py-6 fixed top-0 left-0 z-30 bg-white shadow mb-3;
+  @apply w-full px-4 md:px-8 lg:px-24 xl:px-[100px] py-6 fixed top-0 left-0 z-30 bg-white shadow;
 }
 
-nav {
+.nav {
   @apply flex items-center justify-between max-w-screen-xl mx-auto h-fit;
 }
 

@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <nav>
+      <nav className="nav">
         {/* Logo */}
         <div className="logo">
           <Link href="/">

@@ -10,7 +10,6 @@ const TeamVolume = () => {
           TEAM VOLUME <span className="text-[#2563EB]">BONUS TIERS</span>
         </h3>
 
-        {/* All Tiers in one flex wrap */}
         <div className="flex flex-wrap justify-center gap-4">
           {teamVolumeBonusTiers.map((tier, index) => (
             <div

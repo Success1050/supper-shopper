@@ -1,0 +1,84 @@
+"use client";
+
+import { Bell, HelpCircle, Settings } from "lucide-react";
+import Image from "next/image";
+import React, { useState } from "react";
+
+const HeaderDashboard = ({
+  setMenuId,
+  menuIId,
+}: {
+  menuIId?: number;
+  setMenuId?: (id: number) => void;
+}) => {
+  // const [activeTab, setActiveTab] = useState("Home");
+
+  const navItems = [
+    { name: "Home", isActive: true },
+    { name: "Task Center", isActive: false },
+    { name: "My Team", isActive: false },
+    { name: "Wallet", isActive: false },
+    { name: "Record", isActive: false },
+  ];
+  return (
+    <>
+      <div className="w-full p-3 bg-blue-700">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+          <div className="flex items-center gap-4">
+            <Bell
+              className="text-white cursor-pointer hover:text-blue-200"
+              size={24}
+            />
+            <HelpCircle
+              className="text-white cursor-pointer hover:text-blue-200"
+              size={24}
+            />
+            <Settings
+              className="text-white cursor-pointer hover:text-blue-200"
+              size={24}
+            />
+            <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
+              <Image
+                src={"/images/user.png"}
+                alt="User"
+                width={56}
+                height={56}
+                className="rounded-full w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="md:hidden mb-6 w-full flex-1 p-0">
+          <nav className=" inline-flex w-full flex-1 gap-2">
+            {navItems.map((item, index) => (
+              <button
+                key={item.name}
+                onClick={() => setMenuId && setMenuId(index)}
+                className={`w-[100px] text-center py-2 rounded-md text-[10px] font-medium transition-all duration-200 border border-[#FFFFFF1A] ${
+                  menuIId === index
+                    ? "bg-white text-indigo-900 shadow-sm"
+                    : "text-white hover:text-gray-200"
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className="bg-purple-700/50 rounded-lg p-4 mb-4 mx-4 flex items-center gap-3 justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-6 bg-white rounded flex items-center justify-center">
+              <span className="text-xs font-bold text-blue-600">UK</span>
+            </div>
+            <span className="text-white">emma***@gmail.com</span>
+          </div>
+
+          <span className="text-green-300 font-semibold">$120.00</span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default HeaderDashboard;
