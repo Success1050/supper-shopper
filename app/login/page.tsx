@@ -21,10 +21,10 @@ const SuperShopperLogin: React.FC = () => {
       return alert("Please fill all the details");
     }
 
-    try {
-      const res = await login({ email, password });
+    const res = await login({ email, password });
+    if (!res.success) {
       alert(res.message);
-    } catch (error) {}
+    }
   };
 
   return (
