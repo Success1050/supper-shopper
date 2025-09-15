@@ -17,11 +17,15 @@ export async function login({ email, password }: LoginData) {
       password,
     });
 
-    console.log(data);
+    if (error) {
+      // return error instead of redirecting
+      return { success: false, message: error.message };
+    }
+
+    // ✅ success
+    revalidatePath("/", "layout");
+    redirect("/dashboard");
   } catch (error) {
     return { error };
   }
-
-  revalidatePath("/", "layout");
-  redirect("/dashboard");
 }
