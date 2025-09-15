@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import { ChevronDown } from "lucide-react";
 import { signup } from "./action";
+import { Loader } from "@/Components/Loader";
 
 const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const CreateAccountForm: React.FC = () => {
   });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [isPending, startTransition] = useTransition();
 
   const [agreements, setAgreements] = useState({
     privacy: true,
@@ -50,7 +52,7 @@ const CreateAccountForm: React.FC = () => {
       setMessage(res.message);
     }
     if (res && !res.success) {
-      setMessage(res.message);
+      alert(res.message);
     }
   };
 
@@ -80,7 +82,10 @@ const CreateAccountForm: React.FC = () => {
         {/* Form Container */}
         <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
           {/* Personal Information */}
-          <form className="space-y-4" onSubmit={handleRegister}>
+          <form
+            className="space-y-4"
+            onSubmit={(e) => startTransition(() => handleRegister(e))}
+          >
             <div className="mb-8">
               <h3 className="text-white font-semibold text-lg mb-6">
                 Personal Information
@@ -314,7 +319,7 @@ const CreateAccountForm: React.FC = () => {
             </div>
             {/* Register Button */}
             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors">
-              Register / Create Account
+              {isPending ? <Loader /> : " Register / Create Account"}
             </button>
           </form>
         </div>
