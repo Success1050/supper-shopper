@@ -12,6 +12,9 @@ import TaskCenter from "@/Components/TaskCenter";
 import MyTeam from "@/Components/MyTeam";
 import MyBalanceDeposit from "@/Components/WalletDeposit";
 import Records from "@/Components/Records";
+import { createClient } from "@/utils/supabase/client";
+import { redirect } from "next/navigation";
+import { handleLogout } from "@/Components/LogoutFunc";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [menuIId, setMenuId] = useState<number>(0);
@@ -81,7 +84,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           {/* Logout Button */}
           <div className="absolute bottom-[10%] w-full">
-            <div className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-blue-600 hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]">
+            <div
+              className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-blue-600 hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
+              onClick={handleLogout}
+            >
               <LogOut size={20} />
               <span className="font-medium">Log out</span>
             </div>

@@ -21,15 +21,6 @@ const HeaderDashboard = ({
   setMenuId?: (id: number) => void;
   sidebarItems?: SidebarItem[];
 }) => {
-  // const [activeTab, setActiveTab] = useState("Home");
-
-  const navItems = [
-    { name: "Home", isActive: true },
-    { name: "Task Center", isActive: false },
-    { name: "My Team", isActive: false },
-    { name: "Wallet", isActive: false },
-    { name: "Record", isActive: false },
-  ];
   return (
     <>
       <div className="w-full p-3 bg-blue-700">
@@ -48,15 +39,17 @@ const HeaderDashboard = ({
               className="text-white cursor-pointer hover:text-blue-200"
               size={24}
             />
-            <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
-              <Image
-                src={"/images/user.png"}
-                alt="User"
-                width={56}
-                height={56}
-                className="rounded-full w-full h-full"
-              />
-            </div>
+            <Link href={"/dashboard/profile"}>
+              <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
+                <Image
+                  src={"/images/user.png"}
+                  alt="User"
+                  width={56}
+                  height={56}
+                  className="rounded-full w-full h-full"
+                />
+              </div>
+            </Link>
           </div>
         </div>
         <div className="md:hidden mb-6 p-0">

@@ -1,12 +1,14 @@
+"use client";
+
 import React, { useState } from "react";
 import { ChevronRight, LogOut, Edit } from "lucide-react";
+import { handleLogout } from "./LogoutFunc";
+import { useTransition } from "react";
+import { Loader } from "./Loader";
 
 const ProfileSettings: React.FC = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(true);
-
-  const handleLogout = () => {
-    alert("Logging out...");
-  };
+  const [isPending, startTransition] = useTransition();
 
   const handleEdit = () => {
     alert("Edit profile functionality");
@@ -177,11 +179,17 @@ const ProfileSettings: React.FC = () => {
 
         {/* Logout Button */}
         <button
-          onClick={handleLogout}
+          onClick={() => startTransition(() => handleLogout())}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
         >
-          <LogOut className="w-5 h-5" />
-          <span>Logout</span>
+          {isPending ? (
+            <Loader />
+          ) : (
+            <>
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
+            </>
+          )}
         </button>
       </div>
     </div>
