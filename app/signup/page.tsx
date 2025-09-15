@@ -148,6 +148,7 @@ const CreateAccountForm: React.FC = () => {
                     Verification Code
                   </h3>
                   <button
+                    type="button"
                     onClick={sendVerificationCode}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
                   >
@@ -184,6 +185,7 @@ const CreateAccountForm: React.FC = () => {
                   </label>
                   <div className="relative">
                     <button
+                      type="button"
                       onClick={() =>
                         setShowCountryDropdown(!showCountryDropdown)
                       }
@@ -196,9 +198,8 @@ const CreateAccountForm: React.FC = () => {
                     {showCountryDropdown && (
                       <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
                         {countries.map((country) => (
-                          <button
+                          <div
                             key={country}
-                            type="button"
                             onClick={() => {
                               handleInputChange("country", country);
                               setShowCountryDropdown(false);
@@ -206,7 +207,7 @@ const CreateAccountForm: React.FC = () => {
                             className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                           >
                             {country}
-                          </button>
+                          </div>
                         ))}
                       </div>
                     )}
