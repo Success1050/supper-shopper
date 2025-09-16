@@ -64,7 +64,9 @@ const ProfileSettings: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-white font-semibold text-lg">{}</h2>
-                <div className="text-blue-200 text-sm">{profile?.email}</div>
+                <div className="text-blue-200 text-sm">
+                  {profile?.email || null}
+                </div>
                 <div className="text-blue-200 text-sm">+1 202-555-0125</div>
               </div>
             </div>
@@ -87,7 +89,7 @@ const ProfileSettings: React.FC = () => {
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Full Name</span>
               <span className="text-white">
-                {profile?.first_name} {profile?.last_name}
+                {profile?.first_name} {profile?.last_name || null}
               </span>
             </div>
 
@@ -103,7 +105,7 @@ const ProfileSettings: React.FC = () => {
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Country / Region</span>
-              <span className="text-white">{profile?.country}</span>
+              <span className="text-white">{profile?.country || null}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
@@ -120,7 +122,9 @@ const ProfileSettings: React.FC = () => {
               <span className="text-blue-200 text-sm">
                 Referral Code / Inviter ID
               </span>
-              <span className="text-white">{profile?.referral_code}</span>
+              <span className="text-white">
+                {profile?.referral_code || null}
+              </span>
             </div>
           </div>
         </div>
