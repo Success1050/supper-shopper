@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronDown, Copy } from "lucide-react";
+import { getUserWallet } from "@/app/dashboard/wallet/action";
 
 const MyBalanceDeposit: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"Deposit" | "Withdrawal">(
     "Deposit"
   );
   const [amount, setAmount] = useState<string>("");
+  const [walletAmount, setWalletAmount] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currency, setCurrency] = useState<string>("USDT");
   const [network, setNetwork] = useState<string>("BEP20");
@@ -48,6 +50,20 @@ const MyBalanceDeposit: React.FC = () => {
     }
   };
 
+  const getWalletBal = async () => {
+    const res = await getUserWallet();
+    if (!res.success) {
+      console.log("wallet errror", res.message);
+    }
+    console.log("wallet amount", res.data?.[0]?.balance ?? 0);
+
+    setWalletAmount(res.data?.[0]?.balance);
+  };
+
+  useEffect(() => {
+    getWalletBal();
+  }, [walletAmount]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
       <div>
@@ -57,7 +73,9 @@ const MyBalanceDeposit: React.FC = () => {
             <h1 className="text-white text-2xl font-semibold mb-1">
               My Balance
             </h1>
-            <div className="text-white text-3xl font-bold">$1,234.56</div>
+            <div className="text-white text-3xl font-bold">
+              ${walletAmount ?? 0}
+            </div>
           </div>
 
           <div className="flex space-x-3">

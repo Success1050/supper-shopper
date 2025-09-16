@@ -1,41 +1,34 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import HeaderDashboard from "./HeaderDashboard";
 import Progressbar from "./Progressbar";
 import Link from "next/link";
+import { getProducts } from "@/app/dashboard/taskCenter/action";
 
 interface Product {
   id: number;
   name: string;
-  image: string;
+  image_url: string;
 }
 
 const TaskCenter = () => {
-  const products: Product[] = [
-    {
-      id: 1,
-      name: "Wireless Earbuds",
-      image:
-        "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=300&h=200&fit=crop",
-    },
-    {
-      id: 2,
-      name: "Smart Watch",
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=200&fit=crop",
-    },
-    {
-      id: 3,
-      name: "Moisturizing Cream",
-      image:
-        "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300&h=200&fit=crop",
-    },
-    {
-      id: 4,
-      name: "Sports Shoes",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=200&fit=crop",
-    },
-  ];
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await getProducts();
+      if (!res.success) return console.log("an error occured");
+      console.log(res.data);
+
+      setProducts(res.data ?? []);
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
+
+  if (loading) return <p className="text-white">Loading...</p>;
 
   return (
     <div className="bg-gradient-to-br from-blue-900 to-purple-900 min-h-screen">
@@ -75,7 +68,7 @@ const TaskCenter = () => {
                 <div className="bg-blue-900/30 backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4">
                   <div className="flex-shrink-0">
                     <img
-                      src={product.image}
+                      src={product.image_url}
                       alt={product.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />

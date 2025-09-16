@@ -1,14 +1,48 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, LogOut, Edit } from "lucide-react";
 import { handleLogout } from "./LogoutFunc";
 import { useTransition } from "react";
 import { Loader } from "./Loader";
+import { getProducts } from "@/app/dashboard/taskCenter/action";
+import { getProfile } from "@/app/dashboard/profile/actions";
+
+interface ProfileTypes {
+  id: string;
+  email: string;
+  phone: string;
+  country: string;
+  first_name: string;
+  last_name: string;
+  referral_code: string;
+}
 
 const ProfileSettings: React.FC = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(true);
   const [isPending, startTransition] = useTransition();
+
+  const [profile, setProfile] = useState<ProfileTypes | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const res = await getProfile();
+      if (!res || !res.success) {
+        console.log("An error occurred");
+        return;
+      }
+      // console.log(res.data);
+
+      setProfile(res.data);
+      console.log(res.data);
+      console.log("profile state", profile);
+
+      setLoading(false);
+    };
+
+    fetchUserProfile();
+  }, [profile]);
 
   const handleEdit = () => {
     alert("Edit profile functionality");
@@ -29,8 +63,8 @@ const ProfileSettings: React.FC = () => {
                 />
               </div>
               <div>
-                <h2 className="text-white font-semibold text-lg">Johndoe</h2>
-                <div className="text-blue-200 text-sm">johndoe@gmail.com</div>
+                <h2 className="text-white font-semibold text-lg">{}</h2>
+                <div className="text-blue-200 text-sm">{profile?.email}</div>
                 <div className="text-blue-200 text-sm">+1 202-555-0125</div>
               </div>
             </div>
@@ -52,7 +86,9 @@ const ProfileSettings: React.FC = () => {
           <div className="space-y-4">
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Full Name</span>
-              <span className="text-white">John Doe</span>
+              <span className="text-white">
+                {profile?.first_name} {profile?.last_name}
+              </span>
             </div>
 
             <div className="flex justify-between items-center py-2">
@@ -67,7 +103,7 @@ const ProfileSettings: React.FC = () => {
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Country / Region</span>
-              <span className="text-white">United States</span>
+              <span className="text-white">{profile?.country}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
@@ -84,7 +120,7 @@ const ProfileSettings: React.FC = () => {
               <span className="text-blue-200 text-sm">
                 Referral Code / Inviter ID
               </span>
-              <span className="text-white">REF2025ABC</span>
+              <span className="text-white">{profile?.referral_code}</span>
             </div>
           </div>
         </div>
