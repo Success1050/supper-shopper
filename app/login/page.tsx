@@ -8,7 +8,7 @@ import { Loader } from "@/Components/Loader";
 
 const SuperShopperLogin: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [emailorPhone, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string>("");
@@ -17,11 +17,11 @@ const SuperShopperLogin: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!emailorPhone || !password) {
       return alert("Please fill all the details");
     }
 
-    const res = await login({ email, password });
+    const res = await login({ emailorPhone, password });
     if (!res.success) {
       alert(res.message);
     }
@@ -72,7 +72,7 @@ const SuperShopperLogin: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  value={email}
+                  value={emailorPhone}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email / mobile number"
                   className="w-full bg-gray-800/60 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"

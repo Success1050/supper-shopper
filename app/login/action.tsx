@@ -5,16 +5,29 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 
 type LoginData = {
-  email: string;
+  emailorPhone: string;
   password: string;
 };
 
-export async function login({ email, password }: LoginData) {
+function isEmail(value: string) {
+  return /\S+@\S+\.\S+/.test(value);
+}
+
+export async function login({ emailorPhone, password }: LoginData) {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  let data, error;
+
+  if (isEmail(emailorPhone)) {
+    ({ data, error } = await supabase.auth.signInWithPassword({
+      email: emailorPhone,
+      password,
+    }));
+  } else {
+    // Sign in via phone using OTP
+    ({ data, error } = await supabase.auth.signInWithOtp({
+      phone: emailorPhone,
+    }));
+  }
 
   if (error) return { success: false, message: error.message };
 
