@@ -2,32 +2,72 @@
 
 import React, { useEffect, useState } from "react";
 import { ChevronDown, Copy } from "lucide-react";
-import { getUserWallet } from "@/app/dashboard/wallet/action";
+import {
+  fetchChain,
+  fetchToken,
+  getUserSession,
+  getUserWallet,
+} from "@/app/dashboard/wallet/action";
+import { useUserStore } from "@/store";
 
 const MyBalanceDeposit: React.FC = () => {
+  const user = useUserStore((state) => state.user);
   const [activeTab, setActiveTab] = useState<"Deposit" | "Withdrawal">(
     "Deposit"
   );
   const [amount, setAmount] = useState<string>("");
+  const [chains, setChain] = useState<any[]>([]);
+  const [tokens, setTokens] = useState<any[]>([]);
+  const [CurrencyId, setCurrencyId] = useState<number>(1);
   const [walletAmount, setWalletAmount] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currency, setCurrency] = useState<string>("USDT");
-  const [network, setNetwork] = useState<string>("BEP20");
+  const [networks, setNetwork] = useState<string>("");
   const [showCurrencyDropdown, setShowCurrencyDropdown] =
     useState<boolean>(false);
   const [showNetworkDropdown, setShowNetworkDropdown] =
     useState<boolean>(false);
+  const [userSession, setusersession] = useState<string>("");
   const [generatedAddress, setGeneratedAddress] = useState<string>("");
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
 
-  const currencies = ["USDT", "BTC", "ETH", "BNB"];
-  const networks = ["BEP20", "ERC20", "TRC20"];
+  const generateAddress = async () => {
+    try {
+      if (!networks || !currency) return;
+      const res = await fetch("/api/generate-wallet", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userSession}`,
+        },
+        body: JSON.stringify({
+          user_id: user?.id,
+          token_id: CurrencyId,
+          chain_code: networks,
+        }),
+      });
 
-  const generateAddress = () => {
-    // Simulate address generation
-    setGeneratedAddress("0x1234567890abcdef1234567890abcdef12345678");
-    setIsdropdown((prev) => !prev);
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || `HTTP ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (data.success) {
+        console.log("✅ Wallet generated:", data);
+        setGeneratedAddress(data.address);
+        setIsdropdown(true);
+        return data;
+      } else {
+        throw new Error(data.message || "Wallet generation failed");
+      }
+    } catch (error) {
+      console.error("❌ Wallet generation error:", error);
+      // Handle error in your UI
+      throw error;
+    }
   };
 
   const confirmDeposit = () => {
@@ -53,16 +93,53 @@ const MyBalanceDeposit: React.FC = () => {
   const getWalletBal = async () => {
     const res = await getUserWallet();
     if (!res.success) {
-      console.log("wallet errror", res.message);
+      return;
     }
-    console.log("wallet amount", res.data?.[0]?.balance ?? 0);
 
     setWalletAmount(res.data?.[0]?.balance);
   };
 
+  const getAllChain = async () => {
+    const res = await fetchChain();
+    if (!res.success) {
+      return;
+      // console.log("chain errror", res.message);
+    }
+    console.log("chains", res.data);
+
+    setChain(res.data || []);
+  };
+
+  const getAllTokens = async () => {
+    const res = await fetchToken();
+    if (!res.success) {
+      return;
+      // console.log("tokens errror", res.message);
+    }
+    console.log("tokens", res.data);
+
+    setTokens(res.data || []);
+  };
+
+  const fetchUserSession = async () => {
+    const res = await getUserSession();
+    if (!res.success) {
+      return;
+      // console.log("sessions errror", res.message);
+    }
+    // console.log("sessions", res.data);
+    setusersession(res.data?.access_token || "");
+  };
+
   useEffect(() => {
     getWalletBal();
-  }, [walletAmount]);
+    fetchUserSession();
+  }, [user?.id]);
+
+  useEffect(() => {
+    getAllChain();
+    getAllTokens();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
@@ -142,16 +219,17 @@ const MyBalanceDeposit: React.FC = () => {
 
                 {showCurrencyDropdown && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
-                    {currencies.map((curr) => (
+                    {tokens.map((curr) => (
                       <button
-                        key={curr}
+                        key={curr.id}
                         onClick={() => {
-                          setCurrency(curr);
+                          setCurrency(curr.name);
+                          setCurrencyId(curr.id);
                           setShowCurrencyDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {curr}
+                        {curr.name.toUpperCase()}
                       </button>
                     ))}
                   </div>
@@ -167,22 +245,22 @@ const MyBalanceDeposit: React.FC = () => {
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                   className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
-                  <span>{network}</span>
+                  <span>{networks}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showNetworkDropdown && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
-                    {networks.map((net) => (
+                    {chains.map((chain) => (
                       <button
-                        key={net}
+                        key={chain.id}
                         onClick={() => {
-                          setNetwork(net);
+                          setNetwork(chain.name);
                           setShowNetworkDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {net}
+                        {chain.name}
                       </button>
                     ))}
                   </div>
@@ -280,7 +358,7 @@ const MyBalanceDeposit: React.FC = () => {
 
                 {showCurrencyDropdown && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
-                    {currencies.map((curr) => (
+                    {tokens.map((curr) => (
                       <button
                         key={curr}
                         onClick={() => {
@@ -320,17 +398,19 @@ const MyBalanceDeposit: React.FC = () => {
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                   className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
-                  <span>{network}</span>
+                  <span>
+                    {networks.length > 0 ? networks[0] : "choose network"}
+                  </span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showNetworkDropdown && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
-                    {networks.map((net) => (
+                    {chains.map((net: string) => (
                       <button
                         key={net}
                         onClick={() => {
-                          setNetwork(net);
+                          setWalletAddress(net);
                           setShowNetworkDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
