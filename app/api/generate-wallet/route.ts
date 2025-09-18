@@ -12,12 +12,11 @@ const supabase = createClient();
 const MNEMONIC = process.env.NEXT_PUBLIC_MNEMONIC!;
 
 if (!MNEMONIC || !validateMnemonic(MNEMONIC)) {
-  console.error("❌ Invalid WALLET_MNEMONIC");
+  console.error(" Invalid WALLET_MNEMONIC");
 }
 
 export async function POST(request: any) {
   try {
-    // Check authorization
     const authorization = request.headers.get("authorization");
     if (!authorization) {
       return NextResponse.json(
@@ -35,7 +34,7 @@ export async function POST(request: any) {
       );
     }
 
-    console.log(`🔄 Generating ${chain_code} wallet for user: ${user_id}`);
+    console.log(`Generating ${chain_code} wallet for user: ${user_id}`);
 
     // Generate wallet
     const seedBuffer = await mnemonicToSeed(MNEMONIC);
@@ -58,7 +57,7 @@ export async function POST(request: any) {
       privateKey = childWallet.privateKey;
     }
 
-    console.log(`✅ Generated ${chain_code} address:`, address);
+    console.log(` Generated ${chain_code} address:`, address);
 
     // Insert into Supabase
     const { error } = await supabase.from("user_wallets").insert([
@@ -80,7 +79,7 @@ export async function POST(request: any) {
     });
   } catch (err) {
     if (err instanceof Error) {
-      console.error("❌ Error:", err.message);
+      console.error(" Error:", err.message);
       return NextResponse.json(
         {
           success: false,
@@ -90,7 +89,7 @@ export async function POST(request: any) {
         { status: 500 }
       );
     } else {
-      console.error("❌ Error:", err);
+      console.error(" Error:", err);
       return NextResponse.json(
         {
           success: false,
