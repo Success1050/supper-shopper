@@ -1,7 +1,6 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { createClient as client } from "@/utils/supabase/client";
 
 export const getUserWallet = async () => {
   const supabase = await createClient();
@@ -15,12 +14,11 @@ export const getUserWallet = async () => {
     return { success: false, message: "Not authenticated" };
   }
 
-  const { data: userdata, error } = await supabase.rpc(
-    "get_user_wallets_with_balance",
-    {
-      p_user_id: user.id,
-    }
-  );
+  const { data: userdata, error } = await supabase
+    .from("user_balances")
+    .select()
+    .eq("user_id", user.id)
+    .single();
 
   if (error) {
     return { success: false, message: error.message };
@@ -32,7 +30,7 @@ export const getUserWallet = async () => {
 };
 
 export const fetchToken = async () => {
-  const supabase = client();
+  const supabase = await createClient();
   const { data, error } = await supabase.from("tokens").select("*");
 
   if (error) {
@@ -45,7 +43,7 @@ export const fetchToken = async () => {
 };
 
 export const fetchChain = async () => {
-  const supabase = client();
+  const supabase = await createClient();
 
   const res = await fetchToken();
 
@@ -63,8 +61,6 @@ export const fetchChain = async () => {
   if (error) {
     return { success: false, message: error.message };
   }
-
-  console.log(data);
 
   return { success: true, data: data };
 };

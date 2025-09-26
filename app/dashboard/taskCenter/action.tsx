@@ -1,12 +1,72 @@
-import { createClient } from "@/utils/supabase/client";
+"use server";
+
+import { createClient } from "@/utils/supabase/server";
 
 export const getProducts = async () => {
-  const supabase = createClient();
-  const { data, error } = await supabase.from("products").select("*");
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    return { success: false, message: "Not authenticated" };
+  }
+
+  const { data, error } = await supabase
+    .from("user_tasks")
+    .select(`*, products: product_id(name, image_url)`)
+    .eq("user_id", user.id);
 
   if (error) {
     return { success: false, message: error.message };
   }
 
   return { success: true, data: data };
+};
+
+export const getTaskSteps = async (productId: number) => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("task_steps")
+    .select("*")
+    .eq("product_id", productId);
+  if (error) {
+    return { success: false, message: error.message };
+  }
+
+  return { success: true, data: data };
+};
+
+export const submission = async (
+  productId: number,
+  userComment: string,
+  rating: number,
+  isLinkOpen: boolean
+) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: error_tasks,
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    const { data, error } = await supabase
+      .from("user_tasks")
+      .update({
+        completed: true,
+        comment: userComment,
+        rating: rating,
+        opened_link: isLinkOpen,
+      })
+      .eq("product_id", productId)
+      .eq("user_id", user.id)
+      .select();
+    if (error) {
+      return { success: false, message: error.message };
+    }
+
+    return { success: true, data: data };
+  }
 };

@@ -1,19 +1,65 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HelpCircle, Play, Star } from "lucide-react";
 import Progressbar from "./Progressbar";
 import HeaderDashboard from "./HeaderDashboard";
+import {
+  getProducts,
+  getTaskSteps,
+  submission,
+} from "@/app/dashboard/taskCenter/action";
+import Link from "next/link";
+
+type completedTask = {
+  reward: number;
+};
 
 const TaskExecution = ({ productId }: { productId: number }) => {
-  const [rating, setRating] = useState<number>(5);
+  const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+  const [CompletedTask, setCompletedTask] = useState<completedTask[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [product, setProduct] = useState<any[]>([]);
+  const [taskSteps, settaskStep] = useState<any[]>([]);
+  const [isLinkOpen, setisLinkOpen] = useState<boolean>(false);
   const [watchProgress, setWatchProgress] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+
+  console.log("my product id", productId);
 
   const handleRatingClick = (value: number) => {
     setRating(value);
   };
+
+  const onsubmit = async (productid: number) => {
+    if (!productId) return;
+    if (!watchProgress || !comment || isLinkOpen === false || !rating) {
+      return alert("please complete all tasks");
+    }
+    setLoading(true);
+
+    const userComment = comment.trim();
+
+    const res = await submission(productid, userComment, rating, isLinkOpen);
+    if (!res?.success) {
+      return console.log(res?.message);
+    }
+    console.log(res.data);
+    setCompletedTask(res.data ?? []);
+    alert("tasks completed, check wallet for reward");
+    setComment("");
+    setWatchProgress(0);
+    setRating(0);
+    setisLinkOpen(false);
+  };
+
+  // const taskCompleted = CompletedTask.filter((task) => task.completed);
+
+  const totalReward = CompletedTask.reduce<number>(
+    (acc, task) => acc + (task.reward ?? 0),
+    0
+  );
 
   const handlePlayVideo = () => {
     setIsVideoPlaying(true);
@@ -29,19 +75,40 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     }, 1000);
   };
 
-  const task = [
-    {
-      id: 1,
-      name: "Wireless Earbuds",
-      image:
-        "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=300&h=200&fit=crop",
-    },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await getProducts();
+      if (!res.success) return console.log(res.message);
+      setProduct(res?.data ?? []);
+    };
 
-  const singleTask = task.find((t) => t.id === productId);
+    fetchProducts();
+  }, []); // only fetch once
+
+  useEffect(() => {
+    if (!product.length) return; // wait until product is loaded
+
+    const singleproductId = product.find((t) => t.product_id === productId);
+    // console.log("the task step id", singleproductId?.product_id);
+
+    if (!singleproductId) return;
+
+    const fetchTaskSteps = async () => {
+      const res = await getTaskSteps(singleproductId.product_id);
+      if (!res.success) return console.log(res.message);
+      // console.log("now the tseps", res?.data);
+
+      settaskStep(res?.data ?? []);
+    };
+
+    fetchTaskSteps();
+  }, [productId, product]);
+
+  const singleTask = product.find((t) => t.product_id === productId);
   if (!singleTask) {
     return null;
   }
+  console.log("a single task", singleTask);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
@@ -64,7 +131,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             </div>
             <div className="flex-1">
               <h3 className="text-white font-semibold mb-1">Task Reward</h3>
-              <div className="text-green-400 font-bold">$0.10</div>
+              <div className="text-green-400 font-bold">${totalReward}</div>
             </div>
           </div>
           {/* Watch Progress */}
@@ -88,8 +155,8 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
             <div className="relative bg-gray-900 rounded-lg overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=225&fit=crop"
-                alt="Video Thumbnail"
+                src={taskSteps[0]?.step_value}
+                alt={taskSteps[0]?.step_type}
                 className="w-full h-48 object-cover"
               />
               {!isVideoPlaying && (
@@ -143,9 +210,20 @@ const TaskExecution = ({ productId }: { productId: number }) => {
               Step 4: Open Product Link
             </h3>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
-              Product Open
-            </button>
+            <a
+              href={
+                taskSteps[3]?.step_value.startsWith("https")
+                  ? taskSteps[3]?.step_value
+                  : `https://${taskSteps[3]?.step_value}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setisLinkOpen(true)}
+            >
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                Product Open
+              </button>
+            </a>
           </div>
 
           {/* Step 3: Write Comment */}
@@ -168,7 +246,10 @@ const TaskExecution = ({ productId }: { productId: number }) => {
               Step 5: Submit Task
             </h3>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
+            <button
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
+              onClick={() => onsubmit(productId)}
+            >
               Done
             </button>
             <div className="flex-1 mt-2 flex items-center justify-center">

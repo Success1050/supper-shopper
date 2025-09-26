@@ -94,8 +94,9 @@ const MyBalanceDeposit: React.FC = () => {
     if (!res.success) {
       return;
     }
+    console.log(res.data);
 
-    setWalletAmount(res.data?.[0]?.balance);
+    setWalletAmount(res.data.balance);
   };
 
   const getAllChain = async () => {

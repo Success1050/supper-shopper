@@ -6,21 +6,27 @@ import Progressbar from "./Progressbar";
 import Link from "next/link";
 import { getProducts } from "@/app/dashboard/taskCenter/action";
 
-interface Product {
+interface UserTaskWithProduct {
   id: number;
-  name: string;
-  image_url: string;
+  user_id: string;
+  product_id: number;
+  reward: number;
+  completed: boolean;
+  products: {
+    name: string;
+    image_url: string;
+  };
 }
 
 const TaskCenter = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await getProducts();
       if (!res.success) return console.log("an error occured");
-      console.log(res.data);
+      console.log(res?.data);
 
       setProducts(res.data ?? []);
       setLoading(false);
@@ -29,6 +35,13 @@ const TaskCenter = () => {
   }, []);
 
   if (loading) return <p className="text-white">Loading...</p>;
+
+  const completedTask = products.filter((product) => product.completed);
+
+  const totalReward = completedTask.reduce<number>(
+    (acc, task) => acc + (task.reward ?? 0),
+    0
+  );
 
   return (
     <div className="bg-gradient-to-br from-blue-900 to-purple-900 min-h-screen">
@@ -43,17 +56,19 @@ const TaskCenter = () => {
             <span className="text-blue-200 text-sm">
               Total Tasks Completed Today:
             </span>
-            <span className="text-white font-semibold">7 / 20</span>
+            <span className="text-white font-semibold">
+              {completedTask?.length ?? 0} / 20
+            </span>
           </div>
 
           <div className="flex justify-between items-center mb-4">
             <span className="text-blue-200 text-sm">Total Daily Reward:</span>
-            <span className="text-white font-semibold">$35.00</span>
+            <span className="text-white font-semibold">${totalReward}</span>
           </div>
 
           {/* Progress bar */}
 
-          <Progressbar width={10} />
+          <Progressbar width={totalReward} />
         </div>
 
         {/* Active Tasks */}
@@ -63,27 +78,36 @@ const TaskCenter = () => {
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {products.map((product: Product) => (
-              <Link key={product.id} href={`/dashboard/tasks/${product.id}`}>
-                <div className="bg-blue-900/30 backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
-                  </div>
-
-                  <div className="flex-1">
-                    <h4 className="text-white font-medium text-base mb-3">
-                      {product.name}
-                    </h4>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
-                      Take Reward
-                    </button>
-                  </div>
+            {products.map((product: UserTaskWithProduct) => (
+              <div
+                className="bg-blue-900/30 backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4"
+                key={product.product_id}
+              >
+                <div className="flex-shrink-0">
+                  <img
+                    src={product.products.image_url}
+                    alt={product.products.name}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
                 </div>
-              </Link>
+
+                <div className="flex-1">
+                  <h4 className="text-white font-medium text-base mb-3">
+                    {product.products.name}
+                  </h4>
+                  {product.completed === true ? (
+                    <h2 className="  text-white  text-sm font-medium">
+                      Completed
+                    </h2>
+                  ) : (
+                    <Link href={`/dashboard/tasks/${product.product_id}`}>
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                        Take Reward
+                      </button>
+                    </Link>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         </div>

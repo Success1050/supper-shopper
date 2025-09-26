@@ -1,33 +1,52 @@
-import React from "react";
-import HeaderDashboard from "./HeaderDashboard";
+"use client";
+import React, { useEffect, useState } from "react";
+import {
+  fetchPackages,
+  userBuyPackages,
+} from "@/app/dashboard/package-lists/action";
+import { useRouter } from "next/router";
 
 const PackageSelection: React.FC = () => {
-  const packages = [
-    {
-      price: "$10",
-      tasksPerDay: 4,
-      rewardPerTask: "$0.10",
-      dailyIncome: "$0.40",
-    },
-    {
-      price: "$35",
-      tasksPerDay: 6,
-      rewardPerTask: "$0.15",
-      dailyIncome: "$0.90",
-    },
-    {
-      price: "$100",
-      tasksPerDay: 8,
-      rewardPerTask: "$0.25",
-      dailyIncome: "$2.00",
-    },
-    {
-      price: "$200",
-      tasksPerDay: 10,
-      rewardPerTask: "$0.50",
-      dailyIncome: "$5.00",
-    },
-  ];
+  const [packages, setPackages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingPackages, setLoadingPackages] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const router = useRouter();
+  const [message, setMessage] = useState<string | null>(null);
+
+  // Fetch packages from Supabase
+  useEffect(() => {
+    const fetchuserPackages = async () => {
+      setLoading(true);
+      const res = await fetchPackages();
+      if (!res.success) {
+        return console.log(res.error);
+      }
+      setLoading(false);
+      setPackages(res.data ?? []);
+    };
+
+    fetchuserPackages();
+  }, []);
+
+  const buyPackage = async (packageId: number) => {
+    console.log(packageId);
+
+    try {
+      setLoadingPackages((prev) => ({ ...prev, [packageId]: true }));
+      const res = await userBuyPackages(packageId);
+      if (!res.success) return alert(res.error);
+
+      console.log(res.data);
+      setMessage(`Successfully purchased package ${packageId}`);
+      router.push("/taskCenter");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingPackages((prev) => ({ ...prev, [packageId]: false }));
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 p-6">
@@ -40,45 +59,59 @@ const PackageSelection: React.FC = () => {
           </p>
         </div>
 
+        {message && (
+          <div className="mb-4 text-center text-yellow-300">{message}</div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {packages.map((pkg, index) => (
-            <div
-              key={index}
-              className="bg-gray-800/60 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
-            >
-              <div className="text-center mb-6">
-                <div className="text-white text-3xl font-bold mb-2">
-                  {pkg.price}
+          {loading ? (
+            <h2>Loading...</h2>
+          ) : (
+            packages.map((pkg) => (
+              <div
+                key={pkg.id}
+                className="bg-gray-800/60 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
+              >
+                <div className="text-center mb-6">
+                  <div className="text-white text-3xl font-bold mb-2">
+                    ${pkg.price}
+                  </div>
+                  <div className="text-gray-400 text-sm">One-time payment</div>
                 </div>
-                <div className="text-gray-400 text-sm">One-time payment</div>
-              </div>
 
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300 text-sm">Tasks Per Day</span>
-                  <span className="text-white font-medium">
-                    {pkg.tasksPerDay}
-                  </span>
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300 text-sm">Tasks Per Day</span>
+                    <span className="text-white font-medium">
+                      {pkg.tasks_per_day}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300 text-sm">
+                      Reward Per Task
+                    </span>
+                    <span className="text-green-400 font-medium">
+                      ${pkg.reward_per_task}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300 text-sm">Daily Income</span>
+                    <span className="text-green-400 font-bold">
+                      ${pkg.daily_income}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300 text-sm">Reward Per Task</span>
-                  <span className="text-green-400 font-medium">
-                    {pkg.rewardPerTask}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300 text-sm">Daily Income</span>
-                  <span className="text-green-400 font-bold">
-                    {pkg.dailyIncome}
-                  </span>
-                </div>
-              </div>
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200">
-                Buy Now
-              </button>
-            </div>
-          ))}
+                <button
+                  onClick={() => buyPackage(pkg.id)}
+                  disabled={loadingPackages[pkg.id]}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                >
+                  {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
+                </button>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
