@@ -3,11 +3,11 @@
 
 import { NextResponse } from "next/server";
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
 
-  const supabase = createClient()
+  const supabase = await createClient()
   try {
     const { user_id, coin, network } = await req.json();
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}`,
       },
       body: JSON.stringify({
-        userId: 'c2c72b63-y45t-45n6-a036-fae488152d45',
+        userId: user_id,
         network,
         coin,
       }),
