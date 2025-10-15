@@ -86,17 +86,15 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   }, []); // only fetch once
 
   useEffect(() => {
-    if (!product.length) return; // wait until product is loaded
+    if (!product.length) return;
 
     const singleproductId = product.find((t) => t.product_id === productId);
-    // console.log("the task step id", singleproductId?.product_id);
 
     if (!singleproductId) return;
 
     const fetchTaskSteps = async () => {
       const res = await getTaskSteps(singleproductId.product_id);
       if (!res.success) return console.log(res.message);
-      // console.log("now the tseps", res?.data);
 
       settaskStep(res?.data ?? []);
     };

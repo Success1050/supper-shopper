@@ -31,7 +31,7 @@ export const getUserWallet = async () => {
 
 export const fetchToken = async () => {
   const supabase = await createClient();
-  const { data, error } = await supabase.from("tokens").select("*");
+  const { data, error } = await supabase.from("token").select("*");
 
   if (error) {
     return { success: false, message: error.message };
@@ -42,25 +42,19 @@ export const fetchToken = async () => {
   return { success: true, data: data };
 };
 
-export const fetchChain = async () => {
+export const fetchChain = async (CurrencyId: number) => {
   const supabase = await createClient();
 
-  const res = await fetchToken();
-
-  if (!Array.isArray(res?.data) || res.data.length === 0) {
-    return { success: false, message: "No tokens found" };
-  }
-
-  const tokendId = res.data.map((token) => token.id);
-
   const { data, error } = await supabase
-    .from("chains")
-    .select("*")
-    .in("id", tokendId);
+    .from("token_chain")
+    .select(`*,  chain(name, network_code)`)
+    .eq("token_id", CurrencyId);
 
   if (error) {
     return { success: false, message: error.message };
   }
+
+  console.log(error);
 
   return { success: true, data: data };
 };
@@ -79,4 +73,27 @@ export const getUserSession = async () => {
   console.log(session);
 
   return { success: true, data: session };
+};
+
+export const GetExistingData = async (
+  userId: string | undefined,
+  currency: string,
+  network: string
+) => {
+  const supabase = await createClient();
+
+  const { data: existingData, error } = await supabase
+    .from("user_wallets")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("coin", currency)
+    .eq("network", network)
+    .single();
+
+  if (error) {
+    console.log(error);
+    return { success: false, message: error.message };
+  }
+
+  return { success: true, data: existingData };
 };

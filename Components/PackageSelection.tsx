@@ -4,7 +4,7 @@ import {
   fetchPackages,
   userBuyPackages,
 } from "@/app/dashboard/package-lists/action";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
@@ -12,8 +12,8 @@ const PackageSelection: React.FC = () => {
   const [loadingPackages, setLoadingPackages] = useState<{
     [key: number]: boolean;
   }>({});
-  const router = useRouter();
   const [message, setMessage] = useState<string | null>(null);
+  const router = useRouter();
 
   // Fetch packages from Supabase
   useEffect(() => {
@@ -40,7 +40,7 @@ const PackageSelection: React.FC = () => {
 
       console.log(res.data);
       setMessage(`Successfully purchased package ${packageId}`);
-      router.push("/taskCenter");
+      router.push("/dashboard/taskCenter");
     } catch (error) {
       console.log(error);
     } finally {

@@ -26,13 +26,15 @@ const TaskCenter = () => {
     const fetchProducts = async () => {
       const res = await getProducts();
       if (!res.success) return console.log("an error occured");
-      console.log(res?.data);
+      // console.log(res?.data);
 
       setProducts(res.data ?? []);
       setLoading(false);
     };
     fetchProducts();
   }, []);
+
+  console.log("products listed:", products);
 
   if (loading) return <p className="text-white">Loading...</p>;
 
@@ -85,7 +87,7 @@ const TaskCenter = () => {
               >
                 <div className="flex-shrink-0">
                   <img
-                    src={product.products.image_url}
+                    src={product?.products.image_url || "/images/product2.png"}
                     alt={product.products.name}
                     className="w-20 h-20 object-cover rounded-lg"
                   />

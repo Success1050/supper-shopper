@@ -5,10 +5,13 @@ import { ChevronDown, Copy } from "lucide-react";
 import {
   fetchChain,
   fetchToken,
+  GetExistingData,
   getUserSession,
   getUserWallet,
 } from "@/app/dashboard/wallet/action";
 import { useUserStore } from "@/store";
+import { User } from "@supabase/supabase-js";
+import { Session } from "inspector/promises";
 
 const MyBalanceDeposit: React.FC = () => {
   const user = useUserStore((state) => state.user);
@@ -22,19 +25,35 @@ const MyBalanceDeposit: React.FC = () => {
   const [walletAmount, setWalletAmount] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currency, setCurrency] = useState<string>("USDT");
-  const [networks, setNetwork] = useState<string>("");
+  const [network, setNetwork] = useState<string>("");
   const [showCurrencyDropdown, setShowCurrencyDropdown] =
     useState<boolean>(false);
   const [showNetworkDropdown, setShowNetworkDropdown] =
     useState<boolean>(false);
-  const [userSession, setusersession] = useState<string>("");
+  const [userSession, setusersession] = useState<Session | {}>({});
   const [generatedAddress, setGeneratedAddress] = useState<string>("");
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
 
   const generateAddress = async () => {
     try {
-      if (!networks || !currency) return;
+      if (!network || !currency) return;
+      if (!userSession.user.id) {
+        console.log("user does not exists");
+      }
+
+      const existing = await GetExistingData(
+        userSession?.user.id,
+        currency,
+        network
+      );
+
+      if (existing.success && existing.data) {
+        setGeneratedAddress(existing.data.address);
+        setIsdropdown(true);
+        return existing.data;
+      }
+
       const res = await fetch("/api/generate-wallet", {
         method: "POST",
         headers: {
@@ -42,9 +61,9 @@ const MyBalanceDeposit: React.FC = () => {
           Authorization: `Bearer ${userSession}`,
         },
         body: JSON.stringify({
-          user_id: user?.id,
-          token_id: CurrencyId,
-          chain_code: networks,
+          user_id: userSession?.user?.id,
+          coin: currency,
+          network: network,
         }),
       });
 
@@ -69,6 +88,8 @@ const MyBalanceDeposit: React.FC = () => {
     }
   };
 
+  console.log(network, currency);
+
   const confirmDeposit = () => {
     if (amount && txId) {
       alert(
@@ -79,13 +100,15 @@ const MyBalanceDeposit: React.FC = () => {
     }
   };
 
-  const confirmWithdrawal = () => {
-    if (amount && txId) {
-      alert(
-        "Deposit confirmed! Your account will be credited within 24 hours."
-      );
-    } else {
-      alert("Please fill in all required fields.");
+  const confirmWithdrawal = async () => {
+    if (!amount || !walletAddress || !network) {
+      alert("Please fill all fields correctly.");
+      return;
+    }
+
+    if (parseFloat(amount) > walletAmount) {
+      alert("Insufficient balance for this withdrawal.");
+      return;
     }
   };
 
@@ -99,15 +122,24 @@ const MyBalanceDeposit: React.FC = () => {
     setWalletAmount(res.data.balance);
   };
 
-  const getAllChain = async () => {
-    const res = await fetchChain();
-    if (!res.success) {
-      return;
-      // console.log("chain errror", res.message);
-    }
-    console.log("chains", res.data);
+  const FetchSelectedChain = async () => {
+    if (!CurrencyId) return;
 
-    setChain(res.data || []);
+    const res = await fetchChain(CurrencyId);
+    if (!res.success) {
+      console.log(res.message);
+      return;
+    }
+
+    console.log("Raw chain data:", res.data);
+
+    const formatted = (res.data ?? []).map((item) => ({
+      id: item.id,
+      name: item.chain?.name,
+      network_code: item.chain?.network_code,
+    }));
+
+    setChain(formatted);
   };
 
   const getAllTokens = async () => {
@@ -128,7 +160,7 @@ const MyBalanceDeposit: React.FC = () => {
       // console.log("sessions errror", res.message);
     }
     // console.log("sessions", res.data);
-    setusersession(res.data?.access_token || "");
+    setusersession(res?.data ?? {});
   };
 
   useEffect(() => {
@@ -137,9 +169,12 @@ const MyBalanceDeposit: React.FC = () => {
   }, [user?.id]);
 
   useEffect(() => {
-    getAllChain();
     getAllTokens();
   }, []);
+
+  useEffect(() => {
+    FetchSelectedChain();
+  }, [CurrencyId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
@@ -223,7 +258,7 @@ const MyBalanceDeposit: React.FC = () => {
                       <button
                         key={curr.id}
                         onClick={() => {
-                          setCurrency(curr.name);
+                          setCurrency(curr.symbol);
                           setCurrencyId(curr.id);
                           setShowCurrencyDropdown(false);
                         }}
@@ -245,7 +280,7 @@ const MyBalanceDeposit: React.FC = () => {
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                   className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
-                  <span>{networks}</span>
+                  <span>{network}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
@@ -255,12 +290,12 @@ const MyBalanceDeposit: React.FC = () => {
                       <button
                         key={chain.id}
                         onClick={() => {
-                          setNetwork(chain.name);
+                          setNetwork(chain.network_code);
                           setShowNetworkDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {chain.name}
+                        {chain.name} ({chain.network_code})
                       </button>
                     ))}
                   </div>
@@ -399,7 +434,7 @@ const MyBalanceDeposit: React.FC = () => {
                   className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
                   <span>
-                    {networks.length > 0 ? networks[0] : "choose network"}
+                    {network.length > 0 ? network[0] : "choose network"}
                   </span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
@@ -423,7 +458,6 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
             </div>
 
-            {/* Confirm Deposit Button */}
             <button
               onClick={confirmWithdrawal}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"

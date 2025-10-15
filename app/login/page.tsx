@@ -13,6 +13,7 @@ const SuperShopperLogin: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  // const [email, setuseremail] = useState<string>("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,10 +23,20 @@ const SuperShopperLogin: React.FC = () => {
     }
 
     const res = await login({ emailorPhone, password });
-    if (!res.success) {
-      alert(res.message);
+    if (!res?.success) {
+      alert(res?.message);
     }
   };
+
+  async function handleSubmit() {
+    const res = await fetch("/api/auth/forgotpassword", {
+      method: "POST",
+      body: JSON.stringify({ emailorPhone }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    console.log(data.message);
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 flex">
@@ -102,12 +113,20 @@ const SuperShopperLogin: React.FC = () => {
                     Remember Me
                   </span>
                 </label>
-                <a href="#" className="text-white text-sm hover:underline">
+
+                <button
+                  type="button"
+                  className="text-white text-sm hover:underline"
+                  onClick={handleSubmit}
+                >
                   Forgot Password?
-                </a>
+                </button>
               </div>
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+              >
                 {isPending ? (
                   <Loader />
                 ) : (

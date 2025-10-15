@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ChevronRight, LogOut, Edit } from "lucide-react";
+import { ChevronRight, LogOut, Edit, Router } from "lucide-react";
 import { handleLogout } from "./LogoutFunc";
 import { useTransition } from "react";
 import { Loader } from "./Loader";
 import { getProducts } from "@/app/dashboard/taskCenter/action";
 import { getProfile } from "@/app/dashboard/profile/actions";
+import { useRouter } from "next/navigation";
 
 interface ProfileTypes {
   id: string;
@@ -24,6 +25,7 @@ const ProfileSettings: React.FC = () => {
 
   const [profile, setProfile] = useState<ProfileTypes | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -42,10 +44,11 @@ const ProfileSettings: React.FC = () => {
     };
 
     fetchUserProfile();
-  }, [profile]);
+  }, []);
 
   const handleEdit = () => {
-    alert("Edit profile functionality");
+    router.push(`/dashboard/edit-profile/${profile?.id}`);
+    // alert("Edit profile functionality");
   };
 
   return (
