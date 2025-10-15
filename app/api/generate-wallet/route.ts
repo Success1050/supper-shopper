@@ -1,3 +1,6 @@
+"use server";
+
+
 import { NextResponse } from "next/server";
 
 import { createClient } from "@/utils/supabase/server";
@@ -22,7 +25,7 @@ export async function POST(req: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYXBpX3Rva2VuIiwidG9rZW5fbmFtZSI6InNpdGVfdG9rZW5fMSIsImlhdCI6MTc2MDM0NjIzMCwiZXhwIjo0OTE2MTA2MjMwfQ.N4XcOa0dPXr1wuIVidfHWjg-Khu8OaL_XD7PsrU-LM4'}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}`,
       },
       body: JSON.stringify({
         userId: 'c2c72b63-y45t-45n6-a036-fae488152d45',

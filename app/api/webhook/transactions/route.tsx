@@ -1,9 +1,10 @@
+"use server";
+
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/client";
 
-const supabase = createClient();
-
 export async function POST(req: Request) {
+  const supabase = createClient();
   try {
     const data = await req.json();
     console.log("Webhook received:", data);
