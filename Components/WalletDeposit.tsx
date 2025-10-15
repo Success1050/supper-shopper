@@ -10,7 +10,7 @@ import {
   getUserWallet,
 } from "@/app/dashboard/wallet/action";
 import { useUserStore } from "@/store";
-import { User } from "@supabase/supabase-js";
+import { User, UserMetadata } from "@supabase/supabase-js";
 import { Session } from "inspector/promises";
 
 const MyBalanceDeposit: React.FC = () => {
@@ -30,7 +30,7 @@ const MyBalanceDeposit: React.FC = () => {
     useState<boolean>(false);
   const [showNetworkDropdown, setShowNetworkDropdown] =
     useState<boolean>(false);
-  const [userSession, setusersession] = useState<Session | {}>({});
+  const [userSession, setusersession] = useState<UserMetadata | null>(null);
   const [generatedAddress, setGeneratedAddress] = useState<string>("");
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
@@ -38,7 +38,7 @@ const MyBalanceDeposit: React.FC = () => {
   const generateAddress = async () => {
     try {
       if (!network || !currency) return;
-      if (!userSession.user.id) {
+      if (!userSession?.user.id) {
         console.log("user does not exists");
       }
 
