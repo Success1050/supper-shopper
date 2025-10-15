@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 type FormData = {
   emailOrPhone: string;
@@ -19,7 +19,7 @@ function isEmail(value: string) {
 }
 
 export async function signup(formdata: FormData, confirmPassword: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   // 1. Validate passwords first
   if (formdata.password !== confirmPassword) {

@@ -1,6 +1,6 @@
-// import { createClient } from "@/utils/supabase/server";
+// import { createClient } from "@/utils/supabase/client";
 
 // export const taskDetails = async()=>{
-//     const supabase = await createClient()
+//     const supabase = createClient()
 // const {data, error} = await supabase.from()
 // }

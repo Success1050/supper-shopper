@@ -1,15 +1,15 @@
 "use server";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 export const fetchPackages = async () => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data, error } = await supabase.from("packages").select("*");
   if (error) return { success: false, error: error.message };
   else return { success: true, data: data };
 };
 
 export const userBuyPackages = async (packageId: number) => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data, error } = await supabase.rpc("buy_package", {
     p_package_id: packageId,
   });

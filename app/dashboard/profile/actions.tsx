@@ -1,10 +1,10 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { UserProfileTypes } from "@/Components/EditProfileComp";
 
 export const getProfile = async () => {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   // get authenticated user
   const {
@@ -34,7 +34,7 @@ export const getProfile = async () => {
 };
 
 export const getUserProfile = async (profileId: string | undefined) => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
@@ -52,7 +52,7 @@ export const saveProfile = async (
   profileId: string | undefined,
   editUserProfile: UserProfileTypes | null
 ) => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("profiles")
     .update({
