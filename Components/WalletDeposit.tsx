@@ -10,8 +10,12 @@ import {
   getUserWallet,
 } from "@/app/dashboard/wallet/action";
 import { useUserStore } from "@/store";
-import { User, UserMetadata } from "@supabase/supabase-js";
-import { Session } from "inspector/promises";
+import {
+  Session,
+  User,
+  UserAppMetadata,
+  UserMetadata,
+} from "@supabase/supabase-js";
 
 const MyBalanceDeposit: React.FC = () => {
   const user = useUserStore((state) => state.user);
@@ -30,20 +34,25 @@ const MyBalanceDeposit: React.FC = () => {
     useState<boolean>(false);
   const [showNetworkDropdown, setShowNetworkDropdown] =
     useState<boolean>(false);
-  const [userSession, setusersession] = useState<UserMetadata | null>(null);
+  const [userSession, setusersession] = useState<Session | null>(null);
   const [generatedAddress, setGeneratedAddress] = useState<string>("");
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
+  const [loading, setloading] = useState<boolean>(false);
+
+  console.log("the user session", userSession);
 
   const generateAddress = async () => {
     try {
       if (!network || !currency) return;
-      if (!userSession?.user.id) {
+      if (!userSession?.user?.id) {
         console.log("user does not exists");
       }
 
+      setloading(true);
+
       const existing = await GetExistingData(
-        userSession?.user.id,
+        userSession?.user?.id,
         currency,
         network
       );
@@ -85,6 +94,8 @@ const MyBalanceDeposit: React.FC = () => {
     } catch (error) {
       console.error(" Wallet generation error:", error);
       throw error;
+    } finally {
+      setloading(false);
     }
   };
 
@@ -160,7 +171,7 @@ const MyBalanceDeposit: React.FC = () => {
       // console.log("sessions errror", res.message);
     }
     // console.log("sessions", res.data);
-    setusersession(res?.data ?? {});
+    setusersession(res?.data ?? null);
   };
 
   useEffect(() => {
@@ -310,7 +321,9 @@ const MyBalanceDeposit: React.FC = () => {
                   onClick={generateAddress}
                   className="w-full bg-blue-700/50 hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center space-x-2"
                 >
-                  <span>Generate & Copy Address</span>
+                  <span>
+                    {loading ? "generating..." : "Generate & Copy Address"}
+                  </span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 

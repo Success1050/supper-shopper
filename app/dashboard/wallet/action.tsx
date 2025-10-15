@@ -1,9 +1,9 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 
 export const getUserWallet = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Get user from Supabase auth
   const {
@@ -30,7 +30,7 @@ export const getUserWallet = async () => {
 };
 
 export const fetchToken = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.from("token").select("*");
 
   if (error) {
@@ -43,7 +43,7 @@ export const fetchToken = async () => {
 };
 
 export const fetchChain = async (CurrencyId: number) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("token_chain")
@@ -60,7 +60,7 @@ export const fetchChain = async (CurrencyId: number) => {
 };
 
 export const getUserSession = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { session },
     error: sessionError,
@@ -80,7 +80,7 @@ export const GetExistingData = async (
   currency: string,
   network: string
 ) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: existingData, error } = await supabase
     .from("user_wallets")
