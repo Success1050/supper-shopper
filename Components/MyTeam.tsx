@@ -1,75 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Users, Search } from "lucide-react";
 import Progressbar from "./Progressbar";
+import { useUserStore } from "@/store";
+import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
 
 interface TeamMember {
   id: string;
+  email: string;
+  first_name: string | null;
+  last_name: string | null;
+  country: string | null;
+  referral_code: string | null;
+  personal_referral_code: string | null;
+  referrer_id: string | null;
+  level: number;
+}
+
+interface TeamMembers {
+  id: string;
   name: string;
   email: string;
-  status: "Active" | "Inactive";
-  package: string;
-  joinDate: string;
-  avatar: string;
 }
 
 const MyTeam: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const teamMembers: TeamMember[] = [
-    {
-      id: "JD",
-      name: "John Doe",
-      email: "john***@gmail.com",
-      status: "Active",
-      package: "$100 Package",
-      joinDate: "Jun 15, 2024",
-      avatar: "JD",
-    },
-    {
-      id: "SL",
-      name: "Sarah Lopez",
-      email: "sar***@yahoo.com",
-      status: "Inactive",
-      package: "$35 Package",
-      joinDate: "Jan 20, 2024",
-      avatar: "SL",
-    },
-    {
-      id: "SL2",
-      name: "Michael Brown",
-      email: "mich***@hotmail.com",
-      status: "Active",
-      package: "$35 Package",
-      joinDate: "Jan 20, 2024",
-      avatar: "SL",
-    },
-    {
-      id: "SL3",
-      name: "Michael Brown",
-      email: "mich***@hotmail.com",
-      status: "Active",
-      package: "$35 Package",
-      joinDate: "Jan 20, 2024",
-      avatar: "SL",
-    },
-    {
-      id: "SL4",
-      name: "Michael Brown",
-      email: "mich***@hotmail.com",
-      status: "Active",
-      package: "$35 Package",
-      joinDate: "Jan 20, 2024",
-      avatar: "SL",
-    },
-  ];
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      const res = await getTeamMembers();
+      if (res && res.success) {
+        console.log("Team Data:", res.data);
+        setTeamMembers(res.data ?? []);
+      } else {
+        console.log("Error loading team", res?.error);
+      }
+      setLoading(false);
+    };
 
-  const filteredMembers = teamMembers.filter(
-    (member) =>
-      member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    fetchTeamMembers();
+  }, []);
+
+  // 🧮 Filter for search
+  const filteredMembers = teamMembers.filter((member) => {
+    const name = `${member.first_name ?? ""} ${member.last_name ?? ""}`.trim();
+    return (
+      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (member.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const getInitials = (first?: string | null, last?: string | null) => {
+    if (!first && !last) return "??";
+    return `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase();
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-white">
+        Loading team members...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
@@ -89,7 +84,9 @@ const MyTeam: React.FC = () => {
               <Users className="text-blue-300 w-5 h-5" />
               <span className="text-blue-200 text-sm">My Direct Members</span>
             </div>
-            <div className="text-white text-3xl font-bold">12</div>
+            <div className="text-white text-3xl font-bold">
+              {teamMembers.filter((m) => m.level === 1).length}
+            </div>
           </div>
 
           <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
@@ -97,7 +94,9 @@ const MyTeam: React.FC = () => {
               <Users className="text-blue-300 w-5 h-5" />
               <span className="text-blue-200 text-sm">Total Team Members</span>
             </div>
-            <div className="text-white text-3xl font-bold">320</div>
+            <div className="text-white text-3xl font-bold">
+              {teamMembers.length}
+            </div>
           </div>
         </div>
 
@@ -176,46 +175,35 @@ const MyTeam: React.FC = () => {
 
             {/* Team Members List */}
             <div className="space-y-3 h-36 overflow-y-scroll">
-              {filteredMembers.map((member) => (
-                <div
-                  key={`${member.id}-${member.name}`}
-                  className="flex items-center justify-between p-3 bg-blue-900/30 rounded-lg"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                      {member.avatar}
-                    </div>
-                    <div>
-                      <div className="text-white font-medium text-sm">
-                        {member.name}
+              {filteredMembers.length > 0 ? (
+                filteredMembers.map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex items-center justify-between p-3 bg-blue-900/30 rounded-lg"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                        {getInitials(member.first_name, member.last_name)}
                       </div>
-                      <div className="text-blue-200 text-xs">
-                        {member.email}
+                      <div>
+                        <div className="text-white font-medium text-sm">
+                          {member.first_name} {member.last_name}
+                        </div>
+                        <div className="text-blue-200 text-xs">
+                          {member.email}
+                        </div>
+                        <div className="text-blue-400 text-xs">
+                          Level {member.level}
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <div className="text-right">
-                    <div className="flex items-center space-x-2 mb-1">
-                      <span
-                        className={`px-2 py-1 rounded text-xs font-medium ${
-                          member.status === "Active"
-                            ? "bg-green-600 text-white"
-                            : "bg-gray-600 text-gray-200"
-                        }`}
-                      >
-                        {member.status}
-                      </span>
-                      <span className="text-white text-sm">
-                        {member.package}
-                      </span>
-                    </div>
-                    <div className="text-blue-200 text-xs">
-                      {member.joinDate}
-                    </div>
-                  </div>
+                ))
+              ) : (
+                <div className="text-blue-200 text-sm text-center">
+                  No team members found
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>

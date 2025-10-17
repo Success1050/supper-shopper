@@ -10,6 +10,10 @@ const CreateAccountForm: React.FC = () => {
     emailOrPhone: "",
     firstName: "",
     lastName: "",
+    gender: "",
+    city: "",
+    address: "",
+    dob: "",
     verificationCode: "",
     country: "",
     referralCode: "REF2025AB",
@@ -136,6 +140,31 @@ const CreateAccountForm: React.FC = () => {
                       className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
+                  <div>
+                    <label className="text-blue-200 text-sm mb-2 block">
+                      Date of birth
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.dob}
+                      placeholder="date of birth"
+                      onChange={(e) => handleInputChange("dob", e.target.value)}
+                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-blue-200 text-sm mb-2 block">
+                      Gender
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.gender}
+                      onChange={(e) =>
+                        handleInputChange("gender", e.target.value)
+                      }
+                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,37 +209,53 @@ const CreateAccountForm: React.FC = () => {
                   Location
                 </h3>
                 <div>
-                  <label className="text-blue-200 text-sm mb-2 block">
-                    Country
-                  </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowCountryDropdown(!showCountryDropdown)
-                      }
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white text-left flex items-center justify-between focus:outline-none focus:border-blue-500"
-                    >
-                      <span>{formData.country}</span>
-                      <ChevronDown className="w-4 h-4" />
-                    </button>
-
-                    {showCountryDropdown && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
-                        {countries.map((country) => (
-                          <div
-                            key={country}
-                            onClick={() => {
-                              handleInputChange("country", country);
-                              setShowCountryDropdown(false);
-                            }}
-                            className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
-                          >
-                            {country}
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                  <div>
+                    <label className="text-blue-200 text-sm mb-2 block">
+                      Country
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter your country"
+                        value={formData.country}
+                        onChange={(e) => {
+                          handleInputChange("country", e.target.value);
+                        }}
+                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-blue-200 text-sm mb-2 block">
+                      City
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter your City"
+                        value={formData.city}
+                        onChange={(e) => {
+                          handleInputChange("city", e.target.value);
+                        }}
+                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-blue-200 text-sm mb-2 block">
+                      Address
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter your Address"
+                        value={formData.address}
+                        onChange={(e) => {
+                          handleInputChange("address", e.target.value);
+                        }}
+                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

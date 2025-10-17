@@ -14,9 +14,14 @@ interface ProfileTypes {
   email: string;
   phone: string;
   country: string;
+  city: string;
+  address: string;
+  profile_img: string;
+  dob: string;
+  gender: string;
   first_name: string;
   last_name: string;
-  referral_code: string;
+  personal_referral_code: string;
 }
 
 const ProfileSettings: React.FC = () => {
@@ -60,7 +65,7 @@ const ProfileSettings: React.FC = () => {
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face"
+                  src={profile?.profile_img || "null"}
                   alt="John Doe"
                   className="w-full h-full rounded-full object-cover"
                 />
@@ -70,7 +75,10 @@ const ProfileSettings: React.FC = () => {
                 <div className="text-blue-200 text-sm">
                   {profile?.email || "null"}
                 </div>
-                <div className="text-blue-200 text-sm">+1 202-555-0125</div>
+                <div className="text-blue-200 text-sm">
+                  {" "}
+                  {profile?.phone || "null"}
+                </div>
               </div>
             </div>
             <button
@@ -98,12 +106,12 @@ const ProfileSettings: React.FC = () => {
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Date Of Birth</span>
-              <span className="text-white">15 March 1992</span>
+              <span className="text-white">{profile?.dob || "null"}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Gender</span>
-              <span className="text-white">Male</span>
+              <span className="text-white"> {profile?.gender || "null"}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
@@ -113,12 +121,12 @@ const ProfileSettings: React.FC = () => {
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">City</span>
-              <span className="text-white">New York</span>
+              <span className="text-white">{profile?.city || "null"}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
               <span className="text-blue-200 text-sm">Address</span>
-              <span className="text-white">123 Broadway Ave, NY 10001</span>
+              <span className="text-white">{profile?.address || "null"}</span>
             </div>
 
             <div className="flex justify-between items-center py-2">
@@ -126,7 +134,7 @@ const ProfileSettings: React.FC = () => {
                 Referral Code / Inviter ID
               </span>
               <span className="text-white">
-                {profile?.referral_code || "null"}
+                {profile?.personal_referral_code || "null"}
               </span>
             </div>
           </div>

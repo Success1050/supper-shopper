@@ -26,7 +26,7 @@ const MyBalanceDeposit: React.FC = () => {
   const [chains, setChain] = useState<any[]>([]);
   const [tokens, setTokens] = useState<any[]>([]);
   const [CurrencyId, setCurrencyId] = useState<number>(1);
-  const [walletAmount, setWalletAmount] = useState<number>(0);
+  const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currency, setCurrency] = useState<string>("USDT");
   const [network, setNetwork] = useState<string>("");
@@ -40,7 +40,7 @@ const MyBalanceDeposit: React.FC = () => {
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
   const [loading, setloading] = useState<boolean>(false);
 
-  console.log("the user session", userSession);
+  // console.log("the user session", userSession);
 
   const generateAddress = async () => {
     try {
@@ -117,6 +117,8 @@ const MyBalanceDeposit: React.FC = () => {
       return;
     }
 
+    if (!walletAmount) return;
+
     if (parseFloat(amount) > walletAmount) {
       alert("Insufficient balance for this withdrawal.");
       return;
@@ -124,13 +126,14 @@ const MyBalanceDeposit: React.FC = () => {
   };
 
   const getWalletBal = async () => {
-    const res = await getUserWallet();
+    const res = await getUserWallet(userSession?.user?.id);
     if (!res.success) {
       return;
     }
-    console.log(res.data);
 
-    setWalletAmount(res.data.balance);
+    console.log("user balance", res.data);
+
+    setWalletAmount(res?.data);
   };
 
   const FetchSelectedChain = async () => {
@@ -177,7 +180,7 @@ const MyBalanceDeposit: React.FC = () => {
   useEffect(() => {
     getWalletBal();
     fetchUserSession();
-  }, [user?.id]);
+  }, [userSession?.user?.id]);
 
   useEffect(() => {
     getAllTokens();

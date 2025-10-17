@@ -2,31 +2,34 @@
 
 import { createClient } from "@/utils/supabase/server";
 
-export const getUserWallet = async () => {
+export const getUserWallet = async (userId: string | undefined) => {
   const supabase = await createClient();
 
-  // Get user from Supabase auth
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-  if (userError || !user) {
+  if (!userId) {
     return { success: false, message: "Not authenticated" };
   }
 
-  const { data: userdata, error } = await supabase
-    .from("user_balances")
-    .select()
-    .eq("user_id", user.id)
-    .single();
+  // fetch ALL wallets for this user
+  const { data: wallets, error } = await supabase
+    .from("user_wallets")
+    .select("balance, coin, network")
+    .eq("user_id", userId);
 
   if (error) {
     return { success: false, message: error.message };
   }
 
-  console.log(userdata);
+  if (!wallets || wallets.length === 0) {
+    return { success: true };
+  }
 
-  return { success: true, data: userdata };
+  // sum up all balances
+  const totalBalance = wallets.reduce(
+    (sum, w) => sum + Number(w.balance || 0),
+    0
+  );
+
+  return { success: true, data: totalBalance };
 };
 
 export const fetchToken = async () => {
