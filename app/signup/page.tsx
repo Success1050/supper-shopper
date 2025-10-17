@@ -71,7 +71,7 @@ const CreateAccountForm: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6 pt-30">
+    <div className="min-h-screen bg-[#2623fd] p-6 pt-30">
       <div>
         {/* Header */}
         <div className="text-center mb-8 flex items-center flex-col md:flex-row md:justify-between gap-4">

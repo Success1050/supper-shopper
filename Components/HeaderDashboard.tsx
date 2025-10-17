@@ -1,9 +1,10 @@
 "use client";
 
+import { getProfile, getUserProfile } from "@/app/dashboard/profile/actions";
 import { Bell, HelpCircle, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type SidebarItem = {
   icon: React.ElementType;
@@ -21,6 +22,18 @@ const HeaderDashboard = ({
   setMenuId?: (id: number) => void;
   sidebarItems?: SidebarItem[];
 }) => {
+  const [userImage, setUserImage] = useState<string>("");
+
+  useEffect(() => {
+    const getUserImage = async () => {
+      const res = await getProfile();
+
+      if (res && res?.success) {
+        setUserImage(res.data.profile_img);
+      }
+    };
+    getUserImage();
+  }, []);
   return (
     <>
       <div className="w-full p-3 bg-[#2623fd]">
@@ -41,8 +54,8 @@ const HeaderDashboard = ({
             />
             <Link href={"/dashboard/profile"}>
               <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
-                <Image
-                  src={"/images/user.png"}
+                <img
+                  src={userImage || "/images/user.png"}
                   alt="User"
                   width={56}
                   height={56}
