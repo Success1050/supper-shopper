@@ -53,7 +53,6 @@ export default function EditProfile({
       setLoading(false);
       return;
     }
-
     alert("Profile updated successfully");
     setLoading(false);
   };
@@ -62,7 +61,7 @@ export default function EditProfile({
     const file = e.target.files?.[0];
     if (!file || !profileId) return;
 
-    // Preview image before upload
+    // Preview before upload
     const localPreview = URL.createObjectURL(file);
     setPreviewUrl(localPreview);
 
@@ -87,6 +86,7 @@ export default function EditProfile({
             <div className="w-24 h-24 rounded-full overflow-hidden bg-white">
               <img
                 src={
+                  previewUrl ||
                   editUserProfile?.profile_img ||
                   "https://placehold.co/100x100?text=No+Photo"
                 }
@@ -111,7 +111,7 @@ export default function EditProfile({
         <div className="space-y-4">
           {/* First Name */}
           <div>
-            <label className="block text-white text-sm mb-2">Name</label>
+            <label className="block text-white text-sm mb-2">First Name</label>
             <input
               type="text"
               value={editUserProfile?.first_name ?? ""}
@@ -126,7 +126,7 @@ export default function EditProfile({
 
           {/* Last Name */}
           <div>
-            <label className="block text-white text-sm mb-2">Surname</label>
+            <label className="block text-white text-sm mb-2">Last Name</label>
             <input
               type="text"
               value={editUserProfile?.last_name ?? ""}
@@ -139,7 +139,82 @@ export default function EditProfile({
             />
           </div>
 
-          {/* ... your other input fields unchanged ... */}
+          {/* Email */}
+          <div>
+            <label className="block text-white text-sm mb-2">Email</label>
+            <input
+              type="email"
+              value={editUserProfile?.email ?? ""}
+              onChange={(e) =>
+                seteditUserProfile((prev) =>
+                  prev ? { ...prev, email: e.target.value } : null
+                )
+              }
+              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+            />
+          </div>
+
+          {/* Mobile Number */}
+          <div>
+            <label className="block text-white text-sm mb-2">
+              Mobile Number
+            </label>
+            <input
+              type="text"
+              value={editUserProfile?.mobilenumber ?? ""}
+              onChange={(e) =>
+                seteditUserProfile((prev) =>
+                  prev ? { ...prev, mobilenumber: e.target.value } : null
+                )
+              }
+              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+            />
+          </div>
+
+          {/* Address */}
+          <div>
+            <label className="block text-white text-sm mb-2">Address</label>
+            <input
+              type="text"
+              value={editUserProfile?.address ?? ""}
+              onChange={(e) =>
+                seteditUserProfile((prev) =>
+                  prev ? { ...prev, address: e.target.value } : null
+                )
+              }
+              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+            />
+          </div>
+
+          {/* Postal Code */}
+          <div>
+            <label className="block text-white text-sm mb-2">Postal Code</label>
+            <input
+              type="text"
+              value={editUserProfile?.postalCode ?? ""}
+              onChange={(e) =>
+                seteditUserProfile((prev) =>
+                  prev ? { ...prev, postalCode: e.target.value } : null
+                )
+              }
+              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+            />
+          </div>
+
+          {/* Country */}
+          <div>
+            <label className="block text-white text-sm mb-2">Country</label>
+            <input
+              type="text"
+              value={editUserProfile?.country ?? ""}
+              onChange={(e) =>
+                seteditUserProfile((prev) =>
+                  prev ? { ...prev, country: e.target.value } : null
+                )
+              }
+              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+            />
+          </div>
 
           {/* Submit */}
           <div className="pt-4">
