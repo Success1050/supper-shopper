@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     // Compute expected signature
     const expectedSignature = crypto
-      .createHmac("sha256", SECRET_KEY)
+      .createHmac("sha256", process.env.NEXT_SECRET_KEY || SECRET_KEY)
       .update(rawBody)
       .digest("hex");
 
