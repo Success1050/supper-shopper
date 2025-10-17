@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const { emailorPhone } = await req.json();
 
   const { error } = await supabase.auth.resetPasswordForEmail(emailorPhone, {
-    redirectTo: 'http://localhost:3000/dashboard/auth/reset-password',
+    redirectTo: 'https://www.supershopper.app/dashboard/auth/reset-password',
   });
 
   if (error) {

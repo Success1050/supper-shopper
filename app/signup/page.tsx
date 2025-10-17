@@ -147,7 +147,7 @@ const CreateAccountForm: React.FC = () => {
                     <input
                       type="text"
                       value={formData.dob}
-                      placeholder="date of birth"
+                      placeholder="dd/mm/yy"
                       onChange={(e) => handleInputChange("dob", e.target.value)}
                       className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
