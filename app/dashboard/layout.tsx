@@ -51,7 +51,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Desktop Layout */}
       <div className="hidden md:flex ">
         {/* Sidebar */}
-        <div className="w-64 min-h-screen bg-[#2623fd] px-3 items-start relative">
+        <div className="w-64 min-h-screen bg-[#2d2c54] px-3 pt-5 items-start relative">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8 w-[172px] h-auto">
             <Image
@@ -71,8 +71,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   onClick={() => setMenuId(index)}
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer transition-colors w-full ${
                     index === menuIId
-                      ? "bg-blue-600 text-white"
-                      : "text-blue-200 hover:bg-blue-700/50 hover:text-white"
+                      ? "bg-[#263bf6] text-white"
+                      : "text-blue-200 hover:bg-blue-700/50 bg-[#343758] hover:text-white"
                   }`}
                 >
                   <item.icon size={20} />

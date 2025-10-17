@@ -83,10 +83,10 @@ const MyBalanceDeposit: React.FC = () => {
 
       const data = await res.json();
 
-      if (data.success) {
-        console.log(" Wallet generated:", data);
-        setGeneratedAddress(data.address);
+      if (data.success && data.wallet) {
+        setGeneratedAddress(data.wallet);
         setIsdropdown(true);
+
         return data;
       } else {
         throw new Error(data.message || "Wallet generation failed");
