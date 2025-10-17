@@ -23,7 +23,7 @@ const HeaderDashboard = ({
 }) => {
   return (
     <>
-      <div className="w-full p-3 bg-blue-700">
+      <div className="w-full p-3 bg-[#2623fd]">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <div className="flex items-center gap-4">

@@ -47,11 +47,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900">
+    <div className="min-h-screen bg-[#2623fd]">
       {/* Desktop Layout */}
       <div className="hidden md:flex ">
         {/* Sidebar */}
-        <div className="w-64 min-h-screen bg-blue-800 px-3 items-start relative">
+        <div className="w-64 min-h-screen bg-[#2623fd] px-3 items-start relative">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8 w-[172px] h-auto">
             <Image
@@ -64,7 +64,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex flex-col space-y-2 w-full">
+          <nav className="flex flex-col space-y-2 w-full ">
             {sidebarItems.map((item, index) => (
               <Link href={item.url} key={index}>
                 <div
@@ -95,7 +95,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 bg-blue-700/20">
+        <div className="flex-1 bg-[#2623fd]">
           <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
           {children}
         </div>
@@ -113,7 +113,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       {/* Bottom Navigation (Mobile only) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-blue-800/90 backdrop-blur-sm md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-[#2623fd] backdrop-blur-sm md:hidden">
         <div className="flex items-center justify-around py-2">
           {mobileNavItems.map((item, index) => (
             <Link href={sidebarItems[index].url} key={index}>
