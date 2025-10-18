@@ -94,7 +94,7 @@ const Records: React.FC = () => {
   const filteredRecords = getFilteredRecords();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-[#201d4c] p-6">
       <div>
         {/* Header */}
         <h1 className="text-white text-2xl font-semibold mb-8">History</h1>
@@ -117,7 +117,7 @@ const Records: React.FC = () => {
         </div>
 
         {/* Records Section */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg border border-blue-700/50 overflow-hidden">
+        <div className="bg-[#18409f] backdrop-blur-sm rounded-lg border border-blue-700/50 overflow-hidden">
           <div className="p-6 border-b border-blue-700/50">
             <h2 className="text-white text-xl font-semibold">Records</h2>
           </div>
@@ -172,7 +172,7 @@ const Records: React.FC = () => {
         </div>
 
         {/* Summary Stats */}
-        {filteredRecords.length > 0 && (
+        {/* {filteredRecords.length > 0 && (
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
               <div className="text-blue-200 text-sm mb-1">Total Records</div>
@@ -198,7 +198,7 @@ const Records: React.FC = () => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

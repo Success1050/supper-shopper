@@ -21,7 +21,7 @@ export const ProductCard = ({
     <>
       {isproduct ? (
         // Product Card
-        <div className="bg-blue-800/30 rounded-lg p-4">
+        <div className="bg-[#2c2954] rounded-lg p-4">
           {/* Image placeholder */}
           <div
             className={`bg-gray-300 rounded-lg mb-3 ${

@@ -18,12 +18,6 @@ interface TeamMember {
   level: number;
 }
 
-interface TeamMembers {
-  id: string;
-  name: string;
-  email: string;
-}
-
 const MyTeam: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -60,14 +54,14 @@ const MyTeam: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center text-white">
+      <div className="min-h-screen bg-[#201d4c] flex justify-center items-center text-white">
         Loading team members...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-[#201d4c] p-6">
       <div>
         {/* Header */}
         <div className="mb-8">
@@ -79,7 +73,7 @@ const MyTeam: React.FC = () => {
 
         {/* Team Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <div className="flex items-center space-x-3 mb-2">
               <Users className="text-blue-300 w-5 h-5" />
               <span className="text-blue-200 text-sm">My Direct Members</span>
@@ -89,7 +83,7 @@ const MyTeam: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <div className="flex items-center space-x-3 mb-2">
               <Users className="text-blue-300 w-5 h-5" />
               <span className="text-blue-200 text-sm">Total Team Members</span>
@@ -106,22 +100,22 @@ const MyTeam: React.FC = () => {
             Team Earnings
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-blue-200 text-sm mb-1">Today Commission</div>
               <div className="text-red-400 font-bold text-lg">$38.00</div>
             </div>
 
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-blue-200 text-sm mb-1">Total Commision</div>
               <div className="text-blue-200 font-bold text-lg">-</div>
             </div>
 
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-blue-200 text-sm mb-1">Affiliate Bonus</div>
               <div className="text-green-400 font-bold text-lg">$200.00</div>
             </div>
 
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-blue-200 text-sm mb-1">Career Bonus</div>
               <div className="text-green-400 font-bold text-lg">$400.00</div>
             </div>
@@ -130,7 +124,7 @@ const MyTeam: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Team Task Career Progress */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <h3 className="text-white text-lg font-semibold mb-4">
               Team Task Career Progress
             </h3>
@@ -156,20 +150,20 @@ const MyTeam: React.FC = () => {
           </div>
 
           {/* Team Hierarchy */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <h3 className="text-white text-lg font-semibold mb-4">
               Team Hierarchy
             </h3>
 
             {/* Search */}
             <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9696ae] w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search by name and email"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg pl-10 pr-4 py-2 text-white placeholder-blue-300 text-sm focus:outline-none focus:border-blue-500"
+                className="w-full bg-[#37355d] border border-[#2b2954] rounded-lg pl-10 pr-4 py-2 text-white placeholder-[#9696ae] text-sm focus:outline-none focus:border-blue-500"
               />
             </div>
 
@@ -182,17 +176,17 @@ const MyTeam: React.FC = () => {
                     className="flex items-center justify-between p-3 bg-blue-900/30 rounded-lg"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-[#9696ae] text-sm font-semibold">
                         {getInitials(member.first_name, member.last_name)}
                       </div>
                       <div>
-                        <div className="text-white font-medium text-sm">
+                        <div className="text-[#9696ae] font-medium text-sm">
                           {member.first_name} {member.last_name}
                         </div>
-                        <div className="text-blue-200 text-xs">
+                        <div className="text-[#9696ae] text-xs">
                           {member.email}
                         </div>
-                        <div className="text-blue-400 text-xs">
+                        <div className="text-[#9696ae] text-xs">
                           Level {member.level}
                         </div>
                       </div>
@@ -200,7 +194,7 @@ const MyTeam: React.FC = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-blue-200 text-sm text-center">
+                <div className="text-[#9696ae] text-sm text-center">
                   No team members found
                 </div>
               )}

@@ -3,7 +3,7 @@ import Progressbar from "./Progressbar";
 
 export default function EarningsOverviewBox() {
   return (
-    <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 w-full mt-[15px]">
+    <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 w-full mt-[15px]">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="text-white font-semibold text-lg mb-2">

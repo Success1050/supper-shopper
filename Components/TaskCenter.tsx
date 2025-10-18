@@ -36,7 +36,7 @@ const TaskCenter = () => {
 
   console.log("products listed:", products);
 
-  if (loading) return <p className="text-white">Loading...</p>;
+  if (loading) return <p className="text-white bg-[#201d4c]">Loading...</p>;
 
   const completedTask = products.filter((product) => product.completed);
 
@@ -46,7 +46,7 @@ const TaskCenter = () => {
   );
 
   return (
-    <div className="bg-gradient-to-br from-blue-900 to-purple-900 min-h-screen">
+    <div className="bg-[#201d4c] min-h-screen">
       <div>
         {/* Active Products Header */}
         <div className=" p-6 mb-6">
@@ -82,7 +82,7 @@ const TaskCenter = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {products.map((product: UserTaskWithProduct) => (
               <div
-                className="bg-blue-900/30 backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4"
+                className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4"
                 key={product.product_id}
               >
                 <div className="flex-shrink-0">

@@ -71,20 +71,20 @@ const CreateAccountForm: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#2623fd] p-6 pt-30">
+    <div className="min-h-screen bg-[#201d4c] p-6 pt-30">
       <div>
         {/* Header */}
         <div className="text-center mb-8 flex items-center flex-col md:flex-row md:justify-between gap-4">
           <h1 className="text-white text-2xl font-semibold mb-2">
             Create Your Account
           </h1>
-          <p className="text-blue-200 text-sm">
+          <p className="text-white text-sm">
             Join Us Today By Filling Out The Form Below
           </p>
         </div>
 
         {/* Form Container */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+        <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2c2954]">
           {/* Personal Information */}
           <form
             className="space-y-4"
@@ -99,7 +99,7 @@ const CreateAccountForm: React.FC = () => {
                 {/* Email Address OR Mobile Number */}
 
                 <div>
-                  <label className="text-blue-200 text-sm mb-2 block">
+                  <label className="text-white text-sm mb-2 block">
                     Email Address OR Mobile Number
                   </label>
                   <input
@@ -108,14 +108,14 @@ const CreateAccountForm: React.FC = () => {
                     onChange={(e) =>
                       handleInputChange("emailOrPhone", e.target.value)
                     }
-                    className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
 
                 {/* First Name & Last Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       First Name
                     </label>
                     <input
@@ -124,11 +124,11 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) =>
                         handleInputChange("firstName", e.target.value)
                       }
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Last Name
                     </label>
                     <input
@@ -137,11 +137,11 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) =>
                         handleInputChange("lastName", e.target.value)
                       }
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Date of birth
                     </label>
                     <input
@@ -149,11 +149,11 @@ const CreateAccountForm: React.FC = () => {
                       value={formData.dob}
                       placeholder="dd/mm/yy"
                       onChange={(e) => handleInputChange("dob", e.target.value)}
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Gender
                     </label>
                     <input
@@ -162,7 +162,7 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) =>
                         handleInputChange("gender", e.target.value)
                       }
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -186,7 +186,7 @@ const CreateAccountForm: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-blue-200 text-sm mb-2 block">
+                  <label className="text-white text-sm mb-2 block">
                     Verification Code
                   </label>
                   <div className="flex gap-2">
@@ -197,7 +197,7 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) =>
                         handleInputChange("verificationCode", e.target.value)
                       }
-                      className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                      className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -210,7 +210,7 @@ const CreateAccountForm: React.FC = () => {
                 </h3>
                 <div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Country
                     </label>
                     <div className="flex gap-2">
@@ -221,12 +221,12 @@ const CreateAccountForm: React.FC = () => {
                         onChange={(e) => {
                           handleInputChange("country", e.target.value);
                         }}
-                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       City
                     </label>
                     <div className="flex gap-2">
@@ -237,12 +237,12 @@ const CreateAccountForm: React.FC = () => {
                         onChange={(e) => {
                           handleInputChange("city", e.target.value);
                         }}
-                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Address
                     </label>
                     <div className="flex gap-2">
@@ -253,7 +253,7 @@ const CreateAccountForm: React.FC = () => {
                         onChange={(e) => {
                           handleInputChange("address", e.target.value);
                         }}
-                        className="flex-1 bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
                       />
                     </div>
                   </div>
@@ -268,7 +268,7 @@ const CreateAccountForm: React.FC = () => {
                   Referral
                 </h3>
                 <div>
-                  <label className="text-blue-200 text-sm mb-2 block">
+                  <label className="text-white text-sm mb-2 block">
                     Referral Code(optional)
                   </label>
                   <input
@@ -277,7 +277,7 @@ const CreateAccountForm: React.FC = () => {
                     onChange={(e) =>
                       handleInputChange("referralCode", e.target.value)
                     }
-                    className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -289,7 +289,7 @@ const CreateAccountForm: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Password
                     </label>
                     <input
@@ -298,18 +298,18 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) =>
                         handleInputChange("password", e.target.value)
                       }
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="text-blue-200 text-sm mb-2 block">
+                    <label className="text-white text-sm mb-2 block">
                       Confirm Password
                     </label>
                     <input
                       type="password"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                     />
                   </div>
                 </div>
@@ -330,7 +330,7 @@ const CreateAccountForm: React.FC = () => {
                       onChange={() => handleAgreementChange("privacy")}
                       className="mt-1 w-4 h-4 text-blue-600 bg-transparent border-blue-500 rounded focus:ring-blue-500"
                     />
-                    <label htmlFor="privacy" className="text-blue-200 text-sm">
+                    <label htmlFor="privacy" className="text-white text-sm">
                       I confirm that I have read and agree to the Privacy Policy
                     </label>
                   </div>
@@ -343,7 +343,7 @@ const CreateAccountForm: React.FC = () => {
                       onChange={() => handleAgreementChange("investment")}
                       className="mt-1 w-4 h-4 text-blue-600 bg-transparent border-blue-500 rounded focus:ring-blue-500"
                     />
-                    <label htmlFor="privacy" className="text-blue-200 text-sm">
+                    <label htmlFor="privacy" className="text-white text-sm">
                       I understand the Risk of Investment
                     </label>
                   </div>
@@ -357,7 +357,7 @@ const CreateAccountForm: React.FC = () => {
                     onChange={() => handleAgreementChange("terms")}
                     className="mt-1 w-4 h-4 text-blue-600 bg-transparent border-blue-500 rounded focus:ring-blue-500"
                   />
-                  <label htmlFor="terms" className="text-blue-200 text-sm">
+                  <label htmlFor="terms" className="text-white text-sm">
                     I agree to the Terms of Use
                   </label>
                 </div>

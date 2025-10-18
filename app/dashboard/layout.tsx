@@ -47,7 +47,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#2623fd]">
+    <div className="min-h-screen bg-[#201d4c]">
       {/* Desktop Layout */}
       <div className="hidden md:flex ">
         {/* Sidebar */}
@@ -75,8 +75,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       : "text-blue-200 hover:bg-blue-700/50 bg-[#343758] hover:text-white"
                   }`}
                 >
-                  <item.icon size={20} />
-                  <span className="font-medium">{item.label}</span>
+                  <item.icon size={20} className="text-[#fff]" />
+                  <span className="font-medium text-[#fff]">{item.label}</span>
                 </div>
               </Link>
             ))}

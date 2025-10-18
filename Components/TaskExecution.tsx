@@ -109,7 +109,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   console.log("a single task", singleTask);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-[#201d4c] px-4">
       <div>
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -118,7 +118,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
         </div>
 
         {/* Task Reward Section */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50 mb-6">
+        <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2c2954] mb-6">
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16">
               <img
@@ -145,7 +145,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
         {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Step 1: Watch Video */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-semibold">Step 1: Watch Video</h3>
               <span className="text-blue-200 text-sm">0s / 10s Required</span>
@@ -176,7 +176,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           </div>
 
           {/* Step 2: Rating For Product */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-semibold">
                 Step 2: Rating For Product
@@ -203,7 +203,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           </div>
 
           {/* Step 4: Open Product Link */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <h3 className="text-white font-semibold mb-4">
               Step 4: Open Product Link
             </h3>
@@ -225,7 +225,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           </div>
 
           {/* Step 3: Write Comment */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <h3 className="text-white font-semibold mb-4">
               Step 3: Write Comment
             </h3>
@@ -234,12 +234,12 @@ const TaskExecution = ({ productId }: { productId: number }) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Write Your Feedback..."
-              className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg p-3 text-white placeholder-blue-300 resize-none h-24 focus:outline-none focus:border-blue-500"
+              className="w-full bg-[#37355d] border border-[#37355d] rounded-lg p-3 text-white placeholder-blue-300 resize-none h-24 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Step 5: Submit Task */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <h3 className="text-white font-semibold mb-4">
               Step 5: Submit Task
             </h3>

@@ -57,10 +57,10 @@ const ProfileSettings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-[#201d4c] p-6">
       <div>
         {/* Profile Header */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 mb-6">
+        <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16">
@@ -76,7 +76,6 @@ const ProfileSettings: React.FC = () => {
                   {profile?.email || "null"}
                 </div>
                 <div className="text-blue-200 text-sm">
-                  {" "}
                   {profile?.phone || "null"}
                 </div>
               </div>
@@ -91,7 +90,7 @@ const ProfileSettings: React.FC = () => {
         </div>
 
         {/* Personal Info */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 mb-6">
+        <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
           <h3 className="text-white font-semibold text-lg mb-6">
             Personal Info
           </h3>
@@ -142,7 +141,7 @@ const ProfileSettings: React.FC = () => {
 
         <div className="flex items-center flex-col md:flex-row flex-1 gap-3">
           {/* Account & Security - First Section */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 mb-6 flex-1">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6 flex-1">
             <h3 className="text-white font-semibold text-lg mb-6">
               Account & Security
             </h3>
@@ -176,7 +175,7 @@ const ProfileSettings: React.FC = () => {
             </div>
           </div>
           {/* Account & Security - Second Section */}
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 mb-6 flex-1">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6 flex-1">
             <h3 className="text-white font-semibold text-lg mb-6">
               Account & Security
             </h3>
@@ -210,7 +209,7 @@ const ProfileSettings: React.FC = () => {
         </div>
 
         {/* Final Account & Security Section */}
-        <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50 mb-6">
+        <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
           <h3 className="text-white font-semibold text-lg mb-6">
             Account & Security
           </h3>

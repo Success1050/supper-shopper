@@ -78,12 +78,12 @@ export default function EditProfile({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-900 via-indigo-800 to-indigo-900">
+    <div className="min-h-screen bg-[#201d4c]">
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Profile Photo Section */}
         <div className="flex flex-col items-center mb-8">
           <div className="relative mb-4">
-            <div className="w-24 h-24 rounded-full overflow-hidden bg-white">
+            <div className="w-24 h-24 rounded-full overflow-hidden bg-[#37355d]">
               <img
                 src={
                   previewUrl ||
@@ -95,9 +95,9 @@ export default function EditProfile({
               />
             </div>
           </div>
-          <label className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-30 hover:bg-opacity-20 transition-all cursor-pointer">
+          <label className="flex items-center gap-2 px-4 py-2 bg-[#37355d] bg-opacity-10 text-white rounded-lg border border-[#37355d] border-opacity-30 hover:bg-opacity-20 transition-all cursor-pointer">
             <Camera className="w-4 h-4" />
-            <span className="text-sm">Change Photo</span>
+            <span className="text-sm text-white">Change Photo</span>
             <input
               type="file"
               accept="image/*"
@@ -120,7 +120,7 @@ export default function EditProfile({
                   prev ? { ...prev, first_name: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function EditProfile({
                   prev ? { ...prev, last_name: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function EditProfile({
                   prev ? { ...prev, email: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -167,7 +167,7 @@ export default function EditProfile({
                   prev ? { ...prev, mobilenumber: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -182,7 +182,7 @@ export default function EditProfile({
                   prev ? { ...prev, address: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20 text-[#9696ae]"
             />
           </div>
 
@@ -197,7 +197,7 @@ export default function EditProfile({
                   prev ? { ...prev, postalCode: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -212,7 +212,7 @@ export default function EditProfile({
                   prev ? { ...prev, country: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-white bg-opacity-10 text-black rounded-lg border border-white border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 

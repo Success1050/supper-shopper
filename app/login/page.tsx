@@ -39,7 +39,7 @@ const SuperShopperLogin: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#2623fd] flex">
+    <div className="min-h-screen bg-[#201d46] flex">
       {/* Left Side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
@@ -86,7 +86,7 @@ const SuperShopperLogin: React.FC = () => {
                   value={emailorPhone}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email / mobile number"
-                  className="w-full bg-gray-800/60 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-[#2b2954] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 />
               </div>
               <div>
@@ -98,7 +98,7 @@ const SuperShopperLogin: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="w-full bg-gray-800/60 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-[#2b2954] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ const SuperShopperLogin: React.FC = () => {
               <div className="text-gray-400 text-sm mb-4">Or Continue with</div>
 
               <div className="space-y-3">
-                <button className="w-full bg-gray-800/60 border border-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center hover:bg-gray-700/60 transition-colors">
+                <button className="w-full bg-[#2b2954] border border-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center hover:bg-gray-700/60 transition-colors">
                   <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                     <path
                       fill="#4285F4"
@@ -176,7 +176,7 @@ const SuperShopperLogin: React.FC = () => {
                   Continue With Google
                 </button>
 
-                <button className="w-full bg-gray-800/60 border border-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center hover:bg-gray-700/60 transition-colors">
+                <button className="w-full bg-[#2b2954] border border-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center hover:bg-gray-700/60 transition-colors">
                   <svg
                     className="w-5 h-5 mr-3"
                     fill="#1877F2"

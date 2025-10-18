@@ -8,7 +8,7 @@ import { StatCard } from "./StatsCard";
 
 const DashboardHome = () => {
   return (
-    <section className="w-full p-2">
+    <section className="w-full p-2 bg-[#201d4c]">
       <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
         Active Products
       </h2>

@@ -36,7 +36,7 @@ const HeaderDashboard = ({
   }, []);
   return (
     <>
-      <div className="w-full p-3 ">
+      <div className="w-full p-3 bg-[#201d4c]">
         <div className="flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <div className="flex items-center gap-4">

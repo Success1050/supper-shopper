@@ -191,7 +191,7 @@ const MyBalanceDeposit: React.FC = () => {
   }, [CurrencyId]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 p-6">
+    <div className="min-h-screen bg-[#201d4c] to-purple-900 p-6">
       <div>
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start gap-3 md:items-center justify-between mb-8">
@@ -230,7 +230,7 @@ const MyBalanceDeposit: React.FC = () => {
 
         {/* Deposit Form */}
         {activeTab === "Deposit" && (
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -248,7 +248,7 @@ const MyBalanceDeposit: React.FC = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -260,14 +260,14 @@ const MyBalanceDeposit: React.FC = () => {
                 </label>
                 <button
                   onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
-                  className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
                   <span>{currency}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showCurrencyDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
                     {tokens.map((curr) => (
                       <button
                         key={curr.id}
@@ -292,14 +292,14 @@ const MyBalanceDeposit: React.FC = () => {
                 </label>
                 <button
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
-                  className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
                   <span>{network}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showNetworkDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
                     {chains.map((chain) => (
                       <button
                         key={chain.id}
@@ -317,12 +317,12 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col w-full items-center gap-4 md:flex-row">
+            <div className="flex flex-col w-full items-center gap-4 md:flex-row ">
               {/* Generate Address */}
-              <div className="mb-6 w-full">
+              <div className="mb-6 w-full ">
                 <button
                   onClick={generateAddress}
-                  className="w-full bg-blue-700/50 hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-[#454368] hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center space-x-2"
                 >
                   <span>
                     {loading ? "generating..." : "Generate & Copy Address"}
@@ -331,7 +331,7 @@ const MyBalanceDeposit: React.FC = () => {
                 </button>
 
                 {isDropdown && (
-                  <div className="mt-3 p-3 bg-blue-900/50 rounded-lg">
+                  <div className="mt-3 p-3 bg-[#37355d] rounded-lg">
                     <div className="flex items-center justify-between">
                       <span className="text-white text-sm font-mono break-all">
                         {generatedAddress}
@@ -349,7 +349,7 @@ const MyBalanceDeposit: React.FC = () => {
                   value={txId}
                   onChange={(e) => setTxId(e.target.value)}
                   placeholder=" Paste TXID"
-                  className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#9696ae] focus:outline-none focus:border-blue-500"
                 />
               </div>
             </div>
@@ -371,8 +371,10 @@ const MyBalanceDeposit: React.FC = () => {
 
         {/* Withdrawal Form (Placeholder) */}
         {activeTab === "Withdrawal" && (
-          <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-6 border border-blue-700/50">
-            <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
+            <h2 className="text-white text-xl font-semibold mb-6">
+              Withdrawal
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {/* Choose Amount */}
@@ -389,7 +391,7 @@ const MyBalanceDeposit: React.FC = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -401,14 +403,14 @@ const MyBalanceDeposit: React.FC = () => {
                 </label>
                 <button
                   onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
-                  className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
                   <span>{currency}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showCurrencyDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
                     {tokens.map((curr) => (
                       <button
                         key={curr}
@@ -435,7 +437,7 @@ const MyBalanceDeposit: React.FC = () => {
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
                     placeholder="0x1234...abcd"
-                    className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -447,7 +449,7 @@ const MyBalanceDeposit: React.FC = () => {
                 </label>
                 <button
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
-                  className="w-full bg-blue-900/50 border border-blue-700/50 rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
                   <span>
                     {network.length > 0 ? network[0] : "choose network"}
@@ -456,7 +458,7 @@ const MyBalanceDeposit: React.FC = () => {
                 </button>
 
                 {showNetworkDropdown && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-blue-700/50 rounded-lg overflow-hidden z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
                     {chains.map((net: string) => (
                       <button
                         key={net}
@@ -485,16 +487,22 @@ const MyBalanceDeposit: React.FC = () => {
           </div>
         )}
       </div>
-      <button
-        onClick={confirmWithdrawal}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-4"
-      >
-        Withdraw now
-      </button>
-      <p className="text-blue-200 text-sm text-center">
-        Congratulations! Your withdrawal is in process. It may take up to 72
-        hours.
-      </p>
+      {activeTab === "Withdrawal" ? (
+        <>
+          <button
+            onClick={confirmWithdrawal}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-4"
+          >
+            Withdraw now
+          </button>
+          <p className="text-blue-200 text-sm text-center">
+            Congratulations! Your withdrawal is in process. It may take up to 72
+            hours.
+          </p>
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
