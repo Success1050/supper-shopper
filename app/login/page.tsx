@@ -44,7 +44,7 @@ const SuperShopperLogin: React.FC = () => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           {/* Logo */}
-          <div className="mb-12">
+          <div className="mb-15 mx-auto flex justify-center">
             <div className="flex items-center text-white">
               <div className="bg-white p-2 rounded-md mr-3">
                 <svg
@@ -150,7 +150,7 @@ const SuperShopperLogin: React.FC = () => {
               </button>
             </form>
 
-            <div className="text-center">
+            {/* <div className="text-center">
               <div className="text-gray-400 text-sm mb-4">Or Continue with</div>
 
               <div className="space-y-3">
@@ -187,7 +187,7 @@ const SuperShopperLogin: React.FC = () => {
                   Continue With Facebook
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <div className="text-center text-sm text-white">
               Don't Have An Account?{" "}

@@ -2,7 +2,15 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import { Home, TestTube, Users, Wallet, FileText, LogOut } from "lucide-react";
+import {
+  Home,
+  TestTube,
+  Users,
+  Wallet,
+  FileText,
+  LogOut,
+  PackageIcon,
+} from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
 
@@ -15,13 +23,20 @@ import Records from "@/Components/Records";
 import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
 import { handleLogout } from "@/Components/LogoutFunc";
+import PackageSelection from "@/Components/PackageSelection";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [menuIId, setMenuId] = useState<number>(0);
 
   // Sidebar for desktop
   const sidebarItems = [
-    { icon: Home, label: "Home", active: true, url: "/dashboard" },
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      active: true,
+      url: "/dashboard/all-packages",
+    },
+    { icon: Home, label: "Home", url: "/dashboard" },
     { icon: TestTube, label: "Task Center", url: "/dashboard/taskCenter" },
     { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
     { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
@@ -30,6 +45,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   // Bottom nav for mobile
   const mobileNavItems = [
+    { icon: PackageIcon, label: "All Packages" },
     { icon: Home, label: "Home" },
     { icon: TestTube, label: "Test Center" },
     { icon: Users, label: "My Team" },
@@ -39,6 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   // Mobile menu content
   const menus = [
+    <PackageSelection key="all-packages" />,
     <DashboardHome key="home" />,
     <TaskCenter key="tasks" />,
     <MyTeam key="team" />,
@@ -113,7 +130,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       {/* Bottom Navigation (Mobile only) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#2623fd] backdrop-blur-sm md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-[#3B3A61] backdrop-blur-sm md:hidden py-1">
         <div className="flex items-center justify-around py-2">
           {mobileNavItems.map((item, index) => (
             <Link href={sidebarItems[index].url} key={index}>
@@ -123,8 +140,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   index === menuIId ? "text-white" : "text-blue-300"
                 }`}
               >
-                <item.icon size={20} />
-                <span className="text-xs mt-1 font-medium">{item.label}</span>
+                <item.icon size={20} color="white" />
+                {/* <span className="text-xs mt-1 font-medium">{item.label}</span> */}
               </div>
             </Link>
           ))}

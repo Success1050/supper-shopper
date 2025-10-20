@@ -152,26 +152,17 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             </div>
 
             <div className="relative bg-gray-900 rounded-lg overflow-hidden">
-              <img
-                src={taskSteps[0]?.step_value}
-                alt={taskSteps[0]?.step_type}
-                className="w-full h-48 object-cover"
+              <video
+                src={
+                  taskSteps[0]?.step_value ||
+                  "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
+                }
+                controls
+                autoPlay={false}
+                loop
+                playsInline
+                style={{ width: "100%", borderRadius: "12px" }}
               />
-              {!isVideoPlaying && (
-                <div
-                  className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer"
-                  onClick={handlePlayVideo}
-                >
-                  <div className="bg-white/20 rounded-full p-4 hover:bg-white/30 transition-colors">
-                    <Play className="text-white w-8 h-8" fill="currentColor" />
-                  </div>
-                </div>
-              )}
-              {isVideoPlaying && (
-                <div className="absolute top-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
-                  LIVE
-                </div>
-              )}
             </div>
           </div>
 

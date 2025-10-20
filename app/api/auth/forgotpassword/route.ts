@@ -1,11 +1,10 @@
-// 'use server'
-export const runtime = 'nodejs';
-export const regions = ['iad1', 'sfo1', 'fra1'];
+'use server'
+// export const runtime = 'nodejs';
+// export const regions = ['iad1', 'sfo1', 'fra1'];
 
 
-// app/api/auth/forgot-password/route.ts
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
   const supabase  = await createClient()

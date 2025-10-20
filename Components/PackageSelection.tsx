@@ -49,7 +49,7 @@ const PackageSelection: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 p-6">
+    <div className="min-h-screen bg-[#201d4c] p-6">
       <div>
         <div className="mb-8">
           <h1 className="text-white text-3xl font-bold mb-2">Buy A Package</h1>
