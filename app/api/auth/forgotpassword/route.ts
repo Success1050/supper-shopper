@@ -1,4 +1,7 @@
 'use server'
+export const runtime = 'nodejs';
+export const regions = ['iad1', 'sfo1', 'fra1'];
+
 
 // app/api/auth/forgot-password/route.ts
 import { NextResponse } from "next/server";

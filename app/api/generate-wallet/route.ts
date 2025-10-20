@@ -1,5 +1,6 @@
 "use server";
-
+export const runtime = 'nodejs';
+export const regions = ['iad1', 'sfo1', 'fra1'];
 
 import { NextResponse } from "next/server";
 
