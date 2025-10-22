@@ -182,7 +182,7 @@ export default function EditProfile({
                   prev ? { ...prev, address: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20 text-[#9696ae]"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 

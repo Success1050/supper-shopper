@@ -12,7 +12,7 @@ const SuperShopperLogin: React.FC = () => {
   const [emailorPhone, setEmail] = useState<string>("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   // const [email, setuseremail] = useState<string>("");
 
@@ -30,11 +30,15 @@ const SuperShopperLogin: React.FC = () => {
   };
 
   const forgotPasswordFunc = async () => {
+    setLoading(true);
     const res = await resetUserPassword(emailorPhone);
     if (res && !res.success) {
-      return console.log(res.message);
+      console.log(res.message);
+      setLoading(false);
+      return;
     }
     alert("password-reset link has been sent your email");
+    setLoading(false);
   };
 
   // async function handleSubmit() {
@@ -108,10 +112,10 @@ const SuperShopperLogin: React.FC = () => {
 
                 <button
                   type="button"
-                  className="text-white text-sm hover:underline"
+                  className="text-white text-sm hover:underline cursor-pointer"
                   onClick={forgotPasswordFunc}
                 >
-                  Forgot Password?
+                  {loading ? "please wait..." : "Forgot Password?"}
                 </button>
               </div>
 
