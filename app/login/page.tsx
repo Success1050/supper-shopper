@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { login } from "./action";
+import { login, resetUserPassword } from "./action";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Loader } from "@/Components/Loader";
 
 const SuperShopperLogin: React.FC = () => {
   const router = useRouter();
-  const [emailorPhone, setEmail] = useState("");
+  const [emailorPhone, setEmail] = useState<string>("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string>("");
@@ -26,6 +26,14 @@ const SuperShopperLogin: React.FC = () => {
     if (!res?.success) {
       alert(res?.message);
     }
+  };
+
+  const forgotPasswordFunc = async () => {
+    const res = await resetUserPassword(emailorPhone);
+    if (res && !res.success) {
+      return console.log(res.message);
+    }
+    alert("password-reset link has beensentto your email");
   };
 
   async function handleSubmit() {
@@ -117,7 +125,7 @@ const SuperShopperLogin: React.FC = () => {
                 <button
                   type="button"
                   className="text-white text-sm hover:underline"
-                  onClick={handleSubmit}
+                  onClick={forgotPasswordFunc}
                 >
                   Forgot Password?
                 </button>

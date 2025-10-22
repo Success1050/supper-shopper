@@ -20,7 +20,7 @@ export default function PasswordResetPage() {
       return;
     }
     const res = await resetPassword(formData.newPassword);
-    if (!res.success) {
+    if (res && !res.success) {
       return console.log(res.message);
     }
   }

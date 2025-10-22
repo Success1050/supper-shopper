@@ -15,7 +15,6 @@ type LoginData = {
 
 export async function login({ emailorPhone, password }: LoginData) {
   const supabase = await createClient();
-
   const { data, error } = await supabase.auth.signInWithPassword({
     email: emailorPhone,
     password,
@@ -31,5 +30,12 @@ export async function login({ emailorPhone, password }: LoginData) {
   console.log(data);
 
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  redirect("/dashboard/all-packages");
 }
+
+export const resetUserPassword = async (email: string) => {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+  if (error) return { success: false, message: error.message };
+};

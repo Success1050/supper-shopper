@@ -137,7 +137,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <div
                 onClick={() => setMenuId(index)}
                 className={`flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer transition-colors ${
-                  index === menuIId ? "text-white" : "text-blue-300"
+                  index === menuIId
+                    ? "bg-[#2622fb] p-5 flex justify-center items-center rounded-full text-white"
+                    : "text-blue-300"
                 }`}
               >
                 <item.icon size={20} color="white" />

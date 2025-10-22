@@ -70,7 +70,7 @@ const PackageSelection: React.FC = () => {
             packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className="bg-gray-800/60 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
+                className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
               >
                 <div className="text-center mb-6">
                   <div className="text-white text-3xl font-bold mb-2">
