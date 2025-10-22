@@ -26,9 +26,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(redirectTo)
     }
 
-    console.error('❌ verifyOtp error:', error)
+    console.error(' verifyOtp error:', error)
   }
 
   redirectTo.pathname = '/auth/auth-code-error'
-  return NextResponse.redirect(redirectTo)
+  return NextResponse.redirect('/dashboard')
 }
