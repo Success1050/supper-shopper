@@ -33,18 +33,18 @@ const SuperShopperLogin: React.FC = () => {
     if (res && !res.success) {
       return console.log(res.message);
     }
-    alert("password-reset link has beensentto your email");
+    alert("password-reset link has been sent your email");
   };
 
-  async function handleSubmit() {
-    const res = await fetch("/api/auth/forgotpassword", {
-      method: "POST",
-      body: JSON.stringify({ emailorPhone }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json();
-    console.log(data.message);
-  }
+  // async function handleSubmit() {
+  //   const res = await fetch("/api/auth/forgotpassword", {
+  //     method: "POST",
+  //     body: JSON.stringify({ emailorPhone }),
+  //     headers: { "Content-Type": "application/json" },
+  //   });
+  //   const data = await res.json();
+  //   console.log(data.message);
+  // }
 
   return (
     <div className="min-h-screen bg-[#201d46] flex">

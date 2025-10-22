@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ShoppingCart, Eye, EyeOff, ArrowRight, X } from "lucide-react";
 import { resetPassword } from "./action";
 
-export default function PasswordResetPage() {
+const PasswordResetPage = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -204,4 +204,6 @@ export default function PasswordResetPage() {
       </div>
     </div>
   );
-}
+};
+
+export default PasswordResetPage;
