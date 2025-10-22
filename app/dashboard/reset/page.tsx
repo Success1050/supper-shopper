@@ -3,11 +3,16 @@
 import { useState } from "react";
 import { ShoppingCart, Eye, EyeOff, ArrowRight, X } from "lucide-react";
 import { resetPassword } from "./action";
+import { useTransition } from "react";
+import { Loader } from "@/Components/Loader";
+import Image from "next/image";
 
 const PasswordResetPage = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -19,10 +24,16 @@ const PasswordResetPage = () => {
       alert("passwords does not match");
       return;
     }
+    setLoading(true);
     const res = await resetPassword(formData.newPassword);
     if (res && !res.success) {
-      return console.log(res.message);
+      console.log(res.message);
+      setLoading(false);
+      return;
     }
+
+    alert("password updated successfully");
+    setLoading(false);
   }
 
   const handleCancel = () => {
@@ -34,24 +45,21 @@ const PasswordResetPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-indigo-900 to-purple-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#201d46] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center mb-8">
-          <div className="flex items-center gap-2">
-            <ShoppingCart
-              className="w-10 h-10 text-blue-500"
-              strokeWidth={2.5}
-            />
-            <div className="text-white">
-              <div className="text-2xl font-bold tracking-tight">SUPER</div>
-              <div className="text-2xl font-bold tracking-tight">SHOPPER</div>
-            </div>
-          </div>
+          <Image
+            src={"/images/logo.png"}
+            alt="logo"
+            height={500}
+            width={500}
+            className="w-[200px] h-auto"
+          />
         </div>
 
         {/* Form Card */}
-        <div className="bg-indigo-900/50 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-indigo-700/50 shadow-2xl">
+        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-indigo-700/50 shadow-2xl">
           <h1 className="text-2xl font-bold text-white mb-2">
             Change Password
           </h1>
@@ -184,11 +192,16 @@ const PasswordResetPage = () => {
             {/* Buttons */}
             <div className="space-y-3 pt-2">
               <button
-                onClick={handleReset}
+                onClick={() => startTransition(() => handleReset())}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50"
               >
-                Save Changes
-                <ArrowRight size={18} />
+                {isPending ? (
+                  <Loader />
+                ) : (
+                  <>
+                    Reset password <ArrowRight size={18} />
+                  </>
+                )}
               </button>
 
               <button
