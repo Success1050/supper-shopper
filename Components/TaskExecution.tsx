@@ -10,6 +10,7 @@ import {
   submission,
 } from "@/app/dashboard/taskCenter/action";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type completedTask = {
   reward: number;
@@ -22,9 +23,10 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<any[]>([]);
   const [taskSteps, settaskStep] = useState<any[]>([]);
-  const [isLinkOpen, setisLinkOpen] = useState<boolean>(false);
+
   const [watchProgress, setWatchProgress] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  const router = useRouter();
 
   console.log("my product id", productId);
 
@@ -32,26 +34,33 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     setRating(value);
   };
 
-  const onsubmit = async (productid: number) => {
+  const onsubmit = async () => {
     if (!productId) return;
-    if (!watchProgress || !comment || isLinkOpen === false || !rating) {
+
+    if (!comment || rating == 0) {
       return alert("please complete all tasks");
     }
     setLoading(true);
 
     const userComment = comment.trim();
 
-    const res = await submission(productid, userComment, rating, isLinkOpen);
+    const res = await submission(
+      productId,
+      userComment,
+      rating
+      // isVideoPlaying
+    );
     if (!res?.success) {
       return console.log(res?.message);
     }
+
+    router.push("/dashboard/wallet");
     console.log(res.data);
     setCompletedTask(res.data ?? []);
     alert("tasks completed, check wallet for reward");
     setComment("");
     setWatchProgress(0);
     setRating(0);
-    setisLinkOpen(false);
   };
 
   // const taskCompleted = CompletedTask.filter((task) => task.completed);
@@ -60,20 +69,6 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     (acc, task) => acc + (task.reward ?? 0),
     0
   );
-
-  const handlePlayVideo = () => {
-    setIsVideoPlaying(true);
-    // Simulate video progress
-    const interval = setInterval(() => {
-      setWatchProgress((prev) => {
-        if (prev >= 10) {
-          clearInterval(interval);
-          return 10;
-        }
-        return prev + 1;
-      });
-    }, 1000);
-  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -194,7 +189,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           </div>
 
           {/* Step 4: Open Product Link */}
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
+          {/* <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <h3 className="text-white font-semibold mb-4">
               Step 4: Open Product Link
             </h3>
@@ -207,13 +202,12 @@ const TaskExecution = ({ productId }: { productId: number }) => {
               }
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setisLinkOpen(true)}
             >
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
                 Product Open
               </button>
             </a>
-          </div>
+          </div> */}
 
           {/* Step 3: Write Comment */}
           <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
@@ -237,7 +231,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
             <button
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
-              onClick={() => onsubmit(productId)}
+              onClick={() => onsubmit()}
             >
               Done
             </button>

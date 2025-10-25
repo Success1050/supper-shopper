@@ -44,10 +44,7 @@ const HeaderDashboard = ({
               className="text-white cursor-pointer hover:text-blue-200"
               size={24}
             />
-            <HelpCircle
-              className="text-white cursor-pointer hover:text-blue-200"
-              size={24}
-            />
+
             <Settings
               className="text-white cursor-pointer hover:text-blue-200"
               size={24}

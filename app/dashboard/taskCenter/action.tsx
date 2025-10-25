@@ -43,7 +43,8 @@ export const submission = async (
   productId: number,
   userComment: string,
   rating: number,
-  isLinkOpen: boolean
+  isLinkOpen: boolean,
+  isVideoPlaying: boolean
 ) => {
   const supabase = await createClient();
   const {
@@ -55,6 +56,7 @@ export const submission = async (
     const { data, error } = await supabase
       .from("user_tasks")
       .update({
+        watched: isVideoPlaying,
         completed: true,
         comment: userComment,
         rating: rating,
