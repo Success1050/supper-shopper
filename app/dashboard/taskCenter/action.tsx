@@ -42,9 +42,7 @@ export const getTaskSteps = async (productId: number) => {
 export const submission = async (
   productId: number,
   userComment: string,
-  rating: number,
-  isLinkOpen: boolean,
-  isVideoPlaying: boolean
+  rating: number
 ) => {
   const supabase = await createClient();
   const {
@@ -56,11 +54,9 @@ export const submission = async (
     const { data, error } = await supabase
       .from("user_tasks")
       .update({
-        watched: isVideoPlaying,
         completed: true,
         comment: userComment,
         rating: rating,
-        opened_link: isLinkOpen,
       })
       .eq("product_id", productId)
       .eq("user_id", user.id)

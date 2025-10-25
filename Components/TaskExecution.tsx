@@ -44,12 +44,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
     const userComment = comment.trim();
 
-    const res = await submission(
-      productId,
-      userComment,
-      rating
-      // isVideoPlaying
-    );
+    const res = await submission(productId, userComment, rating);
     if (!res?.success) {
       return console.log(res?.message);
     }
