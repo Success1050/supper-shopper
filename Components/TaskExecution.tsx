@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { HelpCircle, Play, Star } from "lucide-react";
 import Progressbar from "./Progressbar";
 import HeaderDashboard from "./HeaderDashboard";
@@ -11,6 +11,7 @@ import {
 } from "@/app/dashboard/taskCenter/action";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Loader } from "@/Components/Loader";
 
 type completedTask = {
   reward: number;
@@ -26,6 +27,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
   const [watchProgress, setWatchProgress] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   console.log("my product id", productId);
@@ -226,9 +228,9 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
             <button
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
-              onClick={() => onsubmit()}
+              onClick={() => startTransition(() => onsubmit())}
             >
-              Done
+              {isPending ? <Loader /> : "Done"}
             </button>
             <div className="flex-1 mt-2 flex items-center justify-center">
               <span className="text-blue-200 text-sm">
