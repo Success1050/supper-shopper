@@ -95,5 +95,5 @@ export async function signup(formdata: FormData, confirmPassword: string) {
   // 6️⃣ Done
   console.log("Signup success:", data);
   revalidatePath("/", "layout");
-  redirect("/dashboard/all-packages");
+  redirect("/dashboard/package-lists");
 }

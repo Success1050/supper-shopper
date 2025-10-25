@@ -30,7 +30,7 @@ export async function login({ emailorPhone, password }: LoginData) {
   console.log(data);
 
   revalidatePath("/", "layout");
-  redirect("/dashboard/all-packages");
+  redirect("/dashboard/package-lists");
 }
 
 export const resetUserPassword = async (email: string) => {

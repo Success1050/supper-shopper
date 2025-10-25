@@ -34,7 +34,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       icon: PackageIcon,
       label: "All Packages",
       active: true,
-      url: "/dashboard/all-packages",
+      url: "/dashboard/package-lists",
     },
     { icon: Home, label: "Home", url: "/dashboard" },
     { icon: TestTube, label: "Task Center", url: "/dashboard/taskCenter" },
@@ -45,7 +45,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   // Bottom nav for mobile
   const mobileNavItems = [
-    { icon: PackageIcon, label: "All Packages" },
+    { icon: PackageIcon, label: "Package Lists" },
     { icon: Home, label: "Home" },
     { icon: TestTube, label: "Test Center" },
     { icon: Users, label: "My Team" },
@@ -55,7 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   // Mobile menu content
   const menus = [
-    <PackageSelection key="all-packages" />,
+    <PackageSelection key="package-lists" />,
     <DashboardHome key="home" />,
     <TaskCenter key="tasks" />,
     <MyTeam key="team" />,

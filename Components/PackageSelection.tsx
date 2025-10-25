@@ -31,18 +31,30 @@ const PackageSelection: React.FC = () => {
   }, []);
 
   const buyPackage = async (packageId: number) => {
-    console.log(packageId);
+    console.log("Buying package:", packageId);
 
     try {
       setLoadingPackages((prev) => ({ ...prev, [packageId]: true }));
-      const res = await userBuyPackages(packageId);
-      if (!res.success) return alert(res.error);
 
-      console.log(res.data);
+      const res = await userBuyPackages(packageId);
+
+      if (!res) {
+        alert("No response from server");
+        return;
+      }
+
+      // safely check success
+      if (!res.success) {
+        alert(res.error || "Failed to purchase package");
+        return;
+      }
+
+      console.log("Purchase response:", res.data);
       setMessage(`Successfully purchased package ${packageId}`);
       router.push("/dashboard/taskCenter");
     } catch (error) {
-      console.log(error);
+      console.error("Error buying package:", error);
+      alert("An error occurred while purchasing the package");
     } finally {
       setLoadingPackages((prev) => ({ ...prev, [packageId]: false }));
     }
