@@ -5,6 +5,7 @@ import HeaderDashboard from "./HeaderDashboard";
 import Progressbar from "./Progressbar";
 import Link from "next/link";
 import { getProducts } from "@/app/dashboard/taskCenter/action";
+import LoadingBar from "./MainLoading";
 
 interface UserTaskWithProduct {
   id: number;
@@ -36,7 +37,13 @@ const TaskCenter = () => {
 
   console.log("products listed:", products);
 
-  if (loading) return <p className="text-white bg-[#201d4c]">Loading...</p>;
+  if (loading) {
+    return (
+      <div className="min-h-full flex justify-center items-center bg-[#201d4c]">
+        <LoadingBar />
+      </div>
+    );
+  }
 
   const completedTask = products.filter((product) => product.completed);
 

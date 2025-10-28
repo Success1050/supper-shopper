@@ -5,6 +5,7 @@ import { Users, Search } from "lucide-react";
 import Progressbar from "./Progressbar";
 import { useUserStore } from "@/store";
 import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
+import LoadingBar from "./MainLoading";
 
 interface TeamMember {
   id: string;
@@ -54,8 +55,8 @@ const MyTeam: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#201d4c] flex justify-center items-center text-white">
-        Loading team members...
+      <div className="min-h-full flex justify-center items-center bg-[#201d4c]">
+        <LoadingBar />
       </div>
     );
   }

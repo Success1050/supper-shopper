@@ -5,6 +5,7 @@ import {
   userBuyPackages,
 } from "@/app/dashboard/package-lists/action";
 import { useRouter } from "next/navigation";
+import LoadingBar from "./MainLoading";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
@@ -75,11 +76,11 @@ const PackageSelection: React.FC = () => {
           <div className="mb-4 text-center text-yellow-300">{message}</div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {loading ? (
-            <h2>Loading...</h2>
-          ) : (
-            packages.map((pkg) => (
+        {loading ? (
+          <LoadingBar />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {packages.map((pkg) => (
               <div
                 key={pkg.id}
                 className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
@@ -122,9 +123,9 @@ const PackageSelection: React.FC = () => {
                   {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
                 </button>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

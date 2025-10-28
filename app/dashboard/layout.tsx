@@ -10,6 +10,7 @@ import {
   FileText,
   LogOut,
   PackageIcon,
+  Bell,
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
@@ -43,14 +44,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { icon: FileText, label: "Record", url: "/dashboard/records" },
   ];
 
-  // Bottom nav for mobile
   const mobileNavItems = [
-    { icon: PackageIcon, label: "Package Lists" },
-    { icon: Home, label: "Home" },
-    { icon: TestTube, label: "Test Center" },
-    { icon: Users, label: "My Team" },
-    { icon: Wallet, label: "Wallet" },
-    { icon: FileText, label: "Record" },
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      active: true,
+      url: "/dashboard/package-lists",
+    },
+    { icon: Home, label: "Home", url: "/dashboard" },
+    { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
   ];
 
   // Mobile menu content
@@ -133,7 +135,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="fixed bottom-0 left-0 right-0 bg-[#3B3A61] backdrop-blur-sm md:hidden py-1">
         <div className="flex items-center justify-around py-2">
           {mobileNavItems.map((item, index) => (
-            <Link href={sidebarItems[index].url} key={index}>
+            <Link href={item.url} key={index}>
               <div
                 onClick={() => setMenuId(index)}
                 className={`flex flex-col items-center py-2 px-3 rounded-lg cursor-pointer transition-colors ${
