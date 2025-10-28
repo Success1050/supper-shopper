@@ -132,11 +132,11 @@ const Header = () => {
             </Link>
             <div className="auth_div">
               <Link
-                href="/signin"
+                href="/signup"
                 className="text-gray-700 hover:text-[#2563EB] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Sign In
+                Sign up
               </Link>
               <Link
                 href="/login"

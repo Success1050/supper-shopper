@@ -2,7 +2,7 @@
 // "use server";
 
 import { create } from "zustand";
-import { createClient } from "@/utils/supabase/client"; // your createClient wrapper
+import { createClient } from "@/utils/supabase/client"; 
 import type { User } from "@supabase/supabase-js";
 
 type UserState = {

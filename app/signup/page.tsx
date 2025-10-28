@@ -4,6 +4,9 @@ import React, { useState, useTransition } from "react";
 import { ChevronDown } from "lucide-react";
 import { signup } from "./action";
 import { Loader } from "@/Components/Loader";
+import Image from "next/image";
+import { MdOutlineHelpOutline } from "react-icons/md";
+import { GoGlobe } from "react-icons/go";
 
 const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,7 +19,7 @@ const CreateAccountForm: React.FC = () => {
     dob: "",
     verificationCode: "",
     country: "",
-    referralCode: "REF2025AB",
+    referralCode: "",
     password: "",
   });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -71,19 +74,32 @@ const CreateAccountForm: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#201d4c] p-6 pt-30">
-      <div>
-        {/* Header */}
-        <div className="text-center mb-8 flex items-center flex-col md:flex-row md:justify-between gap-4">
-          <h1 className="text-white text-2xl font-semibold mb-2">
+    <div className="min-h-screen bg-[#201d4c] p-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <Image
+            src={"/groupLogo.png"}
+            alt="logo"
+            height={500}
+            width={500}
+            className="w-[106.78px] h-auto"
+          />
+        </div>
+        <div className="flex justify-center items-center gap-2">
+          <MdOutlineHelpOutline color="white" size={22} />
+          <GoGlobe color="white" size={22} />
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <div className="text-left mb-8 flex items-left md:items-center flex-col md:flex-row md:justify-between justify-start">
+          <h1 className="text-white text-2xl font-semibold">
             Create Your Account
           </h1>
           <p className="text-white text-sm">
             Join Us Today By Filling Out The Form Below
           </p>
         </div>
-
-        {/* Form Container */}
         <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2c2954]">
           {/* Personal Information */}
           <form
@@ -370,6 +386,8 @@ const CreateAccountForm: React.FC = () => {
           </form>
         </div>
       </div>
+
+      {/* Form Container */}
     </div>
   );
 };

@@ -66,9 +66,6 @@ const MyTeam: React.FC = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-white text-2xl font-semibold mb-2">My Team</h1>
-          <p className="text-blue-200 text-sm">
-            Manage and track your MLM network performance
-          </p>
         </div>
 
         {/* Team Stats */}

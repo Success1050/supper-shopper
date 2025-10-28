@@ -14,7 +14,6 @@ const SuperShopperLogin: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
-  // const [email, setuseremail] = useState<string>("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,16 +39,6 @@ const SuperShopperLogin: React.FC = () => {
     alert("password-reset link has been sent your email");
     setLoading(false);
   };
-
-  // async function handleSubmit() {
-  //   const res = await fetch("/api/auth/forgotpassword", {
-  //     method: "POST",
-  //     body: JSON.stringify({ emailorPhone }),
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-  //   const data = await res.json();
-  //   console.log(data.message);
-  // }
 
   return (
     <div className="min-h-screen bg-[#201d46] flex">
@@ -215,7 +204,7 @@ const SuperShopperLogin: React.FC = () => {
       <div className="hidden lg:block lg:w-1/2 relative">
         <div className="absolute inset-4 bg-gray-200 rounded-2xl overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            src="/loginimg.png"
             alt="Woman working on laptop"
             className="w-full h-full object-cover"
           />

@@ -12,7 +12,7 @@ export const StatCard = ({
   children,
 }: StatCardProps) => (
   <div className="bg-[#2c2954] rounded-lg p-4">
-    <h4 className="text-white font-semibold mb-2 text-sm">{title}</h4>
+    <h4 className="text-white font-semibold mb-2 text-2xl">{title}</h4>
     {children ? (
       children
     ) : (

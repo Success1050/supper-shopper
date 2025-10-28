@@ -19,7 +19,7 @@ export default function LayoutWrapper({
   const pathname = usePathname();
 
   // exact routes
-  const noHeaderExactRoutes = ["/login", "/register"];
+  const noHeaderExactRoutes = ["/login", "/signup"];
 
   // routes that disable header for all subpaths
   const noHeaderPrefixRoutes = ["/dashboard"];
