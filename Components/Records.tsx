@@ -100,7 +100,7 @@ const Records: React.FC = () => {
         <h1 className="text-white text-2xl font-semibold mb-8">History</h1>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2 mb-8 bg-[#2b2a54] p-3 rounded-xl">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -108,26 +108,27 @@ const Records: React.FC = () => {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 activeTab === tab
                   ? "bg-blue-600 text-white"
-                  : "bg-blue-800/40 text-blue-200 hover:bg-blue-700/50 hover:text-white"
+                  : "hover:text-white text-white"
               }`}
             >
               {tab}
             </button>
           ))}
         </div>
-
-        {/* Records Section */}
-        <div className="bg-[#18409f] backdrop-blur-sm rounded-lg border border-blue-700/50 overflow-hidden">
-          <div className="p-6 border-b border-blue-700/50">
-            <h2 className="text-white text-xl font-semibold">Records</h2>
+        <div className="p-6 border-b border-blue-700/50 flex justify-between items-center flex-wrap">
+          <h2 className="text-white text-xl font-semibold">Records</h2>
+          <div className="w-[170px] h-[53px] bg-[#2b2149] md:flex justify-center items-center rounded-xl hidden">
+            <h2 className="text-xl font-semibold text-[#c3402e]">Delete</h2>
           </div>
-
-          <div className="divide-y divide-blue-700/30 max-h-[500px] overflow-y-auto">
+        </div>
+        {/* Records Section */}
+        <div className=" backdrop-blur-sm  overflow-hidden">
+          <div className=" max-h-[500px] overflow-y-auto ">
             {filteredRecords.length > 0 ? (
               filteredRecords.map((record) => (
                 <div
                   key={record.id}
-                  className="p-6 hover:bg-blue-700/20 transition-colors"
+                  className="p-6 hover:bg-blue-700/20 transition-colors mb-4 bg-[#18409f] border-blue-700/50"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">

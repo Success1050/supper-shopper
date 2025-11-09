@@ -7,19 +7,23 @@ import EarningsOverviewBox from "./Earning";
 import { StatCard } from "./StatsCard";
 import { RiTeamLine } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
+import EarningsSummary from "./smallscreenearningbox";
 
 const DashboardHome = () => {
   return (
     <section className="w-full p-2 bg-[#201d4c]">
+      <div className="md:hidden mb-3">
+        <EarningsSummary />
+      </div>
       <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
         Active Products
       </h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full">
         <ProductCard title="Smart Watch Pro" image="/images/product1.png" />
         <ProductCard title="Wireless Earbuds" image="/images/product2.png" />
 
-        <div className="w-full bg-[#292852] rounded-lg p-6 text-white">
+        <div className="w-full bg-[#292852] hidden md:block rounded-lg p-6 text-white">
           <h2 className="text-sm font-semibold mb-6">Earnings Summary</h2>
 
           <div className="space-y-4">
@@ -89,17 +93,26 @@ const DashboardHome = () => {
             </button>
           </div>
         </StatCard>
-        <StatCard title="Active products">
-          <div className="text-white font-bold text-2xl">3</div>
-          <div className="text-white font-medium text-sm">Active Products</div>
-          <button className="bg-[#55DF43] text-white px-4 py-2 rounded-lg text-sm font-medium">
-            Complete a task
-          </button>
-        </StatCard>
-        <StatCard title="All Time Income" value="$500" />
+
+        <div className="md:flex hidden">
+          <StatCard title="Active products">
+            <div className="text-white font-bold text-2xl">3</div>
+            <div className="text-white font-medium text-sm">
+              Active Products
+            </div>
+            <button className="bg-[#55DF43] text-white px-4 py-2 rounded-lg text-sm font-medium">
+              Complete a task
+            </button>
+          </StatCard>
+        </div>
+        <div className="md:flex hidden">
+          <StatCard title="All Time Income" value="$500" />
+        </div>
       </div>
 
-      <EarningsOverviewBox />
+      <div className="hidden md:block">
+        <EarningsOverviewBox />
+      </div>
     </section>
   );
 };

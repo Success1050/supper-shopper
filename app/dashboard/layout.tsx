@@ -55,6 +55,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
   ];
 
+  const [firstItems, ...restItems] = sidebarItems;
+
   // Mobile menu content
   const menus = [
     <PackageSelection key="package-listss" />,
@@ -125,7 +127,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <HeaderDashboard
           setMenuId={setMenuId}
           menuIId={menuIId}
-          sidebarItems={sidebarItems}
+          sidebarItems={restItems}
         />
 
         {children || menus[menuIId]}

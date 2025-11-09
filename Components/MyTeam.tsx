@@ -6,8 +6,9 @@ import Progressbar from "./Progressbar";
 import { useUserStore } from "@/store";
 import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
 import LoadingBar from "./MainLoading";
+import TeamHierarchyList from "./TeamHierarchyList";
 
-interface TeamMember {
+export interface TeamMember {
   id: string;
   email: string;
   first_name: string | null;
@@ -70,25 +71,27 @@ const MyTeam: React.FC = () => {
         </div>
 
         {/* Team Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
-            <div className="flex items-center space-x-3 mb-2">
-              <Users className="text-blue-300 w-5 h-5" />
-              <span className="text-blue-200 text-sm">My Direct Members</span>
-            </div>
-            <div className="text-white text-3xl font-bold">
+        <div className="grid grid-cols-2 gap-4 md:gap-6 mb-8">
+          {/* My Direct Members */}
+          <div className="bg-gradient-to-b from-[#2b2954] to-[#1e1b3a] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
+            <Users className="text-white w-6 h-6 mb-2" />
+            <span className="text-white text-xs md:text-sm opacity-80">
+              My Direct Members
+            </span>
+            <span className="text-white font-bold text-lg md:text-2xl mt-1">
               {teamMembers.filter((m) => m.level === 1).length}
-            </div>
+            </span>
           </div>
 
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
-            <div className="flex items-center space-x-3 mb-2">
-              <Users className="text-blue-300 w-5 h-5" />
-              <span className="text-blue-200 text-sm">Total Team Members</span>
-            </div>
-            <div className="text-white text-3xl font-bold">
+          {/* Total Team Members */}
+          <div className="bg-gradient-to-b from-[#2b2954] to-[#1e1b3a] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
+            <Users className="text-white w-6 h-6 mb-2" />
+            <span className="text-white text-xs md:text-sm opacity-80">
+              Total Team Members
+            </span>
+            <span className="text-white font-bold text-lg md:text-2xl mt-1">
               {teamMembers.length}
-            </div>
+            </span>
           </div>
         </div>
 
@@ -99,23 +102,23 @@ const MyTeam: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-blue-200 text-sm mb-1">Today Commission</div>
-              <div className="text-red-400 font-bold text-lg">$38.00</div>
+              <div className="text-white text-sm mb-1">Today Commission</div>
+              <div className="text-[#F54A25] font-bold text-lg">$38.00</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-blue-200 text-sm mb-1">Total Commision</div>
-              <div className="text-blue-200 font-bold text-lg">-</div>
+              <div className="text-white text-sm mb-1">Total Commision</div>
+              <div className="text-[#2563EB] font-bold text-lg">300</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-blue-200 text-sm mb-1">Affiliate Bonus</div>
-              <div className="text-green-400 font-bold text-lg">$200.00</div>
+              <div className="text-white text-sm mb-1">Affiliate Bonus</div>
+              <div className="text-[#3EBFD9] font-bold text-lg">$200.00</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-blue-200 text-sm mb-1">Career Bonus</div>
-              <div className="text-green-400 font-bold text-lg">$400.00</div>
+              <div className="text-white text-sm mb-1">Career Bonus</div>
+              <div className="text-white font-bold text-lg">$400.00</div>
             </div>
           </div>
         </div>
@@ -123,80 +126,48 @@ const MyTeam: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Team Task Career Progress */}
           <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
-            <h3 className="text-white text-lg font-semibold mb-4">
+            <h3 className="text-white text-[30px] font-semibold mb-4">
               Team Task Career Progress
             </h3>
 
             <div className="mb-4">
-              <p className="text-blue-200 text-sm mb-2">
-                10,000 tasks need for 1$ bonus... count all task from direct to
-                10. level
-              </p>
-              <div className="text-white text-2xl font-bold mb-2">20</div>
+              <div className="flex justify-between text-sm text-white mb-2">
+                <div className="text-white text-2xl font-bold mb-2">20</div>
 
-              <div className="flex justify-between text-sm text-blue-200 mb-2">
-                <span>Progress</span>
-                <span>Next Reward At 100</span>
+                <div className="flex flex-col justify-center items-end text-end">
+                  <span>Next Reward At</span>
+                  <span>100</span>
+                </div>
               </div>
 
-              <Progressbar width={10} />
+              <div className="flex justify-between text-sm text-white mb-2 flex-wrap">
+                <h4>Progress</h4>
+                <h4>20%</h4>
+              </div>
 
-              <div className="text-blue-200 text-sm">
+              <Progressbar width={10} color="bg-white" />
+
+              <div className="text-white text-sm md:flex hidden">
                 80 Tasks Remaining To Next Reward
+              </div>
+
+              <div className="bg-[#2723ff] w-full md:hidden flex justify-center items-center ounded-xl">
+                <button className="p-2 text-center text-white text-[12px] r">
+                  <h2 className="text-center"> View Team peference</h2>
+                </button>
               </div>
             </div>
           </div>
 
           {/* Team Hierarchy */}
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
-            <h3 className="text-white text-lg font-semibold mb-4">
-              Team Hierarchy
-            </h3>
 
-            {/* Search */}
-            <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#9696ae] w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search by name and email"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#37355d] border border-[#2b2954] rounded-lg pl-10 pr-4 py-2 text-white placeholder-[#9696ae] text-sm focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            {/* Team Members List */}
-            <div className="space-y-3 h-36 overflow-y-scroll">
-              {filteredMembers.length > 0 ? (
-                filteredMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex items-center justify-between p-3 bg-blue-900/30 rounded-lg"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-[#9696ae] text-sm font-semibold">
-                        {getInitials(member.first_name, member.last_name)}
-                      </div>
-                      <div>
-                        <div className="text-[#9696ae] font-medium text-sm">
-                          {member.first_name} {member.last_name}
-                        </div>
-                        <div className="text-[#9696ae] text-xs">
-                          {member.email}
-                        </div>
-                        <div className="text-[#9696ae] text-xs">
-                          Level {member.level}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-[#9696ae] text-sm text-center">
-                  No team members found
-                </div>
-              )}
-            </div>
+          <div className="hidden md:flex">
+            <TeamHierarchyList
+              filteredMembers={filteredMembers}
+              getInitials={getInitials}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
           </div>
         </div>
       </div>

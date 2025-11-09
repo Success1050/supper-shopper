@@ -63,7 +63,7 @@ const HeaderDashboard = ({
           </div>
         </div>
         <div className="md:hidden mb-6 p-0">
-          <nav className="flex  items-center w-[100%] gap-6">
+          <nav className="flex  items-center w-[100%] justify-center gap-6">
             {sidebarItems?.map((item, index) => (
               <Link href={item.url} key={index}>
                 <button

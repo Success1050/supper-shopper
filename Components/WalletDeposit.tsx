@@ -195,22 +195,33 @@ const MyBalanceDeposit: React.FC = () => {
       <div>
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start gap-3 md:items-center justify-between mb-8">
-          <div>
-            <h1 className="text-white text-2xl font-semibold mb-1">
-              My Balance
-            </h1>
-            <div className="text-white text-3xl font-bold">
-              ${walletAmount ?? 0}
+          <div className="flex justify-between gap-3 items-center p-0 m-0 w-full mb-3">
+            <div>
+              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
+                My Balance
+              </h1>
+              <div className="text-white text-3xl font-bold text-[20px] md:text-2xl">
+                ${walletAmount ?? 0}
+              </div>
+            </div>
+
+            <div className="md:hidden flex flex-col items-start m-0">
+              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
+                My Active Balance
+              </h1>
+              <div className="text-white text-3xl font-bold text-[20px] md:text-2xl">
+                $0
+              </div>
             </div>
           </div>
 
-          <div className="flex space-x-3">
+          <div className="flex space-x-3 justify-between items-center mx-auto md:mx-0 gap-8">
             <button
               onClick={() => setActiveTab("Deposit")}
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${
                 activeTab === "Deposit"
                   ? "bg-blue-600 text-white"
-                  : "bg-blue-800/40 text-blue-200 hover:bg-blue-700/50"
+                  : "bg-blue-800/40 text-white hover:bg-blue-700/50"
               }`}
             >
               Deposit
@@ -220,7 +231,7 @@ const MyBalanceDeposit: React.FC = () => {
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${
                 activeTab === "Withdrawal"
                   ? "bg-blue-600 text-white"
-                  : "bg-blue-800/40 text-blue-200 hover:bg-blue-700/50"
+                  : "bg-blue-800/40 text-white hover:bg-blue-700/50"
               }`}
             >
               Withdrawal
@@ -233,29 +244,29 @@ const MyBalanceDeposit: React.FC = () => {
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {/* Choose Amount */}
-              <div>
-                <label className="text-blue-200 text-sm mb-2 block">
-                  Choose Amount
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="0"
-                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+            <div className="w-full md:w-[50%]">
+              <label className="text-white text-sm mb-2 block">
+                Choose Amount
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white">
+                  $
+                </span>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="0"
+                  className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-white focus:outline-none focus:border-blue-500"
+                />
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full md:w-[50%]">
+              {/* Choose Amount */}
 
               {/* Choose Currency */}
               <div className="relative">
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Choose Currency
                 </label>
                 <button
@@ -287,7 +298,7 @@ const MyBalanceDeposit: React.FC = () => {
 
               {/* Choose Network */}
               <div className="relative">
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Choose Network
                 </label>
                 <button
@@ -317,15 +328,15 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col w-full items-center gap-4 md:flex-row ">
+            <div className="flex flex-col items-center gap-4 w-full md:w-[50%]">
               {/* Generate Address */}
-              <div className="mb-6 w-full ">
+              <div className="w-full ">
                 <button
                   onClick={generateAddress}
-                  className="w-full bg-[#454368] hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                  className="w-full bg-[#454368] hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2"
                 >
                   <span>
-                    {loading ? "generating..." : "Generate & Copy Address"}
+                    {loading ? "Generating..." : "Generate & Copy Address"}
                   </span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
@@ -336,7 +347,7 @@ const MyBalanceDeposit: React.FC = () => {
                       <span className="text-white text-sm font-mono break-all">
                         {generatedAddress}
                       </span>
-                      <Copy className="w-4 h-4 text-blue-300 cursor-pointer hover:text-white ml-2" />
+                      <Copy className="w-4 h-4 text-white cursor-pointer hover:text-white ml-2" />
                     </div>
                   </div>
                 )}
@@ -363,7 +374,7 @@ const MyBalanceDeposit: React.FC = () => {
             </button>
 
             {/* Info Text */}
-            <p className="text-blue-200 text-sm text-center">
+            <p className="text-white text-sm text-center">
               Your Account Will Be Credited Within 24 Hours.
             </p>
           </div>
@@ -376,10 +387,10 @@ const MyBalanceDeposit: React.FC = () => {
               Withdrawal
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 gap-4 mb-6 w-full md:w-[50%]">
               {/* Choose Amount */}
               <div>
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Enter Amount
                 </label>
                 <div className="relative">
@@ -391,14 +402,14 @@ const MyBalanceDeposit: React.FC = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0"
-                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
 
               {/* Choose Currency */}
               <div className="relative">
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Choose Currency
                 </label>
                 <button
@@ -428,7 +439,7 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Add wallet address
                 </label>
                 <div className="relative">
@@ -437,14 +448,14 @@ const MyBalanceDeposit: React.FC = () => {
                     value={walletAddress}
                     onChange={(e) => setWalletAddress(e.target.value)}
                     placeholder="0x1234...abcd"
-                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-blue-500"
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg pl-8 pr-4 py-3 text-white placeholder-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
 
               {/* Choose Network */}
               <div className="relative">
-                <label className="text-blue-200 text-sm mb-2 block">
+                <label className="text-white text-sm mb-2 block">
                   Choose Network
                 </label>
                 <button
@@ -495,7 +506,7 @@ const MyBalanceDeposit: React.FC = () => {
           >
             Withdraw now
           </button>
-          <p className="text-blue-200 text-sm text-center">
+          <p className="text-white text-sm text-center">
             Congratulations! Your withdrawal is in process. It may take up to 72
             hours.
           </p>
