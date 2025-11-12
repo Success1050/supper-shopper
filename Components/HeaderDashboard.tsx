@@ -37,7 +37,7 @@ const HeaderDashboard = ({
   return (
     <>
       <div className="w-full p-3 bg-[#201d4c]">
-        <div className="flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
+        <div className="hidden md:flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
           <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <div className="flex items-center gap-4">
             <Bell
@@ -62,6 +62,25 @@ const HeaderDashboard = ({
             </Link>
           </div>
         </div>
+        <div className="flex items-center justify-between md:hidden mb-6 mt-2">
+          <Image
+            src={"/groupLogo.png"}
+            height={500}
+            width={500}
+            className="w-[106px] h-auto"
+            alt="logo"
+          />
+          <div className="flex items-center justify-between gap-1">
+            <Bell
+              className="text-white cursor-pointer hover:text-blue-200"
+              size={24}
+            />
+            <Settings
+              className="text-white cursor-pointer hover:text-blue-200"
+              size={24}
+            />
+          </div>
+        </div>
         <div className="md:hidden mb-6 p-0">
           <nav className="flex  items-center w-[100%] justify-center gap-6">
             {sidebarItems?.map((item, index) => (
@@ -80,16 +99,6 @@ const HeaderDashboard = ({
             ))}
           </nav>
         </div>
-        {/* <div className="bg-purple-700/50 rounded-lg p-4 mb-4 mx-4 flex items-center gap-3 justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-6 bg-white rounded flex items-center justify-center">
-              <span className="text-xs font-bold text-blue-600">UK</span>
-            </div>
-            <span className="text-white">emma***@gmail.com</span>
-          </div>
-
-          <span className="text-green-300 font-semibold">$120.00</span>
-        </div> */}
       </div>
     </>
   );

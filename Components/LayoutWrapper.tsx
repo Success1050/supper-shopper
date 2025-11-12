@@ -22,7 +22,7 @@ export default function LayoutWrapper({
   const noHeaderExactRoutes = ["/login", "/signup"];
 
   // routes that disable header for all subpaths
-  const noHeaderPrefixRoutes = ["/dashboard"];
+  const noHeaderPrefixRoutes = ["/dashboard", "/admin-dashboard"];
 
   const shouldHideHeader =
     noHeaderExactRoutes.includes(pathname) ||

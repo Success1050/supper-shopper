@@ -45,7 +45,6 @@ export async function POST(req: Request) {
 
     const data = await response.json();
 
-    // ✅ Check response structure
     if (data.status === "success" && data.userObj) {
       const { address, balance, merchantId, userId, coin, network } = data.userObj;
 

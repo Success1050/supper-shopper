@@ -28,7 +28,6 @@ export const getUserWallet = async (userId: string | undefined) => {
     (sum, w) => sum + Number(w.balance || 0),
     0
   );
-
   return { success: true, data: totalBalance };
 };
 

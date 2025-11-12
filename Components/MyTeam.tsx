@@ -24,6 +24,14 @@ const MyTeam: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = React.useState(false);
+  const affiliateUrl = "https://www.1point.AI/";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(affiliateUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -92,6 +100,53 @@ const MyTeam: React.FC = () => {
             <span className="text-white font-bold text-lg md:text-2xl mt-1">
               {teamMembers.length}
             </span>
+          </div>
+        </div>
+
+        {/* AFFILAITE LINK */}
+
+        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 shadow-2xl mb-2 md:hidden">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-slate-300 text-sm font-medium">
+              Affiliate Link
+            </h2>
+          </div>
+
+          <div className="flex gap-3">
+            {/* Input Field */}
+            <div className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-400 text-sm font-mono overflow-hidden">
+              <div className="truncate">{affiliateUrl}</div>
+            </div>
+
+            {/* Copy Button */}
+            <button
+              onClick={handleCopy}
+              className="text-white px-5 py-3 rounded-xl border-white border-2 font-medium text-sm transition-all duration-200 flex items-center gap-2 shadow-lg shadow-indigo-900/30"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {copied ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                )}
+              </svg>
+              {copied ? "Copied" : "Copy"}
+            </button>
           </div>
         </div>
 

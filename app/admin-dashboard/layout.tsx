@@ -11,6 +11,9 @@ import {
   LogOut,
   PackageIcon,
   Bell,
+  ListTodo,
+  UserPlus,
+  ShieldCheck,
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
@@ -32,40 +35,48 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   // Sidebar for desktop
   const sidebarItems = [
     {
-      icon: PackageIcon,
-      label: "All Packages",
+      icon: Home,
+      label: "Overview",
       active: true,
-      url: "/dashboard/package-lists",
+      url: "/admin-dashboard",
     },
-    { icon: Home, label: "Home", url: "/dashboard" },
-    { icon: TestTube, label: "Task Center", url: "/dashboard/taskCenter" },
-    { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
-    { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
-    { icon: FileText, label: "Record", url: "/dashboard/records" },
+    { icon: Users, label: "Users", url: "/admin-dashboard/users" },
+    { icon: ListTodo, label: "Tasks", url: "/admin-dashboard/tasks" },
+    { icon: Wallet, label: "Payouts", url: "/admin-dashboard/payouts" },
+    { icon: UserPlus, label: "Affiliate", url: "/admin-dashboard/affiliate" },
+    { icon: FileText, label: "Reports", url: "/admin-dashboard/reports" },
+    {
+      icon: ShieldCheck,
+      label: "Roles & Permission",
+      url: "/admin-dashboard/rules",
+    },
   ];
 
   const mobileNavItems = [
     {
-      icon: PackageIcon,
-      label: "All Packages",
+      icon: Home,
+      label: "Overview",
       active: true,
-      url: "/dashboard/package-lists",
+      url: "/admin-dashboard",
     },
-    { icon: Home, label: "Home", url: "/dashboard" },
-    { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
+    { icon: Users, label: "Users", url: "/admin-dashboard/users" },
+    { icon: ListTodo, label: "Tasks", url: "/admin-dashboard/tasks" },
+    { icon: Wallet, label: "Payouts", url: "/admin-dashboard/payouts" },
+    { icon: UserPlus, label: "Affiliate", url: "/admin-dashboard/affiliate" },
+    { icon: FileText, label: "Reports", url: "/admin-dashboard/reports" },
   ];
 
-  const [firstItems, ...restItems] = sidebarItems;
+  // const [firstItems, ...restItems] = sidebarItems;
 
   // Mobile menu content
-  const menus = [
-    <PackageSelection key="package-listss" />,
-    <DashboardHome key="home" />,
-    <TaskCenter key="tasks" />,
-    <MyTeam key="team" />,
-    <MyBalanceDeposit key="wallet" />,
-    <Records key="records" />,
-  ];
+  // const menus = [
+  //   <PackageSelection key="package-listss" />,
+  //   <DashboardHome key="home" />,
+  //   <TaskCenter key="tasks" />,
+  //   <MyTeam key="team" />,
+  //   <MyBalanceDeposit key="wallet" />,
+  //   <Records key="records" />,
+  // ];
 
   return (
     <div className="min-h-screen bg-[#201d4c]">
@@ -127,10 +138,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <HeaderDashboard
           setMenuId={setMenuId}
           menuIId={menuIId}
-          sidebarItems={restItems}
+          sidebarItems={mobileNavItems}
         />
 
-        {children || menus[menuIId]}
+        {children}
       </div>
 
       {/* Bottom Navigation (Mobile only) */}
