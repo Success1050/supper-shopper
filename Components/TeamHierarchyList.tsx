@@ -28,7 +28,7 @@ export default function TeamHierarchyList({
   setSearchQuery,
 }: TeamHierarchyListProps) {
   return (
-    <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
+    <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] w-full">
       <h3 className="text-white text-[30px] font-semibold mb-4">
         Team Hierarchy
       </h3>
@@ -90,48 +90,3 @@ export default function TeamHierarchyList({
     </div>
   );
 }
-
-// Example usage with mock data:
-/*
-const mockMembers = [
-  {
-    id: '1',
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'John***@Gmail.Com',
-    level: 1,
-    status: 'Active' as const,
-    package: '$100 Package',
-    date: 'Jan 15, 2024',
-  },
-  {
-    id: '2',
-    first_name: 'Sarah',
-    last_name: 'Lopez',
-    email: 'Sar***@Yahoo.Com',
-    level: 1,
-    status: 'Inactive' as const,
-    package: '$35 Package',
-    date: 'Jan 20, 2024',
-  },
-  {
-    id: '3',
-    first_name: 'Michael',
-    last_name: 'Brown',
-    email: 'Mic***@Hotmail.Com',
-    level: 2,
-    status: 'Active' as const,
-    package: '$35 Package',
-    date: 'Jan 20, 2024',
-  },
-];
-
-const getInitials = (firstName: string, lastName: string) => {
-  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-};
-
-<TeamHierarchyList 
-  filteredMembers={mockMembers} 
-  getInitials={getInitials} 
-/>
-*/

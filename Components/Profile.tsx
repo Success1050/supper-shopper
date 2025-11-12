@@ -65,7 +65,7 @@ const ProfileSettings: React.FC = () => {
     const handleEdit = async () => {
       const res = await getUserProfile(profile?.id);
       if (!res.success) {
-        alert(res.message);
+        console.log(res.message);
         return;
       }
       seteditUserProfile(res.data.profile_img ?? null);
@@ -160,39 +160,39 @@ const ProfileSettings: React.FC = () => {
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
             <div className="space-y-4">
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">Full Name</span>
+                <span className="text-white text-sm">Full Name</span>
                 <span className="text-white">
                   {profile?.first_name} {profile?.last_name || "null"}
                 </span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">Date Of Birth</span>
+                <span className="text-white text-sm">Date Of Birth</span>
                 <span className="text-white">{profile?.dob || "null"}</span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">Gender</span>
+                <span className="text-white text-sm">Gender</span>
                 <span className="text-white"> {profile?.gender || "null"}</span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">Country / Region</span>
+                <span className="text-white text-sm">Country / Region</span>
                 <span className="text-white">{profile?.country || "null"}</span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">City</span>
+                <span className="text-white text-sm">City</span>
                 <span className="text-white">{profile?.city || "null"}</span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">Address</span>
+                <span className="text-white text-sm">Address</span>
                 <span className="text-white">{profile?.address || "null"}</span>
               </div>
 
               <div className="flex justify-between items-center py-2">
-                <span className="text-blue-200 text-sm">
+                <span className="text-white text-sm">
                   Referral Code / Inviter ID
                 </span>
                 <span className="text-white">
@@ -203,181 +203,134 @@ const ProfileSettings: React.FC = () => {
           </div>
         </div>
 
-        <div className=" flex flex-col md:flex-row md:items-center gap-3">
-          {/* Account & Security - First Section */}
-          <div>
-            <div className="px-6 py-5 border-b border-slate-700/30">
-              <h1 className="text-white text-xl font-semibold">
-                Account & Security
-              </h1>
-            </div>
-
-            <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
-              {/* Header */}
-
-              <div className="p-4">
-                <button
-                  // onClick={handleChangePassword}
-                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
-                      <svg
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-slate-300 text-sm font-medium">
-                      Change Password
-                    </span>
-                  </div>
-                  <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </button>
-
-                {/* Wallet Address 2FA */}
-                <button
-                  // onClick={handleWalletAddress}
-                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
-                      <svg
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-slate-300 text-sm font-medium">
-                      Wallet Adress 2FA
-                    </span>
-                  </div>
-                  <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </div>
-                </button>
-
-                {/* Theme */}
-                <button
-                  // onClick={handleThemeToggle}
-                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
-                      <svg
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-slate-300 text-sm font-medium">
-                      Theme
-                    </span>
-                  </div>
-                  <span className="text-slate-400 text-sm">Theme</span>
-                </button>
-
-                {/* Divider */}
-                <div className="h-px bg-slate-700/30 my-3"></div>
-
-                {/* Two-Factor Authentication */}
-                <div className="flex items-center justify-between px-4 py-3.5">
-                  <span className="text-slate-300 text-sm font-medium">
-                    Two-Factor Authentication
-                  </span>
-                  <button
-                    // onClick={toggleTwoFactor}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
-                      twoFactorEnabled ? "bg-blue-600" : "bg-slate-600"
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                        twoFactorEnabled ? "translate-x-6" : "translate-x-1"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
+        {/* Account & Security - First Section */}
+        <div>
+          <div className="px-6 py-5 border-b border-slate-700/30">
+            <h1 className="text-white text-xl font-semibold">
+              Account & Security
+            </h1>
           </div>
 
-          {/* Account & Security - Second Section */}
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6 flex-1 hidden md:block mt-7">
-            <h3 className="text-white font-semibold text-lg mb-6">
-              Account & Security
-            </h3>
+          <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
+            {/* Header */}
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-white">Change Password</span>
+            <div className="p-4">
+              <button
+                // onClick={handleChangePassword}
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-slate-300 text-sm font-medium">
+                    Change Password
+                  </span>
                 </div>
-                <ChevronRight className="text-blue-300 w-5 h-5" />
-              </div>
+                <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </button>
 
-              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-white">Wallet Address A</span>
+              {/* Wallet Address 2FA */}
+              <button
+                // onClick={handleWalletAddress}
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-slate-300 text-sm font-medium">
+                    Wallet Adress 2FA
+                  </span>
                 </div>
-                <ChevronRight className="text-blue-300 w-5 h-5" />
-              </div>
+                <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </button>
 
-              <div className="flex items-center justify-between py-3 px-2">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-white">Theme</span>
+              {/* Theme */}
+              <button
+                // onClick={handleThemeToggle}
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-slate-300 text-sm font-medium">
+                    Theme
+                  </span>
                 </div>
-                <span className="text-blue-200">Dark/Light</span>
+                <span className="text-slate-400 text-sm">Theme</span>
+              </button>
+
+              {/* Divider */}
+              <div className="h-px bg-slate-700/30 my-3"></div>
+
+              {/* Two-Factor Authentication */}
+              <div className="flex items-center justify-between px-4 py-3.5">
+                <span className="text-slate-300 text-sm font-medium">
+                  Two-Factor Authentication
+                </span>
+                <button
+                  // onClick={toggleTwoFactor}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
+                    twoFactorEnabled ? "bg-blue-600" : "bg-slate-600"
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                      twoFactorEnabled ? "translate-x-6" : "translate-x-1"
+                    }`}
+                  />
+                </button>
               </div>
             </div>
           </div>
@@ -390,7 +343,7 @@ const ProfileSettings: React.FC = () => {
           </h3>
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
             <div className="space-y-2">
-              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
+              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-  px-2 cursor-pointer transition-colors">
                 <span className="text-white">Help & Support</span>
                 <ChevronRight className="text-blue-300 w-5 h-5" />
               </div>

@@ -216,7 +216,7 @@ const MyTeam: React.FC = () => {
 
           {/* Team Hierarchy */}
 
-          <div className="hidden md:flex">
+          <div className="hidden md:flex md:flex-1">
             <TeamHierarchyList
               filteredMembers={filteredMembers}
               getInitials={getInitials}
