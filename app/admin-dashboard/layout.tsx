@@ -14,6 +14,10 @@ import {
   ListTodo,
   UserPlus,
   ShieldCheck,
+  Ticket,
+  MessageCircle,
+  FileSearch,
+  PieChart,
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
@@ -50,6 +54,32 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       label: "Roles & Permission",
       url: "/admin-dashboard/rules",
     },
+
+    // SUPORTS
+
+    {
+      icon: Ticket,
+      label: "Tickets",
+      url: "/admin-dashboard/tickets",
+    },
+
+    {
+      icon: MessageCircle,
+      label: "Live Chats",
+      url: "/admin-dashboard/live-chats",
+    },
+
+    {
+      icon: FileSearch,
+      label: "Knowledge Base",
+      url: "/admin-dashboard/Knowledge-base",
+    },
+
+    {
+      icon: PieChart,
+      label: "Analytics",
+      url: "/admin-dashboard/analytics",
+    },
   ];
 
   const mobileNavItems = [
@@ -83,7 +113,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {/* Desktop Layout */}
       <div className="hidden md:flex ">
         {/* Sidebar */}
-        <div className="w-64 min-h-screen bg-[#2d2c54] px-3 pt-5 items-start relative">
+        <div className="w-64 min-h-screen bg-[#2d2c54] px-3 py-5 items-start relative">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8 w-[172px] h-auto">
             <Image
@@ -97,7 +127,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           {/* Navigation */}
           <nav className="flex flex-col space-y-2 w-full ">
-            {sidebarItems.map((item, index) => (
+            {sidebarItems.slice(0, 7).map((item, index) => (
               <Link href={item.url} key={index}>
                 <div
                   onClick={() => setMenuId(index)}
@@ -112,22 +142,42 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
               </Link>
             ))}
+            <h4 className="text-[14px] font-normal text-white my-5">Support</h4>
+            {sidebarItems.slice(7).map((item, index) => {
+              const realIndex = index + 7; // 🔥 Correct index for support items
+
+              return (
+                <Link href={item.url} key={realIndex}>
+                  <div
+                    onClick={() => setMenuId(realIndex)} // 🔥 use real index
+                    className={`flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer transition-colors w-full ${
+                      realIndex === menuIId // 🔥 compare realIndex
+                        ? "bg-[#263bf6] text-white"
+                        : "text-blue-200 hover:bg-blue-700/50 bg-[#343758] hover:text-white"
+                    }`}
+                  >
+                    <item.icon size={20} className="text-[#fff]" />
+                    <span className="font-medium text-[#fff]">
+                      {item.label}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Logout Button */}
-          <div className="absolute bottom-[10%] w-full">
-            <div
-              className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-blue-600 hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
-              onClick={handleLogout}
-            >
-              <LogOut size={20} />
-              <span className="font-medium">Log out</span>
-            </div>
+          <div
+            className="flex items-center justify-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 my-2 py-3 mt-[50%] bg-blue-600 hover:bg-blue-700/50 hover:text-white transition-colors w-full"
+            onClick={handleLogout}
+          >
+            <LogOut size={20} />
+            <span className="font-medium">Log out</span>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 bg-[#2623fd]">
+        <div className="flex-1 bg-[#201d4c]">
           <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
           {children}
         </div>
