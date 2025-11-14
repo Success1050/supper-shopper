@@ -79,7 +79,7 @@ const ReportsAnalytics = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="bg-gradient-to-br from-indigo-900/40 to-slate-800/40 backdrop-blur rounded-3xl p-6 border border-indigo-800/30 mb-8">
+      <div className="bg-[#2b2a54] rounded-3xl p-6 mb-8">
         <h3 className="text-xl font-bold mb-4">Filters</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Date Range */}
@@ -140,7 +140,7 @@ const ReportsAnalytics = () => {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Payouts vs Income Chart */}
-        <div className="bg-gradient-to-br from-indigo-900/40 to-slate-800/40 backdrop-blur rounded-3xl p-6 border border-indigo-800/30">
+        <div className="bg-[#2b2a54] -blur rounded-3xl p-6">
           <h3 className="text-2xl font-bold mb-6">Payouts vs Income</h3>
 
           {/* Legend */}
@@ -200,7 +200,7 @@ const ReportsAnalytics = () => {
         </div>
 
         {/* ROI by Plan Chart */}
-        <div className="bg-gradient-to-br from-indigo-900/40 to-slate-800/40 backdrop-blur rounded-3xl p-6 border border-indigo-800/30">
+        <div className="bg-[#2b2a54] -blur rounded-3xl p-6">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-2xl font-bold">ROI by Plan</h3>
             <div className="relative">

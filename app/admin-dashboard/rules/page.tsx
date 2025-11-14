@@ -81,15 +81,25 @@ const ManageAdmins = () => {
           <Plus className="w-5 h-5" />
         </button>
       </div>
-
       {/* Admin Users Section */}
-      <div className="bg-gradient-to-br from-indigo-900/40 to-slate-800/40 backdrop-blur rounded-3xl p-8 border border-indigo-800/30">
-        <h2 className="text-2xl font-bold mb-6">Admin Users</h2>
+      <div className="bg-[#2b2a54] backdrop-blur rounded-3xl p-4 sm:p-8">
+        <h2 className="text-xl sm:text-2xl font-bold mb-6">Admin Users</h2>
 
-        {/* Table */}
+        {/* Table Wrapper */}
         <div className="overflow-x-auto">
           {/* Table Header */}
-          <div className="grid grid-cols-5 gap-4 mb-4 px-6 py-4">
+          <div
+            className="
+      hidden 
+      sm:grid 
+      grid-cols-5 
+      gap-4 
+      mb-4 
+      px-6 
+      py-4 
+      text-sm
+    "
+          >
             <div className="text-slate-400 font-medium">Admin Name</div>
             <div className="text-slate-400 font-medium">Role</div>
             <div className="text-slate-400 font-medium">Email</div>
@@ -101,31 +111,64 @@ const ManageAdmins = () => {
           {admins.map((admin) => (
             <div
               key={admin.id}
-              className="grid grid-cols-5 gap-4 items-center px-6 py-5 bg-slate-900/30 rounded-2xl mb-3 hover:bg-slate-900/50 transition-all"
+              className="
+          grid 
+          grid-cols-1 
+          sm:grid-cols-3 
+          md:grid-cols-5 
+          gap-4 
+          px-4 sm:px-6 
+          py-5 
+          bg-slate-900/30 
+          rounded-2xl 
+          mb-3 
+          hover:bg-slate-900/50 
+          transition-all
+        "
             >
-              <div className="text-white font-medium">{admin.name}</div>
+              {/* Mobile label + value */}
               <div>
+                <span className="sm:hidden text-slate-400 text-sm">
+                  Admin Name:
+                </span>
+                <p className="text-white font-medium">{admin.name}</p>
+              </div>
+
+              <div>
+                <span className="sm:hidden text-slate-400 text-sm">Role:</span>
                 <span
-                  className={`inline-block px-5 py-2 rounded-full text-sm font-medium ${getRoleBadgeStyle(
+                  className={`inline-block md:ml-5 px-4 py-2 rounded-full text-sm font-medium ${getRoleBadgeStyle(
                     admin.role
                   )}`}
                 >
                   {admin.role}
                 </span>
               </div>
-              <div className="text-slate-300">{admin.email}</div>
-              <div className="text-slate-300">{admin.lastLogin}</div>
+
+              <div>
+                <span className="sm:hidden text-slate-400 text-sm">Email:</span>
+                <p className="text-slate-300 break-all">{admin.email}</p>
+              </div>
+
+              <div>
+                <span className="sm:hidden text-slate-400 text-sm">
+                  Last Login:
+                </span>
+                <p className="text-slate-300">{admin.lastLogin}</p>
+              </div>
+
+              {/* Actions */}
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEdit(admin.id)}
-                  className="bg-slate-700/50 hover:bg-slate-700 p-2.5 rounded-full transition-all"
+                  className="bg-slate-700/50 hover:bg-slate-700 p-2 sm:p-2.5 rounded-full transition-all"
                   title="Edit"
                 >
                   <Pencil className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(admin.id)}
-                  className="bg-slate-700/50 hover:bg-slate-700 p-2.5 rounded-full transition-all"
+                  className="bg-slate-700/50 hover:bg-slate-700 p-2 sm:p-2.5 rounded-full transition-all"
                   title="Delete"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -135,6 +178,7 @@ const ManageAdmins = () => {
           ))}
         </div>
       </div>
+      `
     </div>
   );
 };
