@@ -26,60 +26,60 @@ const Records: React.FC = () => {
   ];
 
   const historyRecords: HistoryRecord[] = [
-    {
-      id: "1",
-      date: "2025-05-09",
-      time: "14:35",
-      type: "Task Profit",
-      status: "Completed",
-      amount: "+$0.50",
-      color: "text-green-400",
-    },
-    {
-      id: "2",
-      date: "2025-05-09",
-      time: "13:22",
-      type: "Commission Profit",
-      status: "Completed",
-      amount: "+$2.75",
-      color: "text-green-400",
-    },
-    {
-      id: "3",
-      date: "2025-05-09",
-      time: "12:15",
-      type: "Withdrawal",
-      status: "Processing",
-      amount: "-$50.00",
-      color: "text-red-400",
-    },
-    {
-      id: "4",
-      date: "2025-05-08",
-      time: "16:45",
-      type: "Deposit",
-      status: "Completed",
-      amount: "+$100.00",
-      color: "text-green-400",
-    },
-    {
-      id: "5",
-      date: "2025-05-08",
-      time: "16:30",
-      type: "Affiliate Bonus",
-      status: "Completed",
-      amount: "+$5.00",
-      color: "text-green-400",
-    },
-    {
-      id: "6",
-      date: "2025-05-08",
-      time: "14:20",
-      type: "Career Reward",
-      status: "Completed",
-      amount: "+$10.00",
-      color: "text-green-400",
-    },
+    // {
+    //   id: "1",
+    //   date: "2025-05-09",
+    //   time: "14:35",
+    //   type: "Task Profit",
+    //   status: "Completed",
+    //   amount: "+$0.50",
+    //   color: "text-green-400",
+    // },
+    // {
+    //   id: "2",
+    //   date: "2025-05-09",
+    //   time: "13:22",
+    //   type: "Commission Profit",
+    //   status: "Completed",
+    //   amount: "+$2.75",
+    //   color: "text-green-400",
+    // },
+    // {
+    //   id: "3",
+    //   date: "2025-05-09",
+    //   time: "12:15",
+    //   type: "Withdrawal",
+    //   status: "Processing",
+    //   amount: "-$50.00",
+    //   color: "text-red-400",
+    // },
+    // {
+    //   id: "4",
+    //   date: "2025-05-08",
+    //   time: "16:45",
+    //   type: "Deposit",
+    //   status: "Completed",
+    //   amount: "+$100.00",
+    //   color: "text-green-400",
+    // },
+    // {
+    //   id: "5",
+    //   date: "2025-05-08",
+    //   time: "16:30",
+    //   type: "Affiliate Bonus",
+    //   status: "Completed",
+    //   amount: "+$5.00",
+    //   color: "text-green-400",
+    // },
+    // {
+    //   id: "6",
+    //   date: "2025-05-08",
+    //   time: "14:20",
+    //   type: "Career Reward",
+    //   status: "Completed",
+    //   amount: "+$10.00",
+    //   color: "text-green-400",
+    // },
   ];
 
   const getFilteredRecords = () => {
@@ -163,8 +163,8 @@ const Records: React.FC = () => {
               ))
             ) : (
               <div className="p-12 text-center">
-                <div className="text-blue-300 text-lg">No records found</div>
-                <div className="text-blue-400 text-sm mt-2">
+                <div className="text-white text-lg">No records found</div>
+                <div className="text-white text-sm mt-2">
                   Try selecting a different category
                 </div>
               </div>
