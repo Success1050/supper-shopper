@@ -33,10 +33,14 @@ export const getTaskSteps = async (productId: number) => {
     .select("*")
     .eq("product_id", productId);
   if (error) {
+    console.log("video error", error);
+
     return { success: false, message: error.message };
   }
 
-  return { success: true, data: data };
+  console.log("the video from base", data);
+
+  return { success: true, data };
 };
 
 export const submission = async (

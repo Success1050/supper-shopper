@@ -17,13 +17,20 @@ type completedTask = {
   reward: number;
 };
 
+interface TaskSteps {
+  id: number;
+  product_id: number;
+  step_type: string;
+  step_value: string;
+}
+
 const TaskExecution = ({ productId }: { productId: number }) => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [CompletedTask, setCompletedTask] = useState<completedTask[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<any[]>([]);
-  const [taskSteps, settaskStep] = useState<any[]>([]);
+  const [taskSteps, settaskStep] = useState<TaskSteps[] | []>([]);
 
   const [watchProgress, setWatchProgress] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
@@ -31,6 +38,11 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   const router = useRouter();
 
   console.log("my product id", productId);
+
+  const watchStep = taskSteps.find((s) => s.step_type === "watch");
+  const commentStep = taskSteps.find((s) => s.step_type === "comment");
+  const likeStep = taskSteps.find((s) => s.step_type === "like");
+  const linkStep = taskSteps.find((s) => s.step_type === "open_link");
 
   const handleRatingClick = (value: number) => {
     setRating(value);
@@ -77,28 +89,26 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     fetchProducts();
   }, []); // only fetch once
 
+  const singleTask = product.find((t) => t.product_id === productId);
+
+  console.log("the single tasks", singleTask);
+
   useEffect(() => {
-    if (!product.length) return;
-
-    const singleproductId = product.find((t) => t.product_id === productId);
-
-    if (!singleproductId) return;
-
     const fetchTaskSteps = async () => {
-      const res = await getTaskSteps(singleproductId.product_id);
-      if (!res.success) return console.log(res.message);
+      const res = await getTaskSteps(productId);
+      if (res && res.success) {
+        console.log("shout gbu", res.data);
 
-      settaskStep(res?.data ?? []);
+        settaskStep(res.data as TaskSteps[]);
+      } else {
+        console.log(res?.message);
+      }
     };
 
     fetchTaskSteps();
-  }, [productId, product]);
+  }, [productId]); // ⬅️ watch singleTask, not productId
 
-  const singleTask = product.find((t) => t.product_id === productId);
-  if (!singleTask) {
-    return null;
-  }
-  console.log("a single task", singleTask);
+  // console.log("a single task", singleTask);
 
   return (
     <div className="min-h-screen bg-[#201d4c] px-4">
@@ -114,20 +124,22 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           <div className="flex items-center space-x-4">
             <div className="w-16 h-16">
               <img
-                src={"/images/taskimg1.png"}
+                src={singleTask?.products?.image_url || "/images/taskimg1.png"}
                 alt="Task Reward"
                 className="w-full h-full rounded-lg object-cover"
               />
             </div>
             <div className="flex-1">
               <h3 className="text-white font-semibold mb-1">Task Reward</h3>
-              <div className="text-green-400 font-bold">${totalReward}</div>
+              <div className="text-green-400 font-bold">
+                ${singleTask?.reward}
+              </div>
             </div>
           </div>
           {/* Watch Progress */}
           <div className="mt-6">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-white text-sm">{singleTask.name}</span>
+              <span className="text-white text-sm">Task Progress</span>
               <span className="text-white text-sm">{watchProgress}s / 10s</span>
             </div>
             <Progressbar width={10} />
@@ -146,11 +158,10 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             <div className="relative bg-gray-900 rounded-lg overflow-hidden">
               <video
                 src={
-                  taskSteps[0]?.step_value ||
+                  watchStep?.step_value ||
                   "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
                 }
                 controls
-                autoPlay={false}
                 loop
                 playsInline
                 style={{ width: "100%", borderRadius: "12px" }}
