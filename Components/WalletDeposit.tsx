@@ -201,7 +201,7 @@ const MyBalanceDeposit: React.FC = () => {
                 My Balance
               </h1>
               <div className="text-white text-3xl font-bold text-[20px] md:text-2xl">
-                ${walletAmount ?? 0}
+                ${walletAmount?.toFixed(2) ?? 0}
               </div>
             </div>
 
