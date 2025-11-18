@@ -66,7 +66,7 @@ const PackageSelection: React.FC = () => {
       <div>
         <div className="mb-8">
           <h1 className="text-white text-3xl font-bold mb-2">Buy A Package</h1>
-          <p className="text-gray-300 text-sm">
+          <p className="text-white text-sm">
             Choose the package that fits your goals and start earning by
             completing tasks.
           </p>
@@ -89,26 +89,34 @@ const PackageSelection: React.FC = () => {
                   <div className="text-white text-3xl font-bold mb-2">
                     ${pkg.price}
                   </div>
-                  <div className="text-gray-400 text-sm">One-time payment</div>
+                  <div className="text-white text-[20px] font-bold">
+                    {pkg.plan_name}
+                  </div>
                 </div>
 
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Tasks Per Day</span>
+                    <span className="text-white text-sm">
+                      Renewable Package
+                    </span>
+                    <span className="text-white font-medium">
+                      (Max ROI: {pkg.Renewable_package}%)
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">Tasks Per Day</span>
                     <span className="text-white font-medium">
                       {pkg.tasks_per_day}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">
-                      Reward Per Task
-                    </span>
+                    <span className="text-white text-sm">Reward Per Task</span>
                     <span className="text-green-400 font-medium">
                       ${pkg.reward_per_task}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-300 text-sm">Daily Income</span>
+                    <span className="text-white text-sm">Daily Income</span>
                     <span className="text-green-400 font-bold">
                       ${pkg.daily_income}
                     </span>
