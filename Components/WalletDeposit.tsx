@@ -215,7 +215,7 @@ const MyBalanceDeposit: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex space-x-3 justify-between items-center mx-auto md:mx-0 gap-8">
+          <div className="flex space-x-3 justify-between items-center mx-auto md:mx-0 gap-8 w-full md:w-1/2 mt-2">
             <button
               onClick={() => setActiveTab("Deposit")}
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${

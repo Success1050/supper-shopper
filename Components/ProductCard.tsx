@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductCardProps {
   title?: string;
   image?: string;
   width?: number;
+  productId?: number;
   isproduct?: boolean;
   mobile?: boolean;
   notProductContent?: React.ReactNode;
@@ -13,6 +15,7 @@ export const ProductCard = ({
   title,
   image,
   width,
+  productId,
   notProductContent,
   isproduct = true,
   mobile = false,
@@ -29,7 +32,7 @@ export const ProductCard = ({
             }`}
           >
             <div className="w-full h-full bg-gradient-to-br from-orange-200 to-orange-300 rounded-lg flex items-center justify-center">
-              <Image
+              <img
                 src={image ?? "/default-image.png"}
                 alt={title ?? "Product image"}
                 width={308}
@@ -43,9 +46,11 @@ export const ProductCard = ({
           <h4 className="text-white font-semibold mb-2 text-sm">{title}</h4>
 
           {/* Button */}
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Active
-          </button>
+          <Link href={`/dashboard/tasks/${productId}`}>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+              Active
+            </button>
+          </Link>
         </div>
       ) : (
         // My Team Card

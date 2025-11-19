@@ -7,7 +7,7 @@ import Link from "next/link";
 import { getProducts } from "@/app/dashboard/taskCenter/action";
 import LoadingBar from "./MainLoading";
 
-interface UserTaskWithProduct {
+export interface UserTaskWithProduct {
   id: number;
   user_id: string;
   product_id: number;

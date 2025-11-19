@@ -6,15 +6,16 @@ interface EarningsSummaryProps {
   dailyRewards?: number;
   weeklyRewards?: number;
   totalReward?: number;
+  walletAmount: number | undefined;
   onPayout?: () => void;
 }
 
 export default function EarningsSummary({
-  activeBalance = 2450.0,
-  availableBalance = 105.0,
-  dailyRewards = 20.0,
-  weeklyRewards = 500.5,
-  totalReward = 25350.0,
+  availableBalance = 0.0,
+  dailyRewards = 0.0,
+  weeklyRewards = 0.0,
+  totalReward = 0.0,
+  walletAmount,
   onPayout,
 }: EarningsSummaryProps) {
   const formatCurrency = (amount: number) => {
@@ -36,7 +37,7 @@ export default function EarningsSummary({
             My Active Balance
           </span>
           <span className="text-white text-lg font-bold">
-            {formatCurrency(activeBalance)}
+            {formatCurrency(walletAmount ?? 0)}
           </span>
         </div>
 
