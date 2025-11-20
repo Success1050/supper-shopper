@@ -158,22 +158,22 @@ const MyTeam: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Today Commission</div>
-              <div className="text-[#F54A25] font-bold text-lg">$38.00</div>
+              <div className="text-[#F54A25] font-bold text-lg">$0</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Total Commision</div>
-              <div className="text-[#2563EB] font-bold text-lg">300</div>
+              <div className="text-[#2563EB] font-bold text-lg">$0</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Affiliate Bonus</div>
-              <div className="text-[#3EBFD9] font-bold text-lg">$200.00</div>
+              <div className="text-[#3EBFD9] font-bold text-lg">$0</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Career Bonus</div>
-              <div className="text-white font-bold text-lg">$400.00</div>
+              <div className="text-white font-bold text-lg">$0</div>
             </div>
           </div>
         </div>
@@ -187,17 +187,17 @@ const MyTeam: React.FC = () => {
 
             <div className="mb-4">
               <div className="flex justify-between text-sm text-white mb-2">
-                <div className="text-white text-2xl font-bold mb-2">20</div>
+                <div className="text-white text-2xl font-bold mb-2">0</div>
 
                 <div className="flex flex-col justify-center items-end text-end">
                   <span>Next Reward At</span>
-                  <span>100</span>
+                  <span>0</span>
                 </div>
               </div>
 
               <div className="flex justify-between text-sm text-white mb-2 flex-wrap">
                 <h4>Progress</h4>
-                <h4>20%</h4>
+                <h4>0%</h4>
               </div>
 
               <Progressbar width={10} color="bg-white" />

@@ -116,9 +116,17 @@ const PackageSelection: React.FC = () => {
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">Daily Income</span>
+                    <span className="text-white text-sm">
+                      Total reward per day
+                    </span>
                     <span className="text-green-400 font-bold">
                       ${pkg.daily_income}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">% reward per day</span>
+                    <span className="text-green-400 font-bold">
+                      ${pkg.percent_reward ?? 0}
                     </span>
                   </div>
                 </div>
