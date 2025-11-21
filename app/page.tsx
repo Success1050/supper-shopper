@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-      <StepsSectionClient
+      {/* <StepsSectionClient
         ishome={true}
         mainHeader="START EARNING IN JUST"
         spanHeader="3 SIMPLE STEPS"
@@ -47,19 +47,17 @@ export default function Home() {
         boxHeader3="Get Paid Daily In Crypto"
         lists3=""
         boxContent3=" Track all your earnings and completed tasks and collect your balance every 24 hours. simply request withdrawal to your linked wallet. Withdraw a Tether USDT as you earn your regular earnings from your investment. You earn every day! Low threshold withdrawals to multiple cryptocurrencies."
-      />
+      /> */}
 
-      <PricingSection bg="gradient-to-br from-blue-50 to-purple-50" />
-      <AffiliateSection />
-      <CareerRankSection isCareer={true}>
-        {/* Header */}
+      {/* <PricingSection bg="gradient-to-br from-blue-50 to-purple-50" />
+      <AffiliateSection /> */}
+      {/* <CareerRankSection isCareer={true}>
         <div className="text-center mb-12 lg:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8">
             CAREER RANK BONUS LEVELS
           </h2>
         </div>
 
-        {/* Rank Cards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
           {careerRankLevels.map((rank) => (
             <div
@@ -91,7 +89,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Start Referring Button */}
         <div className="text-center">
           <button className="bg-white text-[#2563EB] px-8 py-3 rounded-lg font-bold hover:bg-gray-50 transition-colors flex items-center space-x-2 mx-auto group">
             <span>Start Referring</span>
@@ -101,9 +98,9 @@ export default function Home() {
             />
           </button>
         </div>
-      </CareerRankSection>
-      <SalaryRewardsSection />
-      <EcommerceSection
+      </CareerRankSection> */}
+      {/* <SalaryRewardsSection /> */}
+      {/* <EcommerceSection
         leftHeader={
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
             BOOST YOUR E-COMMERCE
@@ -112,13 +109,13 @@ export default function Home() {
         }
         paragraph="Leverage our platform to drive traffic, increase sales, and grow your online presence with targeted marketing packages."
         image="url('/images/boost.png')"
-      />
-      <LotterySection />
+      /> */}
+      {/* <LotterySection />
       <WithdrawalsSection />
       <WhyChooseSection />
       <FAQSection />
-      <ContactForm />
-      <SuperShopperSection
+      <ContactForm /> */}
+      {/* <SuperShopperSection
         backgroundImage="/images/shopper.png"
         hasButton={true}
         header={
@@ -130,7 +127,7 @@ export default function Home() {
         }
         content=" Connect buyers and sellers in one platform. Complete simple tasks,
               earn daily profit, and help sellers boost their sales."
-      />
+      /> */}
     </div>
   );
 }

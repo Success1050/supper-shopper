@@ -61,27 +61,26 @@ a {
 }
 
 .header {
-  @apply w-full px-4 md:px-8 lg:px-24 xl:px-[100px] py-6 fixed top-0 left-0 z-30 bg-white shadow;
+  @apply px-4 md:px-8 lg:px-24 xl:px-[100px] py-6;
 }
 
 .nav {
   @apply flex items-center justify-between max-w-screen-xl mx-auto h-fit;
 }
-
 .header .logo {
   @apply flex items-center;
 }
 
 .header .menu_list {
-  @apply hidden lg:flex items-center space-x-8 xl:space-x-[58px];
+  @apply hidden lg:flex items-center space-x-8 xl:space-x-[58px] text-[#555555];
 }
 
 .header .menu {
-  @apply hidden md:flex gap-8 text-gray-700 font-medium;
+  @apply hidden md:flex gap-8 font-medium;
 }
 
 .header .desktop_btn {
-  @apply hidden lg:flex items-center space-x-4;
+  @apply hidden lg:flex items-center space-x-4 text-[#555555] font-bold;
 }
 
 .header .auth_div {
@@ -89,10 +88,10 @@ a {
 }
 
 .header .login {
-  @apply bg-[#2563EB] text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors;
+  @apply bg-[#2563EB] text-[#555555] px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors;
 }
 .header .mobile_btn {
-  @apply lg:hidden p-2;
+  @apply lg:hidden p-2 text-[#555555];
 }
 
 .header .mobile_menu {

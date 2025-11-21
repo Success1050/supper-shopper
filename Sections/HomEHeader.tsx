@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const Header = () => {
+const HomeHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,15 +12,15 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <nav className="nav">
+    <header className="px-4 md:px-8 lg:px-24 xl:px-[100px] py-6">
+      <nav className="flex items-center justify-between max-w-screen-xl mx-auto h-fit">
         {/* Logo */}
         <Link href="/">
-          <img src="/images/gbu.png" alt="" className="w-[120px]" />
+          <img src="/images/logo.png" alt="" className="w-[120px]" />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="menu_list">
+        <div className="hidden lg:flex items-center space-x-8 xl:space-x-[58px] text-white">
           <Link
             href="/"
             className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -54,21 +54,24 @@ const Header = () => {
         </div>
 
         {/* Desktop Auth Buttons */}
-        <div className="desktop_btn">
+        <div className="hidden lg:flex items-center space-x-4 text-white font-bold">
           <Link
             href="/signup"
             className="text-white font-bold hover:text-[#2563EB] transition-colors"
           >
             Registration
           </Link>
-          <Link href="/login" className="login">
-            <h3 className="text-white">Login</h3>
+          <Link
+            href="/login"
+            className="bg-[#2563EB] text-white px-6 py-2 rounded-[30px] font-bold hover:bg-blue-700 transition-colors"
+          >
+            Login
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="mobile_btn"
+          className="mobile_btn lg:hidden text-white"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -132,7 +135,7 @@ const Header = () => {
               </Link>
               <Link
                 href="/login"
-                className="login text-center"
+                className="bg-[#2563EB] text-white px-6 py-2 rounded-[30px] font-bold hover:bg-blue-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Login
@@ -150,4 +153,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomeHeader;
