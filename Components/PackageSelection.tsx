@@ -96,37 +96,47 @@ const PackageSelection: React.FC = () => {
 
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">
-                      Renewable Package
-                    </span>
-                    <span className="text-white font-medium">
-                      (Max ROI: {pkg.Renewable_package}%)
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">Tasks Per Day</span>
+                    <span className="text-white text-sm">Tasks/Day</span>
                     <span className="text-white font-medium">
                       {pkg.tasks_per_day}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">Reward Per Task</span>
+                    <span className="text-white text-sm">Reward/Task</span>
                     <span className="text-green-400 font-medium">
                       ${pkg.reward_per_task}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">
-                      Total reward per day
-                    </span>
+                    <span className="text-white text-sm">Daily Income</span>
                     <span className="text-green-400 font-bold">
                       ${pkg.daily_income}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">% reward per day</span>
+                    <span className="text-white text-sm">Daily ROI %</span>
                     <span className="text-green-400 font-bold">
                       {pkg.percent_reward ?? 0}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">ROI Cap</span>
+                    <span className="text-green-400 font-medium">
+                      {pkg.Renewable_package}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">Maximum Payout</span>
+                    <span className="text-green-400 font-bold">
+                      ${pkg.max_payout ?? 0}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">
+                      Days to reach max. ROI
+                    </span>
+                    <span className="text-green-400 font-bold">
+                      {pkg.days_to_reach_max_roi ?? 0} Days
                     </span>
                   </div>
                 </div>
