@@ -91,25 +91,18 @@ const Header = () => {
               Home
             </Link>
             <Link
-              href="/how-it-works"
+              href="/about"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              How It Works
+              About us
             </Link>
             <Link
               href="/subscription"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              Subscription Plan
-            </Link>
-            <Link
-              href="/affiliate"
-              className="text-white font-bold hover:text-[#2563EB] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Affiliate Program
+              How it works
             </Link>
             <Link
               href="/faq"
