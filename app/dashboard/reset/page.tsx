@@ -63,7 +63,7 @@ const PasswordResetPage = () => {
           <h1 className="text-2xl font-bold text-white mb-2">
             Change Password
           </h1>
-          <p className="text-indigo-300 text-sm mb-6">
+          <p className="text-white text-sm mb-6">
             Update your password to keep your account secure
           </p>
 
@@ -175,11 +175,11 @@ const PasswordResetPage = () => {
                 Security Tips
               </h3>
               <ul className="space-y-1.5">
-                <li className="text-indigo-300 text-xs flex items-start">
+                <li className="text-white text-xs flex items-start">
                   <span className="mr-2">•</span>
                   <span>Password Must Be At Least 8 Characters.</span>
                 </li>
-                <li className="text-indigo-300 text-xs flex items-start">
+                <li className="text-white text-xs flex items-start">
                   <span className="mr-2">•</span>
                   <span>
                     Use Numbers, Letters, And Special Characters For Stronger

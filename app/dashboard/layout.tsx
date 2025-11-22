@@ -11,6 +11,7 @@ import {
   LogOut,
   PackageIcon,
   Bell,
+  Users2,
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
@@ -53,6 +54,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
     { icon: Home, label: "Home", url: "/dashboard" },
     { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
+    { icon: Users2, label: "Pofile", url: "/dashboard/profile" },
   ];
 
   const [firstItems, ...restItems] = sidebarItems;
