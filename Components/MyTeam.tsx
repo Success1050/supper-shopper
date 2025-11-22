@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Users, Search } from "lucide-react";
+import { Users, Search, User } from "lucide-react";
 import Progressbar from "./Progressbar";
 import { useUserStore } from "@/store";
 import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
@@ -82,25 +82,34 @@ const MyTeam: React.FC = () => {
         {/* Team Stats */}
         <div className="grid grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* My Direct Members */}
-          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
-            <Users className="text-white w-6 h-6 mb-2" />
-            <span className="text-white text-xs md:text-sm opacity-80">
-              My Direct Members
-            </span>
-            <span className="text-white font-bold text-lg md:text-2xl mt-1">
-              {teamMembers.filter((m) => m.level === 1).length}
-            </span>
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex items-center justify-start gap-3 shadow-lg shadow-black/30">
+            <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+              <User size={36} className="text-white w-6 h-6" />
+            </div>
+
+            <div>
+              <h2 className="text-white text-xs md:text-sm opacity-80">
+                My Direct Members
+              </h2>
+              <h2 className="text-white font-bold text-lg md:text-2xl mt-1">
+                {teamMembers.filter((m) => m.level === 1).length}
+              </h2>
+            </div>
           </div>
 
           {/* Total Team Members */}
-          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
-            <Users className="text-white w-6 h-6 mb-2" />
-            <span className="text-white text-xs md:text-sm opacity-80">
-              Total Team Members
-            </span>
-            <span className="text-white font-bold text-lg md:text-2xl mt-1">
-              {teamMembers.length}
-            </span>
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex items-center justify-start gap-3 shadow-lg shadow-black/30">
+            <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+              <User size={36} className="text-white w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-white text-xs md:text-sm opacity-80">
+                Total Team Members
+              </h2>
+              <h2 className="text-white font-bold text-lg md:text-2xl mt-1">
+                {teamMembers.length}
+              </h2>
+            </div>
           </div>
         </div>
 
@@ -159,12 +168,12 @@ const MyTeam: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Today Commission</div>
-              <div className="text-[#F54A25] font-bold text-lg">$0</div>
+              <div className="text-[#55DF43] font-bold text-lg">$0</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
               <div className="text-white text-sm mb-1">Total Commision</div>
-              <div className="text-[#2563EB] font-bold text-lg">$0</div>
+              <div className="text-[#55DF43] font-bold text-lg">$0</div>
             </div>
 
             <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
