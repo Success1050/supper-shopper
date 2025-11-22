@@ -12,15 +12,15 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
-      <nav className="nav">
+    <header className="px-4 md:px-8 lg:px-24 xl:px-[100px] py-6">
+      <nav className="flex items-center justify-between max-w-screen-xl mx-auto h-fit">
         {/* Logo */}
         <Link href="/">
           <img src="/images/gbu.png" alt="" className="w-[120px]" />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="menu_list">
+        <div className="hidden lg:flex items-center space-x-8 xl:space-x-[58px] text-[#555555]">
           <Link
             href="/"
             className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -54,21 +54,24 @@ const Header = () => {
         </div>
 
         {/* Desktop Auth Buttons */}
-        <div className="desktop_btn">
+        <div className="hidden lg:flex items-center space-x-4 text-[#555555] font-bold">
           <Link
             href="/signup"
             className="text-white font-bold hover:text-[#2563EB] transition-colors"
           >
             Registration
           </Link>
-          <Link href="/login" className="login">
+          <Link
+            href="/login"
+            className="bg-[#2563EB] text-[#555555] px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             <h3 className="text-white">Login</h3>
           </Link>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="mobile_btn"
+          className="lg:hidden p-2 text-[#555555]"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -78,8 +81,8 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="mobile">
-          <div className="mobile_menu">
+        <div className="lg:hidden top-0 fixed left-0 right-0 bg-white shadow-lg z-50 border-t transition-all duration-1000 ease-in">
+          <div className="flex flex-col space-y-4 p-6">
             <Link
               href="/"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -122,7 +125,7 @@ const Header = () => {
             >
               Contact Us
             </Link>
-            <div className="auth_div">
+            <div className="flex flex-col space-y-3 pt-4 border-t">
               <Link
                 href="/signup"
                 className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -139,7 +142,7 @@ const Header = () => {
               </Link>
             </div>
           </div>
-          <div className="close">
+          <div className="absolute top-0 right-0 p-4 transition-all duration-1000 ease-out">
             <button onClick={toggleMenu} aria-label="Close menu">
               <X size={24} />
             </button>
