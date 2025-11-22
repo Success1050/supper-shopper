@@ -131,7 +131,7 @@ const HomeHeader = () => {
                 className="bg-[#2563EB] text-white px-6 py-2 rounded-[30px] font-bold hover:bg-blue-700 transition-colors text-center"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Login
+                <h3 className="text-white">Login</h3>
               </Link>
             </div>
           </div>
