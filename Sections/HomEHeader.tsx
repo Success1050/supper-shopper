@@ -81,8 +81,8 @@ const HomeHeader = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="mobile">
-          <div className="mobile_menu">
+        <div className="lg:hidden top-0 fixed left-0 right-0 bg-white shadow-lg z-50 border-t transition-all duration-1000 ease-in">
+          <div className="flex flex-col space-y-4 p-6">
             <Link
               href="/"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -91,25 +91,18 @@ const HomeHeader = () => {
               Home
             </Link>
             <Link
-              href="/how-it-works"
+              href="/about"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              How It Works
+              About us
             </Link>
             <Link
               href="/subscription"
               className="text-white font-bold hover:text-[#2563EB] transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              Subscription Plan
-            </Link>
-            <Link
-              href="/affiliate"
-              className="text-white font-bold hover:text-[#2563EB] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Affiliate Program
+              How it works
             </Link>
             <Link
               href="/faq"
@@ -125,7 +118,7 @@ const HomeHeader = () => {
             >
               Contact Us
             </Link>
-            <div className="auth_div">
+            <div className="flex flex-col space-y-3 pt-4 border-t">
               <Link
                 href="/signup"
                 className="text-white font-bold hover:text-[#2563EB] transition-colors"
@@ -142,7 +135,7 @@ const HomeHeader = () => {
               </Link>
             </div>
           </div>
-          <div className="close">
+          <div className="absolute top-0 right-0 p-4 transition-all duration-1000 ease-out">
             <button onClick={toggleMenu} aria-label="Close menu">
               <X size={24} />
             </button>

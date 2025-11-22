@@ -4,7 +4,11 @@ import { createClient } from "@/utils/supabase/server";
 export const fetchPackages = async () => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.from("packages").select("*");
+  const { data, error } = await supabase
+    .from("packages")
+    .select("*")
+    .order("price", { ascending: true });
+
   if (error) return { success: false, error: error.message };
   else return { success: true, data: data };
 };
