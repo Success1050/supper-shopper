@@ -7,6 +7,7 @@ import { useUserStore } from "@/store";
 import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
 import LoadingBar from "./MainLoading";
 import TeamHierarchyList from "./TeamHierarchyList";
+import ComingSoonBanner from "./shortComingSoon";
 
 export interface TeamMember {
   id: string;
@@ -81,7 +82,7 @@ const MyTeam: React.FC = () => {
         {/* Team Stats */}
         <div className="grid grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* My Direct Members */}
-          <div className="bg-gradient-to-b from-[#2b2954] to-[#1e1b3a] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
             <Users className="text-white w-6 h-6 mb-2" />
             <span className="text-white text-xs md:text-sm opacity-80">
               My Direct Members
@@ -92,7 +93,7 @@ const MyTeam: React.FC = () => {
           </div>
 
           {/* Total Team Members */}
-          <div className="bg-gradient-to-b from-[#2b2954] to-[#1e1b3a] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center justify-center text-center shadow-lg shadow-black/30">
             <Users className="text-white w-6 h-6 mb-2" />
             <span className="text-white text-xs md:text-sm opacity-80">
               Total Team Members
@@ -185,7 +186,11 @@ const MyTeam: React.FC = () => {
               Team Task Career Progress
             </h3>
 
-            <div className="mb-4">
+            <ComingSoonBanner
+              bannerTitle="Team Career Progress"
+              bannerDescription="Track your milestones, achievements, and exclusive career rewards right here."
+            />
+            {/* <div className="mb-4">
               <div className="flex justify-between text-sm text-white mb-2">
                 <div className="text-white text-2xl font-bold mb-2">0</div>
 
@@ -211,7 +216,7 @@ const MyTeam: React.FC = () => {
                   <h2 className="text-center"> View Team peference</h2>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Team Hierarchy */}

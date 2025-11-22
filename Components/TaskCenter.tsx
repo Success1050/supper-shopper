@@ -62,16 +62,16 @@ const TaskCenter = () => {
           </h2>
 
           <div className="flex justify-between items-center mb-2">
-            <span className="text-blue-200 text-sm">
+            <span className="text-white text-sm">
               Total Tasks Completed Today:
             </span>
             <span className="text-white font-semibold">
-              {completedTask?.length ?? 0} / 20
+              {completedTask?.length ?? 0} / {products.length}
             </span>
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <span className="text-blue-200 text-sm">Total Daily Reward:</span>
+            <span className="text-white text-sm">Total Daily Reward:</span>
             <span className="text-white font-semibold">${totalReward}</span>
           </div>
 

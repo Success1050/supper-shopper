@@ -125,7 +125,7 @@ const PackageSelection: React.FC = () => {
                       {pkg.Renewable_package}%
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  {/* <div className="flex justify-between items-center">
                     <span className="text-white text-sm">Maximum Payout</span>
                     <span className="text-green-400 font-bold">
                       ${pkg.max_payout ?? 0}
@@ -138,7 +138,7 @@ const PackageSelection: React.FC = () => {
                     <span className="text-green-400 font-bold">
                       {pkg.days_to_reach_max_roi ?? 0} Days
                     </span>
-                  </div>
+                  </div> */}
                 </div>
 
                 <button

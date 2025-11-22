@@ -71,14 +71,14 @@ export default function HelpSupportPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen py-8 px-4 bg-[#201d4c] ">
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center">
           <ArrowLeft
             className="w-6 h-6 text-white"
             onClick={() => router.back()}
           />
-          <div className="pl-[25%] flex"> b nm
+          <div className="pl-[25%] flex">
             <h1 className="text-white text-2xl font-bold mb-2 text-center ">
               Help & Support
             </h1>
@@ -113,11 +113,11 @@ export default function HelpSupportPage() {
                   onClick={() => toggleFaq(faq.id)}
                   className="w-full flex items-center justify-between px-4 py-4 text-left hover:bg-indigo-900/30 transition-colors"
                 >
-                  <span className="text-slate-300 text-sm font-medium pr-4">
+                  <span className="text-white text-sm font-medium pr-4">
                     {faq.question}
                   </span>
                   <svg
-                    className={`w-5 h-5 text-slate-400 transition-transform duration-200 flex-shrink-0 ${
+                    className={`w-5 h-5 text-white transition-transform duration-200 flex-shrink-0 ${
                       openFaq === faq.id ? "rotate-180" : ""
                     }`}
                     fill="none"
@@ -135,7 +135,7 @@ export default function HelpSupportPage() {
 
                 {openFaq === faq.id && (
                   <div className="px-4 pb-4 pt-0">
-                    <p className="text-slate-400 text-xs leading-relaxed">
+                    <p className="text-white text-xs leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
@@ -154,7 +154,7 @@ export default function HelpSupportPage() {
           <div className="space-y-4">
             {/* Name Input */}
             <div>
-              <label className="text-slate-300 text-sm font-medium mb-2 block">
+              <label className="text-white text-sm font-medium mb-2 block">
                 Name
               </label>
               <input
@@ -163,13 +163,13 @@ export default function HelpSupportPage() {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="John"
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-slate-300 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
+                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
               />
             </div>
 
             {/* Email Input */}
             <div>
-              <label className="text-slate-300 text-sm font-medium mb-2 block">
+              <label className="text-white text-sm font-medium mb-2 block">
                 Email Address
               </label>
               <input
@@ -178,13 +178,13 @@ export default function HelpSupportPage() {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="John.Doe@Email.Com"
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-slate-300 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
+                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
               />
             </div>
 
             {/* Subject Input */}
             <div>
-              <label className="text-slate-300 text-sm font-medium mb-2 block">
+              <label className="text-white text-sm font-medium mb-2 block">
                 Subject
               </label>
               <input
@@ -192,7 +192,7 @@ export default function HelpSupportPage() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-slate-300 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
+                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
               />
             </div>
 

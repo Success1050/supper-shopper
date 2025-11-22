@@ -116,7 +116,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 bg-[#2623fd]">
+        <div className="flex-1 bg-[#201d4c]">
           <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
           {children}
         </div>
