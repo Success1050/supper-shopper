@@ -72,59 +72,90 @@ const MyTeam: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#201d4c] p-6">
+    <div className="min-h-screen bg-[#201d4c] p-6 pt-0">
       <div>
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-white text-2xl font-semibold mb-2">My Team</h1>
+        <div className="mb-2">
+          <h1 className="text-white text-2xl font-semibold">My Team</h1>
         </div>
 
         {/* Team Stats */}
         <div className="grid grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* My Direct Members */}
-          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex items-center justify-start gap-3 shadow-lg shadow-black/30">
-            <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
-              <User size={36} className="text-white w-6 h-6" />
-            </div>
-
-            <div>
-              <h2 className="text-white text-xs md:text-sm opacity-80">
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 hidden items-center justify-center md:flex md:items-center md:justify-between gap-3 ">
+            <div className="flex items-center gap-3 md:justify-self-start">
+              <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+                <User size={36} className="text-white w-6 h-6" />
+              </div>
+              <h2 className="text-white text-xs md:text-sm">
                 My Direct Members
               </h2>
-              <h2 className="text-white font-bold text-lg md:text-2xl mt-1">
-                {teamMembers.filter((m) => m.level === 1).length}
-              </h2>
+            </div>
+            <h2 className="text-white font-bold text-[25px] md:justify-self-end md:self-center">
+              {teamMembers.filter((m) => m.level === 1).length}
+            </h2>
+          </div>
+
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center md:hidden gap-3 ">
+            <div className="flex items-center gap-3">
+              <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+                <User size={36} className="text-white w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <h2 className="text-white text-xs md:text-sm opacity-80">
+                  My Direct Members
+                </h2>
+                <h2 className="text-white font-bold text-lg md:text-2xl">
+                  {teamMembers.filter((m) => m.level === 1).length}
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex flex-col items-center md:hidden gap-3 ">
+            <div className="flex items-center gap-3">
+              <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+                <User size={36} className="text-white w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <h2 className="text-white text-xs md:text-sm opacity-80">
+                  Total Team Members
+                </h2>
+                <h2 className="text-white font-bold text-lg md:text-2xl">
+                  {teamMembers.length}
+                </h2>
+              </div>
             </div>
           </div>
 
           {/* Total Team Members */}
-          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 flex items-center justify-start gap-3 shadow-lg shadow-black/30">
-            <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
-              <User size={36} className="text-white w-6 h-6" />
-            </div>
-            <div>
-              <h2 className="text-white text-xs md:text-sm opacity-80">
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 hidden items-center justify-center md:flex md:items-center md:justify-between gap-3 ">
+            <div className="flex items-center gap-3">
+              <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
+                <User size={36} className="text-white w-6 h-6" />
+              </div>
+              <h2 className="text-white text-xs md:text-sm ">
                 Total Team Members
               </h2>
-              <h2 className="text-white font-bold text-lg md:text-2xl mt-1">
-                {teamMembers.length}
-              </h2>
             </div>
+            <h2 className="text-white font-bold text-[25px]">
+              {teamMembers.length}
+            </h2>
           </div>
         </div>
 
         {/* AFFILAITE LINK */}
 
-        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 shadow-2xl mb-2 md:hidden">
+        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 mb-2">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-slate-300 text-sm font-medium">
+            <h2 className="text-white text-[30px] font-semibold">
               Affiliate Link
             </h2>
           </div>
 
           <div className="flex gap-3">
             {/* Input Field */}
-            <div className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-slate-400 text-sm font-mono overflow-hidden">
+            <div className="flex-1 border border-white rounded-xl px-4 py-3 text-slate-400 text-sm font-mono overflow-hidden">
               <div className="truncate">{affiliateUrl}</div>
             </div>
 
@@ -162,28 +193,44 @@ const MyTeam: React.FC = () => {
 
         {/* Team Earnings */}
         <div className="mb-8">
-          <h2 className="text-white text-xl font-semibold mb-4">
-            Team Earnings
+          <h2 className="text-white text-[30px] font-semibold mb-4">
+            Affiliate Marketing
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-white text-sm mb-1">Today Commission</div>
-              <div className="text-[#55DF43] font-bold text-lg">$0</div>
+          <div className="grid grid-cols-2 gap-y-4 md:gap-4">
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">Today Commission</h2>
+              <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-white text-sm mb-1">Total Commision</div>
-              <div className="text-[#55DF43] font-bold text-lg">$0</div>
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">Total Commision</h2>
+              <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-white text-sm mb-1">Affiliate Bonus</div>
-              <div className="text-[#3EBFD9] font-bold text-lg">$0</div>
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">
+                Refferal Bonus today
+              </h2>
+              <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2b2954]">
-              <div className="text-white text-sm mb-1">Career Bonus</div>
-              <div className="text-white font-bold text-lg">$0</div>
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">
+                Refferal Bonus weekly
+              </h2>
+              <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
+            </div>
+
+            <div className="bg-[#2c2954] backdrop-blur-sm md:hidden rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">Total commission</h2>
+              <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
+            </div>
+
+            <div className="bg-[#2c2954] backdrop-blur-sm md:hidden rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+              <h2 className="text-white text-[17px] mb-1">
+                Total career reward
+              </h2>
+              <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
           </div>
         </div>

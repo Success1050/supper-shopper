@@ -13,6 +13,7 @@ export interface UserTaskWithProduct {
   product_id: number;
   reward: number;
   completed: boolean;
+  completedAt: string;
   products: {
     name: string;
     image_url: string;
@@ -45,9 +46,17 @@ const TaskCenter = () => {
     );
   }
 
-  const completedTask = products.filter((product) => product.completed);
+  const completedToday = products.filter((product) => {
+    if (!product.completed) return false;
 
-  const totalReward = completedTask.reduce<number>(
+    const completedDate = new Date(product.completedAt)
+      .toISOString()
+      .split("T")[0];
+
+    return completedDate === new Date().toISOString().split("T")[0];
+  });
+
+  const totalReward = completedToday.reduce<number>(
     (acc, task) => acc + (task.reward ?? 0),
     0
   );
@@ -56,34 +65,45 @@ const TaskCenter = () => {
     <div className="bg-[#201d4c] min-h-screen">
       <div>
         {/* Active Products Header */}
-        <div className=" p-6 mb-6">
-          <h2 className="text-white font-semibold text-xl mb-4">
-            Active Products
+        <div className=" p-6 mb-0">
+          <h2 className="text-white font-semibold text-[34px] mb-4">
+            Tasks Summary
           </h2>
 
           <div className="flex justify-between items-center mb-2">
-            <span className="text-white text-sm">
-              Total Tasks Completed Today:
+            <span className="text-white text-[20px]">
+              My Tasks Completed Today:
             </span>
-            <span className="text-white font-semibold">
-              {completedTask?.length ?? 0} / {products.length}
+            <span className="text-white text-[25px] font-semibold">
+              {completedToday?.length ?? 0}%
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-white text-[20px]">
+              Task Completed Total :
+            </span>
+            <span className="text-white font-semibold text-[25px]">
+              {products.filter((p) => p.completed).length}
             </span>
           </div>
 
           <div className="flex justify-between items-center mb-4">
-            <span className="text-white text-sm">Total Daily Reward:</span>
-            <span className="text-white font-semibold">${totalReward}</span>
+            <span className="text-white text-[20px]">Total Daily Reward:</span>
+            <span className="text-white text-[25px] font-semibold">
+              ${totalReward}
+            </span>
           </div>
 
           {/* Progress bar */}
 
-          <Progressbar width={totalReward} />
+          <Progressbar width={totalReward} color="bg-[#fff]" />
         </div>
 
         {/* Active Tasks */}
         <div className="rounded-lg p-6">
           <h3
-            className={`text-white font-semibold text-lg mb-6 ${
+            className={`text-white font-semibold text-[34px] md:text-[40px] mb-6 ${
               products.length === 0 ? "hidden" : "block"
             }`}
           >
@@ -101,16 +121,16 @@ const TaskCenter = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {products.map((product: UserTaskWithProduct) => (
                 <div
-                  className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-blue-700/30 flex items-center space-x-4"
+                  className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-[10px] h-[170px] md:h-[200px] flex items-center space-x-4"
                   key={product.product_id}
                 >
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 w-[40%] h-full">
                     <img
                       src={
                         product?.products.image_url || "/images/product2.png"
                       }
                       alt={product.products.name}
-                      className="w-20 h-20 object-cover rounded-lg"
+                      className="w-full h-full object-cover rounded-lg"
                     />
                   </div>
 

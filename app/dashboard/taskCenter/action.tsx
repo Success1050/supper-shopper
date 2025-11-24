@@ -61,6 +61,7 @@ export const submission = async (
         completed: true,
         comment: userComment,
         rating: rating,
+        completedAt: new Date().toISOString(),
       })
       .eq("product_id", productId)
       .eq("user_id", user.id)

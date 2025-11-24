@@ -19,6 +19,7 @@ interface ProfileTypes {
   phone: string;
   country: string;
   city: string;
+  mobilenumber: string;
   address: string;
   profile_img: string;
   dob: string;
@@ -96,7 +97,7 @@ const ProfileSettings: React.FC = () => {
     <div className="min-h-screen bg-[#201d4c] p-2">
       <div>
         {/* FROM CLAUDE */}
-        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 shadow-2xl mb-8">
+        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 mb-8">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -136,7 +137,7 @@ const ProfileSettings: React.FC = () => {
               </button>
 
               {/* Upload Photo Button */}
-              <label className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-slate-300 px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 border border-slate-600/50">
+              <label className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 border border-slate-600/50">
                 <span className="text-sm text-white">Upload Photo</span>
                 <input
                   type="file"
@@ -159,39 +160,31 @@ const ProfileSettings: React.FC = () => {
 
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
             <div className="space-y-4">
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center ">
                 <span className="text-white text-sm">Full Name</span>
                 <span className="text-white">
                   {profile?.first_name} {profile?.last_name || "null"}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center py-2">
-                <span className="text-white text-sm">Date Of Birth</span>
-                <span className="text-white">{profile?.dob || "null"}</span>
+              <div className="flex justify-between items-center ">
+                <span className="text-white text-sm">Phone Number</span>
+                <span className="text-white">
+                  {profile?.mobilenumber || "null"}
+                </span>
               </div>
 
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center ">
                 <span className="text-white text-sm">Gender</span>
                 <span className="text-white"> {profile?.gender || "null"}</span>
               </div>
 
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center ">
                 <span className="text-white text-sm">Country / Region</span>
                 <span className="text-white">{profile?.country || "null"}</span>
               </div>
 
-              <div className="flex justify-between items-center py-2">
-                <span className="text-white text-sm">City</span>
-                <span className="text-white">{profile?.city || "null"}</span>
-              </div>
-
-              <div className="flex justify-between items-center py-2">
-                <span className="text-white text-sm">Address</span>
-                <span className="text-white">{profile?.address || "null"}</span>
-              </div>
-
-              <div className="flex justify-between items-center py-2">
+              <div className="flex justify-between items-center ">
                 <span className="text-white text-sm">
                   Referral Code / Inviter ID
                 </span>
@@ -212,15 +205,13 @@ const ProfileSettings: React.FC = () => {
           </div>
 
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
-            {/* Header */}
-
             <div className="p-4">
-              <button
+              <div
                 // onClick={handleChangePassword}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                  <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
@@ -230,11 +221,11 @@ const ProfileSettings: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-slate-300 text-sm font-medium">
+                  <span className="text-white text-sm font-medium">
                     Change Password
                   </span>
                 </div>
-                <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
+                <button className="text-white group-hover:text-white transition-colors">
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -248,16 +239,16 @@ const ProfileSettings: React.FC = () => {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </div>
-              </button>
+                </button>
+              </div>
 
               {/* Wallet Address 2FA */}
-              <button
+              <div
                 // onClick={handleWalletAddress}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                  <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
@@ -267,11 +258,11 @@ const ProfileSettings: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-slate-300 text-sm font-medium">
+                  <span className="text-white text-sm font-medium">
                     Wallet Adress 2FA
                   </span>
                 </div>
-                <div className="text-slate-500 group-hover:text-slate-400 transition-colors">
+                <button className="text-white transition-colors">
                   <svg
                     className="w-5 h-5"
                     fill="none"
@@ -285,16 +276,16 @@ const ProfileSettings: React.FC = () => {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </div>
-              </button>
+                </button>
+              </div>
 
               {/* Theme */}
-              <button
+              <div
                 // onClick={handleThemeToggle}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 text-slate-400 group-hover:text-slate-300 transition-colors">
+                  <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
@@ -304,19 +295,13 @@ const ProfileSettings: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-slate-300 text-sm font-medium">
-                    Theme
-                  </span>
+                  <span className="text-white text-sm font-medium">Theme</span>
                 </div>
-                <span className="text-slate-400 text-sm">Theme</span>
-              </button>
-
-              {/* Divider */}
-              <div className="h-px bg-slate-700/30 my-3"></div>
-
+                <button className="text-white text-sm">Dark/Light</button>
+              </div>
               {/* Two-Factor Authentication */}
-              <div className="flex items-center justify-between px-4 py-3.5">
-                <span className="text-slate-300 text-sm font-medium">
+              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
+                <span className="text-white text-sm font-medium">
                   Two-Factor Authentication
                 </span>
                 <button
@@ -345,12 +330,12 @@ const ProfileSettings: React.FC = () => {
             <div className="space-y-2">
               <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-  px-2 cursor-pointer transition-colors">
                 <span className="text-white">Help & Support</span>
-                <ChevronRight className="text-blue-300 w-5 h-5" />
+                <ChevronRight className="text-white w-5 h-5" />
               </div>
 
               <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
                 <span className="text-white">Privacy Policy</span>
-                <ChevronRight className="text-blue-300 w-5 h-5" />
+                <ChevronRight className="text-white w-5 h-5" />
               </div>
             </div>
             <button

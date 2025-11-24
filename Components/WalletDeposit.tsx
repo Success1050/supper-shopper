@@ -194,28 +194,17 @@ const MyBalanceDeposit: React.FC = () => {
     <div className="min-h-screen bg-[#201d4c] to-purple-900 p-6">
       <div>
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start gap-3 md:items-center justify-between mb-8">
-          <div className="flex justify-between gap-3 items-center p-0 m-0 w-full mb-3">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex md:flex-row items-start md:items-center justify-between md:gap-20 gap-8 flex-col">
             <div>
-              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
-                My Balance
-              </h1>
-              <div className="text-white text-3xl font-bold text-[20px] md:text-2xl">
-                $22,330
-              </div>
-            </div>
-
-            <div className="md:hidden flex flex-col items-start m-0">
               <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
                 My Active Balance
               </h1>
-              <div className="text-white text-3xl font-bold text-[20px] md:text-2xl">
-                ${walletAmount?.toFixed(2) ?? 0}
-              </div>
+              <h2 className="text-white text-3xl font-bold text-[20px] md:text-2xl">
+                $22,330
+              </h2>
             </div>
-          </div>
 
-          <div className="flex space-x-3 justify-between items-center mx-auto md:mx-0 gap-8 w-full md:w-1/2 mt-2">
             <button
               onClick={() => setActiveTab("Deposit")}
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${
@@ -226,6 +215,17 @@ const MyBalanceDeposit: React.FC = () => {
             >
               Deposit
             </button>
+          </div>
+
+          <div className="flex md:flex-row items-center justify-between md:gap-20 gap-8 flex-col">
+            <div className="flex flex-col items-start m-0">
+              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
+                My Balance
+              </h1>
+              <h2 className="text-white text-3xl font-bold text-[20px] md:text-2xl">
+                $22,330
+              </h2>
+            </div>
             <button
               onClick={() => setActiveTab("Withdrawal")}
               className={`px-6 py-2 rounded-lg font-medium transition-colors ${
@@ -244,7 +244,7 @@ const MyBalanceDeposit: React.FC = () => {
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
 
-            <div className="w-full md:w-[50%]">
+            <div className="w-full">
               <label className="text-white text-sm mb-2 block">
                 Choose Amount
               </label>
@@ -261,7 +261,7 @@ const MyBalanceDeposit: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full md:w-[50%]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
               {/* Choose Amount */}
 
               {/* Choose Currency */}
@@ -328,7 +328,7 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-4 w-full md:w-[50%]">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-6">
               {/* Generate Address */}
               <div className="w-full ">
                 <button
@@ -354,7 +354,7 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
 
               {/* Paste TXID */}
-              <div className="mb-6 w-full">
+              <div className=" w-full">
                 <input
                   type="text"
                   value={txId}

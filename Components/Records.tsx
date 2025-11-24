@@ -16,13 +16,16 @@ interface HistoryRecord {
 const Records: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("All History");
 
+  console.log("active tab", activeTab);
+
   const tabs = [
     "All History",
     "Task Profit",
     "Subscription Purchases",
     "Commission Profit",
     "Career Reward",
-    "Salary Reward",
+    "Deposits",
+    "Withdrawals",
   ];
 
   const historyRecords: HistoryRecord[] = [
@@ -39,7 +42,7 @@ const Records: React.FC = () => {
     //   id: "2",
     //   date: "2025-05-09",
     //   time: "13:22",
-    //   type: "Commission Profit",
+    //   type: "Task Profit",
     //   status: "Completed",
     //   amount: "+$2.75",
     //   color: "text-green-400",
@@ -84,30 +87,26 @@ const Records: React.FC = () => {
 
   const getFilteredRecords = () => {
     if (activeTab === "All History") return historyRecords;
-    return historyRecords.filter((record) =>
-      record.type
-        .toLowerCase()
-        .includes(activeTab.toLowerCase().replace(" ", ""))
-    );
+    return historyRecords.filter((record) => record.type === activeTab);
   };
 
   const filteredRecords = getFilteredRecords();
 
   return (
-    <div className="min-h-screen bg-[#201d4c] p-6">
+    <div className="min-h-screen bg-[#201d4c] p-4">
       <div>
         {/* Header */}
         <h1 className="text-white text-2xl font-semibold mb-8">History</h1>
 
         {/* Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8 bg-[#2b2a54] p-3 rounded-xl">
+        <div className="grid grid-cols-3 md:grid-cols-7 items-center justify-center gap-y-3 md:mb-8 mb-2">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={` py-2 text-white text-sm whitespace-nowrap font-medium transition-colors ${
                 activeTab === tab
-                  ? "bg-blue-600 text-white"
+                  ? "border-b border-white"
                   : "hover:text-white text-white"
               }`}
             >
@@ -115,11 +114,8 @@ const Records: React.FC = () => {
             </button>
           ))}
         </div>
-        <div className="p-6 border-b border-blue-700/50 flex justify-between items-center flex-wrap">
+        <div className="p-6 flex justify-between items-center flex-wrap">
           <h2 className="text-white text-xl font-semibold">Records</h2>
-          <div className="w-[170px] h-[53px] bg-[#2b2149] md:flex justify-center items-center rounded-xl hidden">
-            <h2 className="text-xl font-semibold text-[#c3402e]">Delete</h2>
-          </div>
         </div>
         {/* Records Section */}
         <div className=" backdrop-blur-sm  overflow-hidden">
@@ -128,14 +124,14 @@ const Records: React.FC = () => {
               filteredRecords.map((record) => (
                 <div
                   key={record.id}
-                  className="p-6 hover:bg-blue-700/20 transition-colors mb-4 bg-[#18409f] border-blue-700/50"
+                  className="p-6 transition-colors mb-4 bg-gradient-to-r from-[#2563EB] to-[#0A2B74] rounded-[10px]"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-4 mb-2">
-                        <div className="text-blue-200 text-sm">
+                        <h2 className="text-white text-[16px]">
                           {record.date} - {record.time}
-                        </div>
+                        </h2>
                       </div>
                       <div className="text-white font-medium text-lg">
                         {record.type}

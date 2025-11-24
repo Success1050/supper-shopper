@@ -26,7 +26,7 @@ export default function EarningsSummary({
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#2d2954] to-[#1f1b3d] rounded-2xl p-6 shadow-2xl border border-[#3d4167]">
+    <div className="bg-[#292852] rounded-2xl p-6 shadow-2xl border border-[#3d4167]">
       {/* Header */}
       <h2 className="text-white text-xl font-bold mb-6">Earnings Summary</h2>
 

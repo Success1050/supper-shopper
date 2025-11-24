@@ -86,12 +86,9 @@ const PackageSelection: React.FC = () => {
                 className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
               >
                 <div className="text-center mb-6">
-                  <div className="text-white text-3xl font-bold mb-2">
-                    ${pkg.price}
-                  </div>
-                  <div className="text-white text-[20px] font-bold">
-                    {pkg.plan_name}
-                  </div>
+                  <h2 className="text-white text-3xl font-bold mb-2">
+                    {pkg.plan_name} - ${pkg.price}
+                  </h2>
                 </div>
 
                 <div className="space-y-4 mb-6">

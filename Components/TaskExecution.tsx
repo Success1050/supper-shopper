@@ -122,7 +122,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
         {/* Task Reward Section */}
         <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#2c2954] mb-6">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16">
+            <div className="w-[20%] h-full">
               <img
                 src={singleTask?.products?.image_url || "/images/taskimg1.png"}
                 alt="Task Reward"
@@ -140,19 +140,18 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           <div className="mt-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-white text-sm">Task Progress</span>
-              <span className="text-white text-sm">{watchProgress}s / 10s</span>
+              <span className="text-white text-sm">1/3</span>
             </div>
-            <Progressbar width={10} />
+            <Progressbar width={10} color="bg-[#2563EB]" />
           </div>
         </div>
 
         {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Step 1: Watch Video */}
           <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-semibold">Step 1: Watch Video</h3>
-              <span className="text-blue-200 text-sm">0s / 10s Required</span>
+              <span className="text-white text-sm">0s / 10s Required</span>
             </div>
 
             <div className="relative bg-gray-900 rounded-lg overflow-hidden">
@@ -169,66 +168,58 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             </div>
           </div>
 
-          {/* Step 2: Rating For Product */}
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
-            <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col justify-center gap-5">
+            {/* Step 2: Rating For Product */}
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
               <h3 className="text-white font-semibold">
                 Step 2: Rating For Product
               </h3>
-              <span className="text-white text-sm">1/10</span>
+
+              <div className="mb-4">
+                <div className="flex space-x-1">
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <Star
+                      key={value}
+                      className={`w-6 h-6 cursor-pointer transition-colors ${
+                        value <= rating
+                          ? "text-white fill-current"
+                          : "text-gray-400"
+                      }`}
+                      onClick={() => handleRatingClick(value)}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="mb-4">
-              <span className="text-blue-200 text-sm mb-2 block">Rating:</span>
-              <div className="flex space-x-1">
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <Star
-                    key={value}
-                    className={`w-6 h-6 cursor-pointer transition-colors ${
-                      value <= rating
-                        ? "text-yellow-400 fill-current"
-                        : "text-gray-400"
-                    }`}
-                    onClick={() => handleRatingClick(value)}
-                  />
-                ))}
-              </div>
+            {/* write comment */}
+            <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
+              <h3 className="text-white font-semibold mb-4">
+                Step 3: Write Comment
+              </h3>
+
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write Your Feedback..."
+                className="w-full bg-[#37355d] border border-[#37355d] rounded-lg p-3 text-white placeholder-white resize-none h-24 focus:outline-none"
+              />
             </div>
           </div>
 
-          {/* Step 4: Open Product Link */}
-          {/* <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
+          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d] hidden md:block">
             <h3 className="text-white font-semibold mb-4">
               Step 4: Open Product Link
             </h3>
 
             <a
-              href={
-                taskSteps[3]?.step_value.startsWith("https")
-                  ? taskSteps[3]?.step_value
-                  : `https://${taskSteps[3]?.step_value}`
-              }
-              target="_blank"
-              rel="noopener noreferrer"
+              href={linkStep?.step_value || "https://www.example.com"}
+              style={{ width: "100%", borderRadius: "12px" }}
             >
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors">
                 Product Open
               </button>
             </a>
-          </div> */}
-
-          {/* Step 3: Write Comment */}
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-4 border border-[#37355d]">
-            <h3 className="text-white font-semibold mb-4">
-              Step 3: Write Comment
-            </h3>
-
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Write Your Feedback..."
-              className="w-full bg-[#37355d] border border-[#37355d] rounded-lg p-3 text-white placeholder-blue-300 resize-none h-24 focus:outline-none focus:border-blue-500"
-            />
           </div>
 
           {/* Step 5: Submit Task */}
@@ -243,8 +234,8 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             >
               {isPending ? <Loader /> : "Done"}
             </button>
-            <div className="flex-1 mt-2 flex items-center justify-center">
-              <span className="text-blue-200 text-sm">
+            <div className="flex-1 mt-2 flex items-center justify-start">
+              <span className="text-white text-sm">
                 Complete Steps 1-4 To Submit
               </span>
             </div>

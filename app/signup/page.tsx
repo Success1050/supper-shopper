@@ -15,6 +15,7 @@ const CreateAccountForm: React.FC = () => {
     lastName: "",
     gender: "",
     city: "",
+    mobileNumber: "",
     address: "",
     dob: "",
     verificationCode: "",
@@ -93,8 +94,8 @@ const CreateAccountForm: React.FC = () => {
 
       <div className="mt-8">
         <div className="text-left mb-8 flex items-left md:items-center flex-col md:flex-row md:justify-between justify-start">
-          <h1 className="text-white text-2xl font-semibold">
-            Create Your Account
+          <h1 className="text-white text-[28px] font-semibold">
+            Create Your SuperShopper Account
           </h1>
           <p className="text-white text-sm">
             Join Us Today By Filling Out The Form Below
@@ -107,16 +108,85 @@ const CreateAccountForm: React.FC = () => {
             onSubmit={(e) => startTransition(() => handleRegister(e))}
           >
             <div className="mb-8">
-              <h3 className="text-white font-semibold text-lg mb-6">
+              <h3 className="text-white font-semibold text-[34px] mb-6">
                 Personal Information
               </h3>
 
               <div className="space-y-4">
-                {/* Email Address OR Mobile Number */}
-
                 <div>
+                  {/* First Name & Last Name */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-white text-sm mb-2 block">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) =>
+                          handleInputChange("firstName", e.target.value)
+                        }
+                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-white text-sm mb-2 block">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) =>
+                          handleInputChange("lastName", e.target.value)
+                        }
+                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    {/* <div>
+                      <label className="text-white text-sm mb-2 block">
+                        Date of birth
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.dob}
+                        placeholder="dd/mm/yy"
+                        onChange={(e) =>
+                          handleInputChange("dob", e.target.value)
+                        }
+                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-white text-sm mb-2 block">
+                        Gender
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.gender}
+                        onChange={(e) =>
+                          handleInputChange("gender", e.target.value)
+                        }
+                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                      />
+                    </div> */}
+                  </div>
+
                   <label className="text-white text-sm mb-2 block">
-                    Email Address OR Mobile Number
+                    Country
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter your country"
+                      value={formData.country}
+                      onChange={(e) => {
+                        handleInputChange("country", e.target.value);
+                      }}
+                      className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  <label className="text-white text-sm my-2 block">
+                    Email Address
                   </label>
                   <input
                     type="text"
@@ -127,176 +197,62 @@ const CreateAccountForm: React.FC = () => {
                     className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
-
-                {/* First Name & Last Name */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.firstName}
-                      onChange={(e) =>
-                        handleInputChange("firstName", e.target.value)
-                      }
-                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.lastName}
-                      onChange={(e) =>
-                        handleInputChange("lastName", e.target.value)
-                      }
-                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      Date of birth
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.dob}
-                      placeholder="dd/mm/yy"
-                      onChange={(e) => handleInputChange("dob", e.target.value)}
-                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      Gender
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.gender}
-                      onChange={(e) =>
-                        handleInputChange("gender", e.target.value)
-                      }
-                      className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
               </div>
             </div>
             {/* Verification Code & Location */}
+            <div className="flex items-center justify-between mb-4 flex-col md:flex-row gap-4">
+              <h3 className="text-white font-semibold text-lg mb-4">
+                Verification Code
+              </h3>
+              <button
+                type="button"
+                onClick={sendVerificationCode}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
+              >
+                Send Code
+              </button>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               {/* Verification Code */}
               <div>
-                <div className="flex items-center justify-between mb-4 flex-col md:flex-row gap-4">
-                  <h3 className="text-white font-semibold text-lg mb-4">
-                    Verification Code
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={sendVerificationCode}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
-                  >
-                    Send Code
-                  </button>
-                </div>
-
-                <div>
-                  <label className="text-white text-sm mb-2 block">
-                    Verification Code
-                  </label>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Enter 6-Digit Code"
-                      value={formData.verificationCode}
-                      onChange={(e) =>
-                        handleInputChange("verificationCode", e.target.value)
-                      }
-                      className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
+                <label className="text-white text-sm mb-2 block">
+                  Verification Code
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Enter 6-Digit Code"
+                    value={formData.verificationCode}
+                    onChange={(e) =>
+                      handleInputChange("verificationCode", e.target.value)
+                    }
+                    className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
+                  />
                 </div>
               </div>
 
-              {/* Location */}
+              {/* phone number*/}
               <div>
-                <h3 className="text-white font-semibold text-lg mb-4">
-                  Location
-                </h3>
-                <div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      Country
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Enter your country"
-                        value={formData.country}
-                        onChange={(e) => {
-                          handleInputChange("country", e.target.value);
-                        }}
-                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      City
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Enter your City"
-                        value={formData.city}
-                        onChange={(e) => {
-                          handleInputChange("city", e.target.value);
-                        }}
-                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-white text-sm mb-2 block">
-                      Address
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Enter your Address"
-                        value={formData.address}
-                        onChange={(e) => {
-                          handleInputChange("address", e.target.value);
-                        }}
-                        className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
+                <label className="text-white text-sm mb-2 block">
+                  Phone Number
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="+91*****"
+                    value={formData.mobileNumber}
+                    onChange={(e) => {
+                      handleInputChange("mobileNumber", e.target.value);
+                    }}
+                    className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
+                  />
                 </div>
               </div>
             </div>
             {/* Referral & Security */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               {/* Referral */}
-              <div>
-                <h3 className="text-white font-semibold text-lg mb-4">
-                  Referral
-                </h3>
-                <div>
-                  <label className="text-white text-sm mb-2 block">
-                    Referral Code(optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.referralCode}
-                    onChange={(e) =>
-                      handleInputChange("referralCode", e.target.value)
-                    }
-                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
 
               {/* Security */}
               <div>
@@ -330,6 +286,24 @@ const CreateAccountForm: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-4">
+                  Referral
+                </h3>
+                <div>
+                  <label className="text-white text-sm mb-2 block">
+                    Referral Code(optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.referralCode}
+                    onChange={(e) =>
+                      handleInputChange("referralCode", e.target.value)
+                    }
+                    className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </div>
             </div>
             {/* Agreements */}
             <div className="mb-6">
@@ -337,7 +311,7 @@ const CreateAccountForm: React.FC = () => {
                 Agreements
               </h3>
               <div className="space-y-3">
-                <div className="flex flex-col md:flex-row items-center gap-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-4 items-start">
                   <div className="flex items-start space-x-3">
                     <input
                       type="checkbox"
