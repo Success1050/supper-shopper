@@ -45,42 +45,30 @@ const PasswordResetPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#201d46] flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-8">
-          <Image
-            src={"/images/logo.png"}
-            alt="logo"
-            height={500}
-            width={500}
-            className="w-[200px] h-auto"
-          />
-        </div>
-
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full">
         {/* Form Card */}
-        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-indigo-700/50 shadow-2xl">
-          <h1 className="text-2xl font-bold text-white mb-2">
+        <div className="mb-8">
+          <h1 className="text-white text-3xl font-bold mb-2">
             Change Password
           </h1>
-          <p className="text-white text-sm mb-6">
-            Update your password to keep your account secure
+          <p className="text-white/60 text-sm">
+            Update your password to keep your account secure.
           </p>
+        </div>
+        <div className="bg-[#2b2a54] rounded-2xl p-8 border border-white/10">
+          {/* Header */}
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {/* Current Password */}
             <div>
-              <label
-                htmlFor="currentPassword"
-                className="block text-white text-sm font-medium mb-2"
-              >
+              <label className="block text-white font-semibold mb-3">
                 Current Password
               </label>
               <div className="relative">
                 <input
                   type={showCurrentPassword ? "text" : "password"}
-                  id="currentPassword"
-                  placeholder="Enter your current password"
+                  placeholder="Enter Your Current Password"
                   value={formData.currentPassword}
                   onChange={(e) =>
                     setFormData({
@@ -88,12 +76,12 @@ const PasswordResetPage = () => {
                       currentPassword: e.target.value,
                     })
                   }
-                  className="w-full bg-indigo-950/50 border border-indigo-700/50 rounded-lg px-4 py-3 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full bg-[#36355d] text-white placeholder-white rounded-xl px-4 py-4  transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors"
                 >
                   {showCurrentPassword ? (
                     <EyeOff size={20} />
@@ -106,27 +94,23 @@ const PasswordResetPage = () => {
 
             {/* New Password */}
             <div>
-              <label
-                htmlFor="newPassword"
-                className="block text-white text-sm font-medium mb-2"
-              >
+              <label className="block text-white font-semibold mb-3">
                 New Password
               </label>
               <div className="relative">
                 <input
                   type={showNewPassword ? "text" : "password"}
-                  id="newPassword"
-                  placeholder="Enter new password"
+                  placeholder="Enter New Password"
                   value={formData.newPassword}
                   onChange={(e) =>
                     setFormData({ ...formData, newPassword: e.target.value })
                   }
-                  className="w-full bg-indigo-950/50 border border-indigo-700/50 rounded-lg px-4 py-3 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full bg-[#36355d] text-white placeholder-white rounded-xl px-4 py-4  transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors"
                 >
                   {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -135,17 +119,13 @@ const PasswordResetPage = () => {
 
             {/* Confirm New Password */}
             <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-white text-sm font-medium mb-2"
-              >
+              <label className="block text-white font-semibold mb-3">
                 Confirm New Password
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  placeholder="Re-enter new password"
+                  placeholder="Re-Enter New Password"
                   value={formData.confirmPassword}
                   onChange={(e) =>
                     setFormData({
@@ -153,12 +133,12 @@ const PasswordResetPage = () => {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="w-full bg-indigo-950/50 border border-indigo-700/50 rounded-lg px-4 py-3 text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full bg-[#36355d] text-white placeholder-white rounded-xl px-4 py-4  transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-400 hover:text-white transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors"
                 >
                   {showConfirmPassword ? (
                     <EyeOff size={20} />
@@ -170,16 +150,14 @@ const PasswordResetPage = () => {
             </div>
 
             {/* Security Tips */}
-            <div className="bg-indigo-950/50 border border-indigo-700/30 rounded-lg p-4">
-              <h3 className="text-white font-semibold text-sm mb-2">
-                Security Tips
-              </h3>
-              <ul className="space-y-1.5">
-                <li className="text-white text-xs flex items-start">
+            <div>
+              <h3 className="text-white font-semibold mb-3">Security Tips:</h3>
+              <ul className="space-y-2 text-white/70 text-sm">
+                <li className="flex items-start">
                   <span className="mr-2">•</span>
                   <span>Password Must Be At Least 8 Characters.</span>
                 </li>
-                <li className="text-white text-xs flex items-start">
+                <li className="flex items-start">
                   <span className="mr-2">•</span>
                   <span>
                     Use Numbers, Letters, And Special Characters For Stronger
@@ -189,27 +167,29 @@ const PasswordResetPage = () => {
               </ul>
             </div>
 
-            {/* Buttons */}
-            <div className="space-y-3 pt-2">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <button
                 onClick={() => startTransition(() => handleReset())}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50"
+                disabled={isPending}
+                className="flex-1 bg-[#2723FF] text-white font-semibold py-4 rounded-xl hover:bg-[#1f1acc] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? (
                   <Loader />
                 ) : (
                   <>
-                    Reset password <ArrowRight size={18} />
+                    SAVE PROFILE
+                    <ArrowRight size={18} />
                   </>
                 )}
               </button>
-
               <button
+                type="button"
                 onClick={handleCancel}
-                className="w-full bg-transparent border border-indigo-600 hover:bg-indigo-800/50 text-white font-semibold py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+                className="flex-1 bg-transparent text-white font-semibold py-4 rounded-xl border-2 border-white/20 hover:border-white/40 transition-all flex items-center justify-center gap-2"
               >
-                Cancel
-                <X size={18} />
+                CANCEL
+                <ArrowRight size={18} />
               </button>
             </div>
           </div>

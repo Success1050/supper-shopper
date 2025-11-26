@@ -46,7 +46,7 @@ const ManageAdmins = () => {
   const getRoleBadgeStyle = (role: string) => {
     switch (role) {
       case "Super Admin":
-        return "bg-blue-600 text-white";
+        return "bg-[#2723FF] text-white";
       case "Admin":
         return "bg-slate-300 text-slate-800";
       case "Support Manager":
@@ -76,7 +76,7 @@ const ManageAdmins = () => {
             Assign Roles And Control Access Securely.
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-full font-medium transition-all shadow-lg shadow-blue-600/30">
+        <button className="flex items-center gap-2 bg-[#2723FF] hover:bg-blue-700 px-6 py-3 rounded-full font-medium transition-all shadow-lg shadow-blue-600/30">
           Add New Admin
           <Plus className="w-5 h-5" />
         </button>

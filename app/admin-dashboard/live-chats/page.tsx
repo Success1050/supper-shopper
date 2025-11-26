@@ -53,7 +53,7 @@ const Sidebar = ({
       <div className="p-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
         <h1 className="text-[#fff] text-xl font-semibold">Chats</h1>
         <div className="flex gap-2">
-          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-600 transition">
+          <button className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center hover:bg-[#2723FF] transition">
             <Plus className="w-4 h-4 text-white" />
           </button>
           <button className="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition">
@@ -333,7 +333,7 @@ const ChatWindow = ({
             placeholder="Type Your Message"
             className="flex-1 bg-gray-100 text-gray-800 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500"
           />
-          <button className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition">
+          <button className="w-10 h-10 rounded-full bg-blue-500 hover:bg-[#2723FF] flex items-center justify-center transition">
             <Send className="w-5 h-5 text-white" />
           </button>
         </div>

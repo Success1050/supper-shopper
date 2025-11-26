@@ -61,7 +61,7 @@ export const AuthPage = ({
           <div className="w-full lg:w-1/2 p-8 lg:p-12">
             {/* Logo */}
             <div className="flex items-center mb-8">
-              <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-[#2723FF] rounded-md flex items-center justify-center mr-3">
                 <svg
                   className="w-5 h-5 text-white"
                   fill="currentColor"
@@ -214,7 +214,7 @@ export const AuthPage = ({
               {/* Submit Button */}
               <button
                 type="button"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
                 onClick={handleSubmit}
               >
                 {isSignup ? "Create Account" : "Login"}

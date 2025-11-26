@@ -81,7 +81,7 @@ const SuperShopperLogin: React.FC = () => {
               </a>
             </div>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
+            <button className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
               Login
               <svg
                 className="ml-2 w-4 h-4"

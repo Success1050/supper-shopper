@@ -98,7 +98,7 @@ const TasksComponent: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     activeTab === tab
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                      ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                       : "text-indigo-300 hover:bg-indigo-800/60"
                   }`}
                 >
@@ -160,7 +160,7 @@ const TasksComponent: React.FC = () => {
                       {user.views}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-block px-4 py-1 rounded-full bg-blue-600 text-white text-xs font-medium">
+                      <span className="inline-block px-4 py-1 rounded-full bg-[#2723FF] text-white text-xs font-medium">
                         {user.status}
                       </span>
                     </td>

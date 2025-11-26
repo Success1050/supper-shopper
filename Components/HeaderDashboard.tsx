@@ -38,7 +38,12 @@ const HeaderDashboard = ({
     <>
       <div className="w-full p-3 bg-[#201d4c]">
         <div className="hidden md:flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+          <div className="w-fit p-4 flex justify-center items-center bg-[#403f65] rounded-[42px]">
+            <h2 className="text-white text-[16px]">
+              Name of active purchased packages
+            </h2>
+          </div>
+
           <div className="flex items-center gap-4">
             <Bell
               className="text-white cursor-pointer hover:text-blue-200"
@@ -70,15 +75,21 @@ const HeaderDashboard = ({
             className="w-[106px] h-auto"
             alt="logo"
           />
-          <div className="flex items-center justify-between gap-1">
-            <Bell
-              className="text-white cursor-pointer hover:text-blue-200"
-              size={24}
-            />
-            <Settings
-              className="text-white cursor-pointer hover:text-blue-200"
-              size={24}
-            />
+          <div className="flex items-center justify-between gap-5">
+            <div className="w-fit py-2 px-6 flex justify-center items-center bg-[#403f65] rounded-[42px]">
+              <h2 className="text-white text-[16px]">Starter</h2>
+            </div>
+            <Link href={"/dashboard/profile"}>
+              <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
+                <img
+                  src={userImage || "/images/user.png"}
+                  alt="User"
+                  width={56}
+                  height={56}
+                  className="rounded-full w-full h-full"
+                />
+              </div>
+            </Link>
           </div>
         </div>
         <div className="md:hidden mb-6 p-0">

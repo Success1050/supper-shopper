@@ -8,6 +8,7 @@ import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
 import LoadingBar from "./MainLoading";
 import TeamHierarchyList from "./TeamHierarchyList";
 import ComingSoonBanner from "./shortComingSoon";
+import EarningsOverviewBox from "./Earning";
 
 export interface TeamMember {
   id: string;
@@ -192,41 +193,41 @@ const MyTeam: React.FC = () => {
         </div>
 
         {/* Team Earnings */}
-        <div className="mb-8">
+        <div className="mb-8 bg-[#2b2a54] p-8">
           <h2 className="text-white text-[30px] font-semibold mb-4">
             Affiliate Marketing
           </h2>
           <div className="grid grid-cols-2 gap-y-4 md:gap-4">
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">Today Commission</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">Total Commision</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">
                 Refferal Bonus today
               </h2>
               <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">
                 Refferal Bonus weekly
               </h2>
               <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm md:hidden rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm  rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">Total commission</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#2c2954] backdrop-blur-sm md:hidden rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
               <h2 className="text-white text-[17px] mb-1">
                 Total career reward
               </h2>
@@ -235,56 +236,32 @@ const MyTeam: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Team Task Career Progress */}
-          <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
-            <h3 className="text-white text-[30px] font-semibold mb-4">
+        <div className="bg-[#2b2a54] rounded-2xl p-6">
+          {/* Header */}
+          <div>
+            <h2 className="text-white text-xl font-semibold mb-1">
               Team Task Career Progress
-            </h3>
-
-            <ComingSoonBanner
-              bannerTitle="Team Career Progress"
-              bannerDescription="Track your milestones, achievements, and exclusive career rewards right here."
-            />
-            {/* <div className="mb-4">
-              <div className="flex justify-between text-sm text-white mb-2">
-                <div className="text-white text-2xl font-bold mb-2">0</div>
-
-                <div className="flex flex-col justify-center items-end text-end">
-                  <span>Next Reward At</span>
-                  <span>0</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between text-sm text-white mb-2 flex-wrap">
-                <h4>Progress</h4>
-                <h4>0%</h4>
-              </div>
-
-              <Progressbar width={10} color="bg-white" />
-
-              <div className="text-white text-sm md:flex hidden">
-                80 Tasks Remaining To Next Reward
-              </div>
-
-              <div className="bg-[#2723ff] w-full md:hidden flex justify-center items-center ounded-xl">
-                <button className="p-2 text-center text-white text-[12px] r">
-                  <h2 className="text-center"> View Team peference</h2>
-                </button>
-              </div>
-            </div> */}
+            </h2>
+            <p className="text-white text-3xl font-bold">20</p>
+          </div>
+          <div className="flex justify-end items-start mb-6">
+            <div className="text-right">
+              <p className="text-white text-sm mb-1">Next Reward At</p>
+              <p className="text-white text-2xl font-bold">100</p>
+              <p className="text-white text-sm">40%</p>
+            </div>
           </div>
 
-          {/* Team Hierarchy */}
-
-          <div className="hidden md:flex md:flex-1">
-            <TeamHierarchyList
-              filteredMembers={filteredMembers}
-              getInitials={getInitials}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
+          {/* Progress Bar */}
+          <div className="mb-6">
+            <p className="text-white text-sm mb-2">Progress</p>
+            <Progressbar />
           </div>
+
+          {/* Deposit Button */}
+          <button className="w-fit bg-[#2723FF] text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+            Deposit
+          </button>
         </div>
       </div>
     </div>

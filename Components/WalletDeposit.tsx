@@ -16,6 +16,7 @@ import {
   UserAppMetadata,
   UserMetadata,
 } from "@supabase/supabase-js";
+import Image from "next/image";
 
 const MyBalanceDeposit: React.FC = () => {
   const user = useUserStore((state) => state.user);
@@ -194,45 +195,76 @@ const MyBalanceDeposit: React.FC = () => {
     <div className="min-h-screen bg-[#201d4c] to-purple-900 p-6">
       <div>
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex md:flex-row items-start md:items-center justify-between md:gap-20 gap-8 flex-col">
-            <div>
-              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
-                My Active Balance
-              </h1>
-              <h2 className="text-white text-3xl font-bold text-[20px] md:text-2xl">
-                $22,330
-              </h2>
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          {/* My Active Balance Card */}
+          <div className="bg-[#2b2a54] rounded-2xl p-6 border border-white/10">
+            <div className="flex items-center flex-col md:flex-row justify-between min-w-0">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#2723FF] flex items-center justify-center">
+                  <Image
+                    src={"/wallet.png"}
+                    alt="deposit"
+                    height={300}
+                    width={300}
+                    className="w-full"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h1 className="text-white/70 text-sm md:text-base font-medium mb-1 whitespace-nowrap">
+                    My Active Balance
+                  </h1>
+                  <h2 className="text-white text-2xl md:text-3xl font-bold">
+                    $1,234.56
+                  </h2>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveTab("Deposit")}
+                className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
+              >
+                Deposit
+              </button>
             </div>
-
             <button
               onClick={() => setActiveTab("Deposit")}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === "Deposit"
-                  ? "bg-blue-600 text-white"
-                  : "bg-blue-800/40 text-white hover:bg-blue-700/50"
-              }`}
+              className="md:hidden w-full mt-4 px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
             >
               Deposit
             </button>
           </div>
 
-          <div className="flex md:flex-row items-center justify-between md:gap-20 gap-8 flex-col">
-            <div className="flex flex-col items-start m-0">
-              <h1 className="text-white text-[20px] md:text-2xl font-semibold mb-1">
-                My Balance
-              </h1>
-              <h2 className="text-white text-3xl font-bold text-[20px] md:text-2xl">
-                $22,330
-              </h2>
+          {/* My Balance Card */}
+          <div className="bg-[#2b2a54] rounded-2xl p-6 border border-white/10">
+            <div className="flex items-center justify-between min-w-0">
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#2723FF] flex items-center justify-center">
+                  <Image
+                    src={"/wallet.png"}
+                    alt="deposit"
+                    height={300}
+                    width={300}
+                    className="w-full"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <h1 className="text-white/70 text-sm md:text-base font-medium mb-1">
+                    My Balance
+                  </h1>
+                  <h2 className="text-white text-2xl md:text-3xl font-bold">
+                    $22,330
+                  </h2>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveTab("Withdrawal")}
+                className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
+              >
+                Withdrawal
+              </button>
             </div>
             <button
               onClick={() => setActiveTab("Withdrawal")}
-              className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                activeTab === "Withdrawal"
-                  ? "bg-blue-600 text-white"
-                  : "bg-blue-800/40 text-white hover:bg-blue-700/50"
-              }`}
+              className="md:hidden w-full mt-4 px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
             >
               Withdrawal
             </button>
@@ -333,7 +365,7 @@ const MyBalanceDeposit: React.FC = () => {
               <div className="w-full ">
                 <button
                   onClick={generateAddress}
-                  className="w-full bg-[#454368] hover:bg-blue-600/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2"
+                  className="w-full bg-[#454368] hover:bg-[#2723FF]/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2"
                 >
                   <span>
                     {loading ? "Generating..." : "Generate & Copy Address"}
@@ -368,7 +400,7 @@ const MyBalanceDeposit: React.FC = () => {
             {/* Confirm Deposit Button */}
             <button
               onClick={confirmDeposit}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
             >
               Confirm Deposit
             </button>
@@ -489,7 +521,7 @@ const MyBalanceDeposit: React.FC = () => {
 
             <button
               onClick={confirmWithdrawal}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
             >
               Confirm Withdrawal
             </button>
@@ -502,7 +534,7 @@ const MyBalanceDeposit: React.FC = () => {
         <>
           <button
             onClick={confirmWithdrawal}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-4"
+            className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-4"
           >
             Withdraw now
           </button>

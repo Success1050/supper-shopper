@@ -46,7 +46,7 @@ const SupportTickets = () => {
   const getStatusStyle = (status: string) => {
     switch (status) {
       case "open":
-        return "bg-blue-600 text-white";
+        return "bg-[#2723FF] text-white";
       case "in-progress":
         return "bg-slate-300 text-blue-600";
       case "resolved":
@@ -85,7 +85,7 @@ const SupportTickets = () => {
               <p className="text-slate-400 text-sm mb-2">Open Tickets</p>
               <h2 className="text-4xl font-bold">24</h2>
             </div>
-            <div className="bg-blue-600/20 p-3 rounded-2xl">
+            <div className="bg-[#2723FF]/20 p-3 rounded-2xl">
               <Ticket className="w-8 h-8 text-blue-400" />
             </div>
           </div>
@@ -130,7 +130,7 @@ const SupportTickets = () => {
               onClick={() => setActiveTab("all")}
               className={`px-4 md:px-6 py-2 md:py-3 rounded-xl text-sm md:text-base font-medium transition-all ${
                 activeTab === "all"
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -141,7 +141,7 @@ const SupportTickets = () => {
               onClick={() => setActiveTab("open")}
               className={`px-4 md:px-6 py-2 md:py-3 rounded-xl text-sm md:text-base font-medium transition-all ${
                 activeTab === "open"
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -152,7 +152,7 @@ const SupportTickets = () => {
               onClick={() => setActiveTab("in-progress")}
               className={`px-4 md:px-6 py-2 md:py-3 rounded-xl text-sm md:text-base font-medium transition-all ${
                 activeTab === "in-progress"
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -163,7 +163,7 @@ const SupportTickets = () => {
               onClick={() => setActiveTab("resolved")}
               className={`px-4 md:px-6 py-2 md:py-3 rounded-xl text-sm md:text-base font-medium transition-all ${
                 activeTab === "resolved"
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                   : "text-slate-400 hover:text-white"
               }`}
             >

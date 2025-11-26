@@ -92,7 +92,7 @@ const PayoutDashboard = () => {
               <p className="text-slate-400 text-sm mb-2">Total Processed</p>
               <h2 className="text-4xl font-bold">$42,300</h2>
             </div>
-            <div className="bg-blue-600/20 p-3 rounded-2xl">
+            <div className="bg-[#2723FF]/20 p-3 rounded-2xl">
               <Users className="w-8 h-8 text-white" />
             </div>
           </div>
@@ -142,7 +142,7 @@ const PayoutDashboard = () => {
                 onClick={() => setActiveTab(tab as any)}
                 className={`whitespace-nowrap px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-medium transition-all ${
                   activeTab === tab
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                    ? "bg-[#2723FF] text-white shadow-lg shadow-blue-600/30"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
@@ -183,7 +183,7 @@ const PayoutDashboard = () => {
                     request.status === "pending"
                       ? "bg-slate-700/50 text-white"
                       : request.status === "approved"
-                      ? "bg-blue-600/30 text-blue-300"
+                      ? "bg-[#2723FF]/30 text-blue-300"
                       : request.status === "completed"
                       ? "bg-green-600/30 text-green-300"
                       : "bg-red-600/30 text-red-300"
@@ -243,7 +243,7 @@ const PayoutDashboard = () => {
                     request.status === "pending"
                       ? "bg-slate-700/50 text-white"
                       : request.status === "approved"
-                      ? "bg-blue-600/30 text-blue-300"
+                      ? "bg-[#2723FF]/30 text-blue-300"
                       : request.status === "completed"
                       ? "bg-green-600/30 text-green-300"
                       : "bg-red-600/30 text-red-300"

@@ -27,9 +27,8 @@ const MissionVisionValues: React.FC = () => {
               MISSION
             </h2>
             <p className="text-gray-600 text-base leading-relaxed">
-              to empower individuals world wide to earn through simple digital
-              engagement while helping e-commerce businesses grow through
-              activity and trust.
+              To create a global marketplace where real people interact with
+              real products and get rewarded for real actions.
             </p>
           </div>
 
@@ -60,9 +59,10 @@ const MissionVisionValues: React.FC = () => {
               VISION
             </h2>
             <p className="text-gray-600 text-base leading-relaxed">
-              to become the leading global ecosystem connecting users and
-              e-commerce where every action interaction and purchase creates
-              shared value.
+              A trusted engagement ecosystem that connects shoppers and brands
+              worldwide, increases transparency in e-commerce, and provides
+              measurable value to every participant — from individual users to
+              international sellers.
             </p>
           </div>
         </div>
@@ -97,7 +97,8 @@ const MissionVisionValues: React.FC = () => {
               Transparency
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
-              we believe in honesty, clarity, and open commun.
+              Clear rules, honest communication, and no hidden promises. What
+              you see is what you get.
             </p>
           </div>
 
@@ -119,10 +120,11 @@ const MissionVisionValues: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-lg md:text-xl font-bold text-black mb-3">
-              Community
+              Community First
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
-              building a network where everyone benefits.
+              We grow together. Feedback from early users and sellers shapes
+              every step of our product.
             </p>
           </div>
 
@@ -147,7 +149,8 @@ const MissionVisionValues: React.FC = () => {
               Innovation
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
-              bridging fintech and e-commerce through smart engagement.
+              We simplify complex fintech and engagement models into something
+              easy, intuitive, and accessible.
             </p>
           </div>
 
@@ -169,10 +172,11 @@ const MissionVisionValues: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-lg md:text-xl font-bold text-black mb-3">
-              Growth
+              Real Value Creation
             </h3>
             <p className="text-gray-600 text-sm leading-relaxed">
-              creating opportunities to scale and upskales to grow together.
+              Rewards are tied to real actions, and sellers pay only for
+              measurable results.
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ interface EarningsSummaryProps {
   dailyRewards?: number;
   weeklyRewards?: number;
   totalReward?: number;
-  walletAmount: number | undefined;
+  walletAmount?: number | undefined;
   onPayout?: () => void;
 }
 
@@ -54,7 +54,7 @@ export default function EarningsSummary({
       {/* Payout Button */}
       <button
         onClick={onPayout}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 mb-6 shadow-lg hover:shadow-xl active:scale-95"
+        className="bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 mb-6 shadow-lg hover:shadow-xl active:scale-95"
       >
         Payout
       </button>

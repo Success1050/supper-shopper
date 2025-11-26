@@ -207,7 +207,7 @@ const CreateAccountForm: React.FC = () => {
               <button
                 type="button"
                 onClick={sendVerificationCode}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
+                className="bg-[#2723FF] hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
               >
                 Send Code
               </button>
@@ -354,7 +354,7 @@ const CreateAccountForm: React.FC = () => {
               </div>
             </div>
             {/* Register Button */}
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors">
+            <button className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors">
               {isPending ? <Loader /> : " Register / Create Account"}
             </button>
           </form>

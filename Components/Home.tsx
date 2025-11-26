@@ -96,9 +96,14 @@ const DashboardHome = () => {
       </div>
 
       <div className="md:hidden">
-        <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
-          Active Products
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-white ">
+            Active Products
+          </h2>
+          <h2 className="text-xl md:text-2xl font-bold text-white ">
+            {products.length}
+          </h2>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
           {products.map((product: UserTaskWithProduct) => (
@@ -116,9 +121,14 @@ const DashboardHome = () => {
         <UserEarnings walletAmount={walletAmount} />
 
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white mb-4">
-            Active Products
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-white ">
+              Active Products
+            </h2>
+            <h2 className="text-xl md:text-2xl font-bold text-white ">
+              {products.length}
+            </h2>
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
             {products.map((product: UserTaskWithProduct) => (

@@ -54,7 +54,7 @@ const ReportsAnalytics = () => {
             <span className="text-slate-400 text-sm">11%</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+            <div className="w-3 h-3 rounded-full bg-[#2723FF]"></div>
             <span className="text-slate-300 text-sm">$1500</span>
             <span className="text-slate-400 text-sm">42%</span>
           </div>
@@ -126,7 +126,7 @@ const ReportsAnalytics = () => {
 
         {/* Export Buttons */}
         <div className="flex gap-4 mt-6">
-          <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-medium transition-all">
+          <button className="flex items-center gap-2 bg-[#2723FF] hover:bg-blue-700 px-6 py-3 rounded-xl font-medium transition-all">
             <Download className="w-5 h-5" />
             Export PDF
           </button>
@@ -254,7 +254,7 @@ const ReportsAnalytics = () => {
               <span className="text-slate-300 text-sm">Basic</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+              <div className="w-3 h-3 rounded-full bg-[#2723FF]"></div>
               <span className="text-slate-300 text-sm">Pro</span>
             </div>
           </div>

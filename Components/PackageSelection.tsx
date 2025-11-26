@@ -141,7 +141,7 @@ const PackageSelection: React.FC = () => {
                 <button
                   onClick={() => buyPackage(pkg.id)}
                   disabled={loadingPackages[pkg.id]}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                  className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
                 >
                   {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
                 </button>

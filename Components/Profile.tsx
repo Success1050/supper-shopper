@@ -131,7 +131,7 @@ const ProfileSettings: React.FC = () => {
               {/* Edit Data Button */}
               <button
                 onClick={handleEdit}
-                className="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 shadow-lg shadow-blue-900/30"
+                className="bg-[#2723FF] hover:bg-blue-700 active:bg-blue-800 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 shadow-lg shadow-blue-900/30"
               >
                 Edit Data
               </button>
@@ -307,7 +307,7 @@ const ProfileSettings: React.FC = () => {
                 <button
                   // onClick={toggleTwoFactor}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
-                    twoFactorEnabled ? "bg-blue-600" : "bg-slate-600"
+                    twoFactorEnabled ? "bg-[#2723FF]" : "bg-slate-600"
                   }`}
                 >
                   <span
@@ -340,7 +340,7 @@ const ProfileSettings: React.FC = () => {
             </div>
             <button
               onClick={() => startTransition(() => handleLogout())}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
             >
               {isPending ? (
                 <Loader />

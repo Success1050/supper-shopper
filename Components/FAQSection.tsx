@@ -19,29 +19,29 @@ const FAQSection: React.FC<FAQProps> = ({
 
   const faqs: FAQItem[] = [
     {
-      question: "How does Super Shopper work?",
+      question: "How do I start earning?",
       answer:
-        "Super Shopper is a platform that connects buyers and sellers. Buyers complete simple daily tasks, earn profits, and sellers benefit from increased product sales and exposure.",
-    },
-    {
-      question: "How can I start earning?",
-      answer:
-        "Sign up for an account, complete your profile verification, and start completing simple tasks to earn money immediately.",
+        "Join the pilot by choosing a pre-entry package, then complete engagement tasks. Rewards depend solely on your actions inside the platform.",
     },
     {
       question: "What payment methods are supported?",
       answer:
-        "We support multiple payment methods including bank transfers, cryptocurrency, and various digital wallets for your convenience.",
+        "During the pilot, deposits and withdrawals operate through crypto: USDC/USDT. (MiCa approved). More options will be added after launch.",
     },
     {
       question: "Is my money safe?",
       answer:
-        "Yes, your earnings are protected with bank-level security and encryption. We use industry-standard security measures to keep your funds safe.",
+        "Yes. Funds are processed through secure, industry-standard crypto payment systems. During the pilot, all withdrawals are manually verified for safety.",
     },
     {
       question: "How do withdrawals work?",
       answer:
-        "Withdrawals are processed within 12-72 hours. The minimum withdrawal amount is $10, and you can choose from multiple withdrawal methods.",
+        "Once you reach the required amount, you can request a withdrawal directly from your dashboard. Processing takes 12–72 hours in pilot mode.",
+    },
+    {
+      question: "What happens after the pilot?",
+      answer:
+        "Users who participated in the pilot will keep their accounts and progress. The full platform will expand with new features, automated payouts, and seller tools.",
     },
   ];
 

@@ -50,7 +50,7 @@ const AffiliateDashboard = () => {
               <p className="text-slate-400 text-sm mb-2">Active Referrals</p>
               <h2 className="text-4xl font-bold">1,920</h2>
             </div>
-            <div className="bg-blue-600/20 p-3 rounded-2xl">
+            <div className="bg-[#2723FF]/20 p-3 rounded-2xl">
               <Users className="w-8 h-8 text-blue-400" />
             </div>
           </div>
@@ -114,7 +114,7 @@ const AffiliateDashboard = () => {
                 ${affiliate.earnings}
               </div>
               <div>
-                <span className="inline-block px-6 py-2 rounded-full text-sm font-medium bg-blue-600 text-white">
+                <span className="inline-block px-6 py-2 rounded-full text-sm font-medium bg-[#2723FF] text-white">
                   Level {affiliate.level}
                 </span>
               </div>
@@ -138,7 +138,7 @@ const AffiliateDashboard = () => {
                 <div className="text-white font-medium text-lg">
                   {affiliate.user}
                 </div>
-                <span className="inline-block px-4 py-1 rounded-full text-xs font-medium bg-blue-600 text-white">
+                <span className="inline-block px-4 py-1 rounded-full text-xs font-medium bg-[#2723FF] text-white">
                   Level {affiliate.level}
                 </span>
               </div>

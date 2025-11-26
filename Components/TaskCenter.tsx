@@ -144,7 +144,7 @@ const TaskCenter = () => {
                       </h2>
                     ) : (
                       <Link href={`/dashboard/tasks/${product.product_id}`}>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
+                        <button className="bg-[#2723FF] hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium transition-colors">
                           Take Reward
                         </button>
                       </Link>

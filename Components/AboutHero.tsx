@@ -34,13 +34,12 @@ const AboutHero: React.FC<WhoWeAreProps> = ({
             </h2>
 
             <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-              super shopper is a fintech and e-commerce platform that connects
-              users, brands, and marketplaces through digital engagement.
-            </p>
-
-            <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-              our mission is to make online interaction meaningful helping users
-              earn and businesses grow through visibility and engagement.
+              Super Shopper operates at the intersection of fintech, e-commerce,
+              and user engagement. We are building a transparent ecosystem where
+              shoppers can earn rewards for genuine actions, and sellers gain
+              reliable, measurable visibility for their products. We believe
+              that online engagement should be fair, transparent, and mutually
+              valuable — not driven by bots, fake views, or inflated metrics.
             </p>
 
             {/* Alert Box */}

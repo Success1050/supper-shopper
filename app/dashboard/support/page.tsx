@@ -1,208 +1,265 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useState } from "react";
+import { ChevronDown, Send } from "lucide-react";
 
-interface FAQ {
-  id: number;
-  question: string;
-  answer: string;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-}
-
-export default function HelpSupportPage() {
-  const router = useRouter();
-  const [openFaq, setOpenFaq] = React.useState<number | null>(null);
-  const [formData, setFormData] = React.useState<FormData>({
+export default function SupportPage() {
+  const [openFaq, setOpenFaq] = useState<string | null>("withdraw");
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
+    message: "",
   });
 
-  const faqs: FAQ[] = [
+  const faqs = [
     {
-      id: 1,
-      question: "How Do I Withdraw My Bounties?",
+      id: "withdraw",
+      question: "How do I start earning?",
       answer:
-        "Using The 'Available Balance' To Your Dashboard Section You May Withdraw Your Earned Bounties To Your Preferred Wallet Address.",
+        "Join the pilot by choosing a pre-entry package, then complete engagement tasks. Rewards depend solely on your actions inside the platform.",
     },
     {
-      id: 2,
-      question: "How Do I Dispute A Damaged?",
+      id: "campaign",
+      question: "What payment methods are supported?",
       answer:
-        "You can dispute a damaged item by contacting our support team with your order details and photos of the damage.",
+        "During the pilot, deposits and withdrawals operate through crypto: USDC/USDT. (MiCa approved). More options will be added after launch.",
     },
     {
-      id: 3,
-      question: "What Are Daily And Weekly Rewards?",
+      id: "rewards",
+      question: "Is my money safe?",
       answer:
-        "Daily and weekly rewards are bonuses you can earn by completing specific tasks or maintaining activity streaks.",
+        "Yes. Funds are processed through secure, industry-standard crypto payment systems. During the pilot, all withdrawals are manually verified for safety.",
     },
     {
-      id: 4,
-      question: "How Do I Contact Support?",
+      id: "contact",
+      question: "How do withdrawals work?",
       answer:
-        "You can contact support by filling out the form below or emailing us directly at support@supershop.com",
+        "Once you reach the required amount, you can request a withdrawal directly from your dashboard. Processing takes 12–72 hours in pilot mode.",
+    },
+    {
+      id: "future",
+      question: "What happens after the pilot?",
+      answer:
+        "Users who participated in the pilot will keep their accounts and progress. The full platform will expand with new features, automated payouts, and seller tools.",
     },
   ];
 
-  const toggleFaq = (id: number): void => {
+  const chatMessages = [
+    {
+      id: 1,
+      message: "Hi There, Sjaan Can To Help Today?",
+      time: "3day Ago",
+      timestamp: "12:00AM",
+    },
+    {
+      id: 2,
+      message: "Hi There, Sjaan Can To Help Today?",
+      time: "1Week Ago",
+      timestamp: "12:00AM",
+    },
+    {
+      id: 3,
+      message: "Hi There, Sjaan Can To Help Today?",
+      time: "3day Ago",
+      timestamp: "12:00AM",
+    },
+  ];
+
+  const toggleFaq = (id: string) => {
     setOpenFaq(openFaq === id ? null : id);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (): void => {
-    alert("Form submitted!");
-    console.log(formData);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-[#201d4c] ">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex items-center">
-          <ArrowLeft
-            className="w-6 h-6 text-white"
-            onClick={() => router.back()}
-          />
-          <div className="pl-[25%] flex">
-            <h1 className="text-white text-2xl font-bold mb-2 text-center ">
-              Help & Support
-            </h1>
-          </div>
-        </div>
+    <div className="min-h-screen p-6">
+      <div className=" mx-auto bg-[#2b2a54] p-6">
+        {/* Page Title */}
+        <h1 className="text-white text-2xl font-semibold mb-6">
+          Personal Information
+        </h1>
 
-        {/* Headphones Icon */}
-        <div className="mb-8 bg-[#2b2a54] p-8 flex flex-col items-center rounded-[20px] mt-3">
-          <p className="text-white text-[18px] font-medium mb-8">
-            We're Here To Help You Anytime
-          </p>
-          <Image
-            src={"/headphone.png"}
-            alt="headphone"
-            height={2000}
-            width={2000}
-            className="w-[172px] h-auto"
-          />
-        </div>
-
-        {/* FAQ Section */}
-        <div className="mb-8">
-          <h2 className="text-white text-lg font-semibold mb-4">FAQ</h2>
-
-          <div className="space-y-2">
-            {faqs.map((faq) => (
-              <div
-                key={faq.id}
-                className="bg-indigo-900/20 backdrop-blur-sm rounded-xl border border-indigo-800/30 overflow-hidden"
-              >
-                <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full flex items-center justify-between px-4 py-4 text-left hover:bg-indigo-900/30 transition-colors"
-                >
-                  <span className="text-white text-sm font-medium pr-4">
-                    {faq.question}
-                  </span>
-                  <svg
-                    className={`w-5 h-5 text-white transition-transform duration-200 flex-shrink-0 ${
-                      openFaq === faq.id ? "rotate-180" : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                {openFaq === faq.id && (
-                  <div className="px-4 pb-4 pt-0">
-                    <p className="text-white text-xs leading-relaxed">
-                      {faq.answer}
-                    </p>
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column */}
+          <div className="space-y-6">
+            {/* We're Here To Help Card */}
+            <div className="bg-[#36355d] rounded-2xl p-8">
+              <h2 className="text-white text-xl font-semibold text-center mb-6">
+                We're Here To Help You Anytime
+              </h2>
+              <div className="flex justify-center">
+                <div className="relative">
+                  {/* Headphones with chat icon */}
+                  <div className="w-48 h-48 relative">
+                    {/* Left earphone */}
+                    <div className="absolute left-0 top-8 w-16 h-24 bg-gradient-to-br from-[#5d5fef] to-[#8b8dff] rounded-full"></div>
+                    {/* Right earphone */}
+                    <div className="absolute right-0 top-8 w-16 h-24 bg-gradient-to-br from-[#5d5fef] to-[#8b8dff] rounded-full"></div>
+                    {/* Headband */}
+                    <div className="absolute top-0 left-8 right-8 h-16 border-t-8 border-[#5d5fef] rounded-t-full"></div>
+                    {/* Center chat bubble */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gradient-to-br from-[#5d5fef] to-[#8b8dff] rounded-2xl flex items-center justify-center shadow-lg">
+                      <svg
+                        className="w-10 h-10 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* FAQs Section */}
+            <div className="rounded-2xl p-6 ">
+              <h2 className="text-white text-xl font-semibold mb-4">FAQs</h2>
+              <div className="space-y-3">
+                {faqs.map((faq) => (
+                  <div key={faq.id}>
+                    <button
+                      onClick={() => toggleFaq(faq.id)}
+                      className="w-full flex items-center justify-between bg-[#36355d] rounded-xl px-4 py-3 transition-all"
+                    >
+                      <span
+                        className={`text-left font-medium ${
+                          openFaq === faq.id ? "text-[#2563EB]" : "text-white"
+                        }`}
+                      >
+                        {faq.question}
+                      </span>
+                      <ChevronDown
+                        className={`text-white transition-transform ${
+                          openFaq === faq.id ? "rotate-180" : ""
+                        }`}
+                        size={20}
+                      />
+                    </button>
+                    {openFaq === faq.id && (
+                      <div className="mt-2 px-4 py-3 bg-[#36355d] rounded-xl">
+                        <p className="text-white/70 text-sm">{faq.answer}</p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Contact Support Form */}
-        <div>
-          <h2 className="text-white text-lg font-semibold mb-4">
-            Contact Support Form
-          </h2>
-
-          <div className="space-y-4">
-            {/* Name Input */}
-            <div>
-              <label className="text-white text-sm font-medium mb-2 block">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="John"
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
-              />
+          {/* Right Column */}
+          <div className="space-y-6">
+            {/* Live Support Chat */}
+            <div className="bg-[#36355d] rounded-2xl p-6 ">
+              <h2 className="text-white text-xl font-semibold mb-4">
+                Live Support Chat
+              </h2>
+              <div className="space-y-3">
+                {chatMessages.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className="flex items-center gap-3 rounded-xl p-3 bg-[#3d3c65]"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5d5fef] to-[#8b8dff] flex-shrink-0"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white text-sm font-medium truncate">
+                        {chat.message}
+                      </p>
+                      <p className="text-white/50 text-xs">{chat.time}</p>
+                    </div>
+                    <span className="text-white/50 text-xs flex-shrink-0">
+                      {chat.timestamp}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Email Input */}
+            {/* Contact Support Form */}
             <div>
-              <label className="text-white text-sm font-medium mb-2 block">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="John.Doe@Email.Com"
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
-              />
-            </div>
+              <h2 className="text-white text-xl font-semibold mb-4">
+                Contact Support Form
+              </h2>
+              <div className="bg-[#36355d] rounded-2xl p-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-white/70 text-sm mb-2">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="John"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full bg-[#403f65] text-white placeholder-white rounded-xl px-4 py-3  focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-white/70 text-sm mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="John.Doe@Email.Com"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        className="w-full bg-[#403f65] text-white placeholder-white rounded-xl px-4 py-3 focus:outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
 
-            {/* Subject Input */}
-            <div>
-              <label className="text-white text-sm font-medium mb-2 block">
-                Subject
-              </label>
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                className="w-full bg-indigo-900/20 backdrop-blur-sm border border-indigo-800/30 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all"
-              />
-            </div>
+                  <div>
+                    <label className="block text-white/70 text-sm mb-2">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.subject}
+                      onChange={(e) =>
+                        setFormData({ ...formData, subject: e.target.value })
+                      }
+                      className="w-full bg-[#403f65] text-white  rounded-xl px-4 py-3 focus:outline-none transition-colors"
+                    />
+                  </div>
 
-            {/* Submit Button */}
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-900/50"
-            >
-              Submit
-            </button>
+                  <div>
+                    <label className="block text-white/70 text-sm mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      placeholder="Type Here"
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      rows={4}
+                      className="w-full bg-[#403f65] text-white placeholder-white rounded-xl px-4 py-3 focus:outline-none transition-colors resize-none"
+                    />
+                  </div>
+
+                  <button className="w-full bg-[#2723FF] hover:bg-[#1f1acc] text-white font-semibold py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                    Send Message
+                    <Send size={18} />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
