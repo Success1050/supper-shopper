@@ -45,7 +45,6 @@ const ProfileSettings: React.FC = () => {
         console.log("An error occurred");
         return;
       }
-      // console.log(res.data);
 
       setProfile(res.data);
       console.log(res.data);
@@ -59,7 +58,6 @@ const ProfileSettings: React.FC = () => {
 
   const handleEdit = () => {
     router.push(`/dashboard/edit-profile/${profile?.id}`);
-    // alert("Edit profile functionality");
   };
 
   useEffect(() => {
@@ -79,7 +77,6 @@ const ProfileSettings: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file || !profile?.id) return;
 
-    // Preview before upload
     const localPreview = URL.createObjectURL(file);
     setPreviewUrl(localPreview);
 
@@ -94,10 +91,9 @@ const ProfileSettings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#201d4c] p-2">
+    <div className="min-h-screen bg-[#201d4c] p-2 px-6 md:px-0">
       <div>
-        {/* FROM CLAUDE */}
-        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 mb-8">
+        <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 mb-6">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -138,7 +134,9 @@ const ProfileSettings: React.FC = () => {
 
               {/* Upload Photo Button */}
               <label className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 border border-slate-600/50">
-                <span className="text-sm text-white">Upload Photo</span>
+                <h2 className="text-sm text-white whitespace-nowrap">
+                  Upload Photo
+                </h2>
                 <input
                   type="file"
                   accept="image/*"
@@ -150,41 +148,39 @@ const ProfileSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* FROM CLAUDE */}
-
         {/* Personal Info */}
-        <div className="mt-7">
+        <div className="mb-6 mt-6">
           <h3 className="text-white font-semibold text-lg mb-6">
             Personal Info
           </h3>
 
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <div className="space-y-4">
-              <div className="flex justify-between items-center ">
+              <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Full Name</span>
                 <span className="text-white">
                   {profile?.first_name} {profile?.last_name || "null"}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center ">
+              <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Phone Number</span>
                 <span className="text-white">
                   {profile?.mobilenumber || "null"}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center ">
+              <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Gender</span>
                 <span className="text-white"> {profile?.gender || "null"}</span>
               </div>
 
-              <div className="flex justify-between items-center ">
+              <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Country / Region</span>
                 <span className="text-white">{profile?.country || "null"}</span>
               </div>
 
-              <div className="flex justify-between items-center ">
+              <div className="flex justify-between items-center">
                 <span className="text-white text-sm">
                   Referral Code / Inviter ID
                 </span>
@@ -197,7 +193,7 @@ const ProfileSettings: React.FC = () => {
         </div>
 
         {/* Account & Security - First Section */}
-        <div>
+        <div className="mb-6">
           <div className="px-6 py-5 border-b border-slate-700/30">
             <h1 className="text-white text-xl font-semibold">
               Account & Security
@@ -206,10 +202,7 @@ const ProfileSettings: React.FC = () => {
 
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
             <div className="p-4">
-              <div
-                // onClick={handleChangePassword}
-                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
-              >
+              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,10 +236,7 @@ const ProfileSettings: React.FC = () => {
               </div>
 
               {/* Wallet Address 2FA */}
-              <div
-                // onClick={handleWalletAddress}
-                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
-              >
+              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,10 +270,7 @@ const ProfileSettings: React.FC = () => {
               </div>
 
               {/* Theme */}
-              <div
-                // onClick={handleThemeToggle}
-                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
-              >
+              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,13 +286,13 @@ const ProfileSettings: React.FC = () => {
                 </div>
                 <button className="text-white text-sm">Dark/Light</button>
               </div>
+
               {/* Two-Factor Authentication */}
               <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
                 <span className="text-white text-sm font-medium">
                   Two-Factor Authentication
                 </span>
                 <button
-                  // onClick={toggleTwoFactor}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
                     twoFactorEnabled ? "bg-[#2723FF]" : "bg-slate-600"
                   }`}
@@ -322,13 +309,13 @@ const ProfileSettings: React.FC = () => {
         </div>
 
         {/* Final Account & Security Section */}
-        <div className="mt-7">
+        <div className="mb-6">
           <h3 className="text-white font-semibold text-lg mb-6 hidden md:block">
             Account & Security
           </h3>
-          <div className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] mb-6">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-  px-2 cursor-pointer transition-colors">
+          <div className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
+            <div className="space-y-2 mb-6">
+              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
                 <span className="text-white">Help & Support</span>
                 <ChevronRight className="text-white w-5 h-5" />
               </div>
@@ -338,6 +325,7 @@ const ProfileSettings: React.FC = () => {
                 <ChevronRight className="text-white w-5 h-5" />
               </div>
             </div>
+
             <button
               onClick={() => startTransition(() => handleLogout())}
               className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
@@ -353,8 +341,6 @@ const ProfileSettings: React.FC = () => {
             </button>
           </div>
         </div>
-
-        {/* Logout Button */}
       </div>
     </div>
   );

@@ -198,36 +198,36 @@ const MyTeam: React.FC = () => {
             Affiliate Marketing
           </h2>
           <div className="grid grid-cols-2 gap-y-4 md:gap-4">
-            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">Today Commission</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">Total Commision</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">
                 Refferal Bonus today
               </h2>
               <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">
                 Refferal Bonus weekly
               </h2>
               <div className="text-[#3EBFD9] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#36355d] backdrop-blur-sm  rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm  rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">Total commission</h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
-            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 border border-[#2b2954]">
+            <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 ">
               <h2 className="text-white text-[17px] mb-1">
                 Total career reward
               </h2>

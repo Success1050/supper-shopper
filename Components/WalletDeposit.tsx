@@ -41,8 +41,6 @@ const MyBalanceDeposit: React.FC = () => {
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
   const [loading, setloading] = useState<boolean>(false);
 
-  // console.log("the user session", userSession);
-
   const generateAddress = async () => {
     try {
       if (!network || !currency) return;
@@ -161,7 +159,6 @@ const MyBalanceDeposit: React.FC = () => {
     const res = await fetchToken();
     if (!res.success) {
       return;
-      // console.log("tokens errror", res.message);
     }
     console.log("tokens", res.data);
 
@@ -172,9 +169,7 @@ const MyBalanceDeposit: React.FC = () => {
     const res = await getUserSession();
     if (!res.success) {
       return;
-      // console.log("sessions errror", res.message);
     }
-    // console.log("sessions", res.data);
     setusersession(res?.data ?? null);
   };
 
@@ -195,7 +190,7 @@ const MyBalanceDeposit: React.FC = () => {
     <div className="min-h-screen bg-[#201d4c] to-purple-900 p-6">
       <div>
         {/* Header */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 gap-4 mb-6">
           {/* My Active Balance Card */}
           <div className="bg-[#2b2a54] rounded-2xl p-6 border border-white/10">
             <div className="flex items-center flex-col md:flex-row justify-between min-w-0">
@@ -276,7 +271,7 @@ const MyBalanceDeposit: React.FC = () => {
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
 
-            <div className="w-full">
+            <div className="w-full mb-6">
               <label className="text-white text-sm mb-2 block">
                 Choose Amount
               </label>
@@ -293,9 +288,8 @@ const MyBalanceDeposit: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
-              {/* Choose Amount */}
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 w-full">
               {/* Choose Currency */}
               <div className="relative">
                 <label className="text-white text-sm mb-2 block">
@@ -362,7 +356,7 @@ const MyBalanceDeposit: React.FC = () => {
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full mb-6">
               {/* Generate Address */}
-              <div className="w-full ">
+              <div className="w-full">
                 <button
                   onClick={generateAddress}
                   className="w-full bg-[#454368] hover:bg-[#2723FF]/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2"
@@ -386,7 +380,7 @@ const MyBalanceDeposit: React.FC = () => {
               </div>
 
               {/* Paste TXID */}
-              <div className=" w-full">
+              <div className="w-full">
                 <input
                   type="text"
                   value={txId}
@@ -400,7 +394,7 @@ const MyBalanceDeposit: React.FC = () => {
             {/* Confirm Deposit Button */}
             <button
               onClick={confirmDeposit}
-              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-6"
             >
               Confirm Deposit
             </button>
@@ -412,14 +406,14 @@ const MyBalanceDeposit: React.FC = () => {
           </div>
         )}
 
-        {/* Withdrawal Form (Placeholder) */}
+        {/* Withdrawal Form */}
         {activeTab === "Withdrawal" && (
           <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">
               Withdrawal
             </h2>
 
-            <div className="grid grid-cols-1 gap-4 mb-6 w-full md:w-[50%]">
+            <div className="grid grid-cols-1 gap-6 mb-6 w-full md:w-[50%]">
               {/* Choose Amount */}
               <div>
                 <label className="text-white text-sm mb-2 block">
@@ -521,12 +515,10 @@ const MyBalanceDeposit: React.FC = () => {
 
             <button
               onClick={confirmWithdrawal}
-              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-4"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors mb-6"
             >
               Confirm Withdrawal
             </button>
-
-            {/* Info Text */}
           </div>
         )}
       </div>
@@ -534,7 +526,7 @@ const MyBalanceDeposit: React.FC = () => {
         <>
           <button
             onClick={confirmWithdrawal}
-            className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-4"
+            className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-6"
           >
             Withdraw now
           </button>

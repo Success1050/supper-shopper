@@ -62,7 +62,7 @@ const TaskCenter = () => {
   );
 
   return (
-    <div className="bg-[#201d4c] min-h-screen">
+    <div className="bg-[#201d4c] min-h-screen px-2 md:px-0">
       <div>
         {/* Active Products Header */}
         <div className=" p-6 mb-0">

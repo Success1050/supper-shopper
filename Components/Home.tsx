@@ -90,7 +90,7 @@ const DashboardHome = () => {
   );
 
   return (
-    <section className="w-full p-2 bg-[#201d4c]">
+    <section className="w-full p-2 px-6 md:px-0 bg-[#201d4c]">
       <div className="md:hidden mb-3">
         <EarningsSummary walletAmount={walletAmount} />
       </div>
