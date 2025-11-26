@@ -72,6 +72,20 @@ const PackageSelection: React.FC = () => {
           </p>
         </div>
 
+        <div className="flex justify-center items-center gap-2 mb-4">
+          <button className="w-[177px] px-[49px] py-[25px] bg-[#2723FF] text-center rounded-[12px] text-white">
+            Pre-Enter
+          </button>
+          <button className="w-[177px] px-[49px] whitespace-nowrap py-[25px] bg-[#2723FF] text-center rounded-[12px] text-white">
+            Beta Launch
+          </button>
+        </div>
+
+        <div className="w-[350px] rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[30px] gap-2.5 mb-4">
+          <h2 className="text-white text-[20px] font-bold">$0.00</h2>
+          <h2 className="text-white">My available balance</h2>
+        </div>
+
         {message && (
           <div className="mb-4 text-center text-yellow-300">{message}</div>
         )}

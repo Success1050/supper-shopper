@@ -12,6 +12,7 @@ import {
   uploadProfileImage,
 } from "@/app/dashboard/profile/actions";
 import { useRouter } from "next/navigation";
+import { resetPassword } from "@/app/dashboard/reset/action";
 
 interface ProfileTypes {
   id: string;
@@ -202,7 +203,10 @@ const ProfileSettings: React.FC = () => {
 
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
             <div className="p-4">
-              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group">
+              <div
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
+                onClick={() => router.push("/dashboard/reset")}
+              >
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

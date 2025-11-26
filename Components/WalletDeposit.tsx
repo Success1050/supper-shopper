@@ -17,6 +17,7 @@ import {
   UserMetadata,
 } from "@supabase/supabase-js";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const MyBalanceDeposit: React.FC = () => {
   const user = useUserStore((state) => state.user);
@@ -40,6 +41,7 @@ const MyBalanceDeposit: React.FC = () => {
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
   const [loading, setloading] = useState<boolean>(false);
+  const router = useRouter();
 
   const generateAddress = async () => {
     try {
@@ -250,18 +252,33 @@ const MyBalanceDeposit: React.FC = () => {
                   </h2>
                 </div>
               </div>
-              <button
-                onClick={() => setActiveTab("Withdrawal")}
-                className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
-              >
-                Withdrawal
-              </button>
+              <div className="flex flex-col justify-center gap-y-2">
+                <button
+                  onClick={() => setActiveTab("Withdrawal")}
+                  className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
+                >
+                  Withdrawal
+                </button>
+
+                <button
+                  onClick={() => router.push("/dashboard/wallet-address")}
+                  className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
+                >
+                  Add wallet address
+                </button>
+              </div>
             </div>
             <button
               onClick={() => setActiveTab("Withdrawal")}
               className="md:hidden w-full mt-4 px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
             >
               Withdrawal
+            </button>
+            <button
+              onClick={() => router.push("/dashboard/wallet-address")}
+              className="md:hidden w-fit mt-4 px-3 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all whitespace-nowrap"
+            >
+              Add wallet address
             </button>
           </div>
         </div>
@@ -315,7 +332,7 @@ const MyBalanceDeposit: React.FC = () => {
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {curr.name.toUpperCase()}
+                        {curr.symbol.toUpperCase()}
                       </button>
                     ))}
                   </div>
@@ -346,7 +363,7 @@ const MyBalanceDeposit: React.FC = () => {
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {chain.name} ({chain.network_code})
+                        {chain.network_code}
                       </button>
                     ))}
                   </div>

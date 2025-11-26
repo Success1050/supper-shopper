@@ -96,11 +96,11 @@ const DashboardHome = () => {
       </div>
 
       <div className="md:hidden">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4 md:px-0 px-4">
           <h2 className="text-xl md:text-2xl font-bold text-white ">
             Active Products
           </h2>
-          <h2 className="text-xl md:text-2xl font-bold text-white ">
+          <h2 className="text-xl md:text-2xl font-bold text-white">
             {products.length}
           </h2>
         </div>
