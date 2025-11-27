@@ -19,7 +19,7 @@ const UserEarnings = ({
           <div>
             <div className="text-gray-400 text-xs">My Active Balance</div>
             <div className="text-white text-lg font-bold">
-              ${walletAmount ?? 0}
+              ${walletAmount?.toFixed(2) ?? 0}
             </div>
           </div>
         </div>

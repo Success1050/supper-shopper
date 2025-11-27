@@ -83,7 +83,7 @@ const MyTeam: React.FC = () => {
         {/* Team Stats */}
         <div className="grid grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* My Direct Members */}
-          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 hidden items-center justify-center md:flex md:items-center md:justify-between gap-3 ">
+          <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 md:p-6 md:py-1 hidden items-center justify-center md:flex md:items-center md:justify-between gap-3 ">
             <div className="flex items-center gap-3 md:justify-self-start">
               <div className="w-[60px] h-[60px] flex justify-center items-center rounded-full bg-[#373575]">
                 <User size={36} className="text-white w-6 h-6" />
@@ -193,7 +193,7 @@ const MyTeam: React.FC = () => {
         </div>
 
         {/* Team Earnings */}
-        <div className="mb-8 bg-[#2b2a54] p-8">
+        <div className="mb-8 bg-[#2b2a54] p-8 rounded-2xl">
           <h2 className="text-white text-[30px] font-semibold mb-4 ">
             Affiliate Marketing
           </h2>

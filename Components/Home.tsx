@@ -117,7 +117,7 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden ">
+      <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden px-5">
         <UserEarnings walletAmount={walletAmount} />
 
         <div>
