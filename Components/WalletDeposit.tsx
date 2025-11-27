@@ -252,33 +252,18 @@ const MyBalanceDeposit: React.FC = () => {
                   </h2>
                 </div>
               </div>
-              <div className="flex flex-col justify-center gap-y-2">
-                <button
-                  onClick={() => setActiveTab("Withdrawal")}
-                  className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
-                >
-                  Withdrawal
-                </button>
-
-                <button
-                  onClick={() => router.push("/dashboard/wallet-address")}
-                  className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
-                >
-                  Add wallet address
-                </button>
-              </div>
+              <button
+                onClick={() => setActiveTab("Withdrawal")}
+                className="hidden md:block px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
+              >
+                Withdrawal
+              </button>
             </div>
             <button
               onClick={() => setActiveTab("Withdrawal")}
               className="md:hidden w-full mt-4 px-8 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all"
             >
               Withdrawal
-            </button>
-            <button
-              onClick={() => router.push("/dashboard/wallet-address")}
-              className="md:hidden w-fit mt-4 px-3 py-3 rounded-xl bg-[#2723FF] text-white font-semibold hover:bg-[#1f1acc] transition-all whitespace-nowrap"
-            >
-              Add wallet address
             </button>
           </div>
         </div>

@@ -81,7 +81,7 @@ const PackageSelection: React.FC = () => {
           </button>
         </div>
 
-        <div className="w-[350px] rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[30px] gap-2.5 mb-4">
+        <div className="w-[350px] rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[30px] gap-2.5 mb-4 mx-auto">
           <h2 className="text-white text-[20px] font-bold">$0.00</h2>
           <h2 className="text-white">My available balance</h2>
         </div>

@@ -194,17 +194,21 @@ const MyTeam: React.FC = () => {
 
         {/* Team Earnings */}
         <div className="mb-8 bg-[#2b2a54] p-8">
-          <h2 className="text-white text-[30px] font-semibold mb-4">
+          <h2 className="text-white text-[30px] font-semibold mb-4 ">
             Affiliate Marketing
           </h2>
           <div className="grid grid-cols-2 gap-y-4 md:gap-4">
             <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-lg rounded-bl-lg rounded-tr-none rounded-br-none md:rounded-lg p-4 ">
-              <h2 className="text-white text-[17px] mb-1">Today Commission</h2>
+              <h2 className="text-white text-[17px] mb-1 whitespace-nowrap truncate">
+                Today Commission
+              </h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 
             <div className="bg-[#36355d] backdrop-blur-sm rounded-tl-none rounded-bl-none rounded-tr-lg rounded-br-lg md:rounded-lg p-4 ">
-              <h2 className="text-white text-[17px] mb-1">Total Commision</h2>
+              <h2 className="text-white text-[17px] mb-1 whitespace-nowrap truncate">
+                Total Commision
+              </h2>
               <div className="text-[#55DF43] font-bold text-[22.8px]">$0</div>
             </div>
 

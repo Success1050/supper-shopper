@@ -108,7 +108,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {/* Logout Button */}
           <div className="absolute bottom-[10%] w-full">
             <div
-              className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-blue-600 hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
+              className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-[#2723FF] hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
               onClick={handleLogout}
             >
               <LogOut size={20} />

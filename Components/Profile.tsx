@@ -240,7 +240,10 @@ const ProfileSettings: React.FC = () => {
               </div>
 
               {/* Wallet Address 2FA */}
-              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
+              <div
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
+                onClick={() => router.push("/dashboard/wallet-address")}
+              >
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -319,7 +322,10 @@ const ProfileSettings: React.FC = () => {
           </h3>
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
             <div className="space-y-2 mb-6">
-              <div className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors">
+              <div
+                className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors"
+                onClick={() => router.push("/dashboard/support")}
+              >
                 <span className="text-white">Help & Support</span>
                 <ChevronRight className="text-white w-5 h-5" />
               </div>
