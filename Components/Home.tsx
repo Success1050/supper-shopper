@@ -122,16 +122,22 @@ const DashboardHome = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
-            {products.map((product: UserTaskWithProduct) => (
-              <ProductCard
-                key={product.id}
-                productId={product.product_id}
-                title={product.products.name}
-                image={product?.products.image_url || "/images/product2.png"}
-              />
-            ))}
-          </div>
+          {products.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
+              {products.map((product: UserTaskWithProduct) => (
+                <ProductCard
+                  key={product.id}
+                  productId={product.product_id}
+                  title={product.products.name}
+                  image={product?.products.image_url || "/images/product2.png"}
+                />
+              ))}
+            </div>
+          ) : (
+            <h2 className="text-white text-[20px] font-bold text-center">
+              No active Tasks
+            </h2>
+          )}
         </div>
       </div>
     </section>

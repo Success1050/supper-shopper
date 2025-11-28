@@ -211,7 +211,7 @@ const MyBalanceDeposit: React.FC = () => {
                     My Active Balance
                   </h1>
                   <h2 className="text-white text-2xl md:text-3xl font-bold">
-                    $1,234.56
+                    ${walletAmount?.toFixed(2) ?? 0}
                   </h2>
                 </div>
               </div>
@@ -270,7 +270,7 @@ const MyBalanceDeposit: React.FC = () => {
 
         {/* Deposit Form */}
         {activeTab === "Deposit" && (
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-2xl p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">Deposit</h2>
 
             <div className="w-full mb-6">
@@ -410,7 +410,7 @@ const MyBalanceDeposit: React.FC = () => {
 
         {/* Withdrawal Form */}
         {activeTab === "Withdrawal" && (
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#37355d]">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-2xl p-6 border border-[#37355d]">
             <h2 className="text-white text-xl font-semibold mb-6">
               Withdrawal
             </h2>

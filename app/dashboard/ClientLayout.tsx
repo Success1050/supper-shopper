@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Home,
   TestTube,
@@ -23,7 +23,6 @@ import MyBalanceDeposit from "@/Components/WalletDeposit";
 import Records from "@/Components/Records";
 import PackageSelection from "@/Components/PackageSelection";
 
-import { createClient } from "@/utils/supabase/client";
 import { handleLogout } from "@/Components/LogoutFunc";
 
 interface NavItem {
@@ -38,51 +37,15 @@ interface ClientLayoutProps {
 }
 
 const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
-  const supabase = createClient();
-  const [currPackage, setCurrPackage] = useState(activePackage?.data || null);
-
-  // 🟢 REALTIME SUBSCRIPTION
-  useEffect(() => {
-    if (!activePackage?.userId) return;
-
-    const channel = supabase
-      .channel("user-packages-realtime")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "user_packages",
-          filter: `user_id=eq.${activePackage.userId}`,
-        },
-        (payload) => {
-          console.log("Realtime Package Update:", payload);
-          setCurrPackage(payload.new);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [activePackage?.userId]);
-
-  // use currPackage everywhere instead of activePackage.data
-  const isActive = currPackage?.is_active;
-
   const [menuIId, setMenuId] = useState<number>(0);
 
   // Desktop Sidebar Items
   const sidebarItems: NavItem[] = [
-    ...(isActive
-      ? []
-      : [
-          {
-            icon: PackageIcon,
-            label: "All Packages",
-            url: "/dashboard/package-lists",
-          },
-        ]),
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      url: "/dashboard/package-lists",
+    },
     { icon: Home, label: "Home", url: "/dashboard" },
     {
       icon: ClipboardPen,
@@ -96,15 +59,11 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
 
   // Mobile Items
   const mobileNavItems: NavItem[] = [
-    ...(isActive
-      ? []
-      : [
-          {
-            icon: PackageIcon,
-            label: "All Packages",
-            url: "/dashboard/package-lists",
-          },
-        ]),
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      url: "/dashboard/package-lists",
+    },
     { icon: Home, label: "Home", url: "/dashboard" },
     { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
   ];

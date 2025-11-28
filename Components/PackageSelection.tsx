@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import LoadingBar from "./MainLoading";
 import { getUserSession, getUserWallet } from "@/app/dashboard/wallet/action";
 import { Session } from "@supabase/supabase-js";
+import { getActivePackage } from "@/app/actions/getActivePackage";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
@@ -18,6 +19,7 @@ const PackageSelection: React.FC = () => {
     [key: number]: boolean;
   }>({});
   const [message, setMessage] = useState<string | null>(null);
+  const [currPackage, setCurrPackage] = useState<any | null>(null);
   const router = useRouter();
 
   // Fetch packages from Supabase
@@ -33,6 +35,18 @@ const PackageSelection: React.FC = () => {
     };
 
     fetchuserPackages();
+  }, []);
+
+  useEffect(() => {
+    const getUserActivePackage = async () => {
+      const res = await getActivePackage();
+      if (res && res.success) {
+        setCurrPackage(res?.data);
+      }
+      console.log(res?.error);
+    };
+
+    getUserActivePackage();
   }, []);
 
   const getWalletBal = async () => {
@@ -119,15 +133,6 @@ const PackageSelection: React.FC = () => {
           </div>
         </div>
 
-        {/* <div className="flex justify-center items-center gap-2 mb-4">
-          <button className="w-[177px] px-[49px] py-[25px] bg-[#2723FF] text-center rounded-[12px] text-white">
-            Pre-Enter
-          </button>
-          <button className="w-[177px] px-[49px] whitespace-nowrap py-[25px] bg-[#2723FF] text-center rounded-[12px] text-white">
-            Beta Launch
-          </button>
-        </div> */}
-
         {message && (
           <div className="mb-4 text-center text-yellow-300">{message}</div>
         )}
@@ -178,29 +183,32 @@ const PackageSelection: React.FC = () => {
                       {pkg.Renewable_package}%
                     </span>
                   </div>
-                  {/* <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">Maximum Payout</span>
-                    <span className="text-green-400 font-bold">
-                      ${pkg.max_payout ?? 0}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white text-sm">
-                      Days to reach max. ROI
-                    </span>
-                    <span className="text-green-400 font-bold">
-                      {pkg.days_to_reach_max_roi ?? 0} Days
-                    </span>
-                  </div> */}
                 </div>
 
-                <button
-                  onClick={() => buyPackage(pkg.id)}
-                  disabled={loadingPackages[pkg.id]}
-                  className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
-                >
-                  {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
-                </button>
+                {/* Conditional rendering based on current package status */}
+                {currPackage && currPackage.package_id === pkg.id ? (
+                  // User's active package
+                  <div className="w-full bg-[#2723FF] text-white font-medium py-3 px-4 rounded-lg text-center">
+                    Active Package
+                  </div>
+                ) : currPackage ? (
+                  // User has a different package active
+                  <button
+                    disabled
+                    className="w-full bg-gray-600 text-gray-300 font-medium py-3 px-4 rounded-lg cursor-not-allowed"
+                  >
+                    Unavailable
+                  </button>
+                ) : (
+                  // No active package - allow purchase
+                  <button
+                    onClick={() => buyPackage(pkg.id)}
+                    disabled={loadingPackages[pkg.id]}
+                    className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
+                  >
+                    {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
+                  </button>
+                )}
               </div>
             ))}
           </div>

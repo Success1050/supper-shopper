@@ -25,45 +25,49 @@ const HeaderDashboard = ({
   menuIId?: number;
   sidebarItems?: SidebarItem[];
 }) => {
+  const router = useRouter();
   const [userImage, setUserImage] = useState<string>("");
   const [currPackage, setCurrPackage] = useState<any | null>(null);
-  const router = useRouter();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     const supabase = createClient();
+    let channel: any;
 
-    const fetchUserPackage = async () => {
+    async function load() {
       const res = await getActivePackage();
-      if (res && res.success) {
-        console.log("the man", res.data);
-        setCurrPackage(res.data);
 
-        // START realtime listener
-        const channel = supabase
-          .channel("user-packages-realtime")
-          .on(
-            "postgres_changes",
-            {
-              event: "*",
-              schema: "public",
-              table: "user_packages",
-              filter: `user_id=eq.${res.userId}`,
-            },
-            (payload) => {
-              console.log("Realtime update:", payload);
-              setCurrPackage(payload.new);
-            }
-          )
-          .subscribe();
+      if (!res?.success) return;
 
-        // Cleanup when component unmounts
-        return () => {
-          supabase.removeChannel(channel);
-        };
-      }
+      setCurrPackage(res.data);
+
+      channel = supabase
+        .channel("user-packages-realtime")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "user_packages",
+            filter: `user_id=eq.${res.userId}`,
+          },
+          (payload) => {
+            console.log("Realtime update:", payload);
+            setCurrPackage(payload.new);
+          }
+        )
+        .subscribe();
+    }
+
+    load();
+
+    return () => {
+      if (channel) supabase.removeChannel(channel);
     };
-
-    fetchUserPackage();
   }, []);
 
   useEffect(() => {
@@ -88,14 +92,16 @@ const HeaderDashboard = ({
       <div className="w-full p-3 bg-[#201d4c]">
         <div className="hidden md:flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
           <div className="w-fit px-6 py-2 flex justify-center items-center bg-[#403f65] rounded-[42px]">
-            <h2
-              className="text-white text-[16px] font-bold cursor-pointer"
-              onClick={handleNavigation}
-            >
-              {currPackage?.is_active
-                ? currPackage?.packages?.plan_name
-                : "No active package"}
-            </h2>
+            {hydrated && (
+              <h2
+                className="text-white text-[16px] font-bold cursor-pointer"
+                onClick={handleNavigation}
+              >
+                {currPackage?.is_active
+                  ? currPackage?.packages?.plan_name
+                  : "No active package"}
+              </h2>
+            )}
           </div>
 
           <div className="flex items-center gap-4">
@@ -127,7 +133,16 @@ const HeaderDashboard = ({
           />
           <div className="flex items-center justify-between gap-5">
             <div className="w-fit py-2 px-6 flex justify-center items-center bg-[#403f65] rounded-[42px]">
-              <h2 className="text-white text-[16px]">Starter</h2>
+              {hydrated && (
+                <h2
+                  className="text-white text-[16px] font-bold cursor-pointer"
+                  onClick={handleNavigation}
+                >
+                  {currPackage?.is_active
+                    ? currPackage?.packages?.plan_name
+                    : "No active package"}
+                </h2>
+              )}
             </div>
             <Link href={"/dashboard/profile"}>
               <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">

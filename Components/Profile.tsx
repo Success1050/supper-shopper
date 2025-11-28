@@ -155,7 +155,7 @@ const ProfileSettings: React.FC = () => {
             Personal Info
           </h3>
 
-          <div className="bg-[#2b2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
+          <div className="bg-[#2b2954] backdrop-blur-sm rounded-2xl p-6 border border-[#2b2954]">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-white text-sm">Full Name</span>
@@ -324,7 +324,7 @@ const ProfileSettings: React.FC = () => {
           <h3 className="text-white font-semibold text-lg mb-6 hidden md:block">
             Account & Security
           </h3>
-          <div className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954]">
+          <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-[#2b2954]">
             <div className="space-y-2 mb-6">
               <div
                 className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors"
