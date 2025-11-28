@@ -75,7 +75,7 @@ const PackageSelection: React.FC = () => {
             </p>
           </div>
 
-          <div className="w-fit rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[30px] gap-2.5 mx-auto">
+          <div className="w-fit rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[20px] gap-2.5 mx-auto">
             <h2 className="text-white text-[20px] font-bold">$0.00</h2>
             <h2 className="text-white whitespace-nowrap">
               My available balance
