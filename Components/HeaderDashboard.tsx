@@ -22,7 +22,6 @@ const HeaderDashboard = ({
   setMenuId?: (id: number) => void;
   menuIId?: number;
   sidebarItems?: SidebarItem[];
-  activePackage: any | null;
 }) => {
   const [userImage, setUserImage] = useState<string>("");
   const [currPackage, setCurrPackage] = useState<any | null>(null);
