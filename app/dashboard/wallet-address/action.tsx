@@ -173,3 +173,86 @@ export async function updateWalletAddress(
     };
   }
 }
+
+export const getUsersWalletAddress = async () => {
+  const supabase = await createClient();
+
+  const {
+    data: { session },
+    error: authError,
+  } = await supabase.auth.getSession();
+
+  if (authError || !session?.user) {
+    return {
+      success: false,
+      error: "You must be logged in to update a wallet address",
+    };
+  }
+
+  const { data: wallets, error } = await supabase
+    .from("wallet_addresses")
+    .select(`*`)
+    .eq("user_id", session.user.id);
+
+  if (error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+
+  return { success: true, wallets };
+};
+
+/**
+ * Delete a wallet address
+ */
+
+export async function deleteWalletAddress(
+  walletId: string
+): Promise<ActionResponse> {
+  try {
+    const supabase = await createClient();
+
+    // Get authenticated user
+    const {
+      data: { session },
+      error: authError,
+    } = await supabase.auth.getSession();
+
+    if (authError || !session?.user) {
+      return {
+        success: false,
+        error: "You must be logged in to delete a wallet address",
+      };
+    }
+
+    // Delete wallet address
+    const { error } = await supabase
+      .from("wallet_addresses")
+      .delete()
+      .eq("id", walletId)
+      .eq("user_id", session.user.id); // Security: ensure user owns this wallet
+
+    if (error) {
+      console.error("Error deleting wallet address:", error);
+      return {
+        success: false,
+        error: "Failed to delete wallet address. Please try again.",
+      };
+    }
+
+    revalidatePath("/dashboard/wallet-address");
+
+    return {
+      success: true,
+      message: "Wallet address deleted successfully!",
+    };
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    return {
+      success: false,
+      error: "An unexpected error occurred. Please try again.",
+    };
+  }
+}

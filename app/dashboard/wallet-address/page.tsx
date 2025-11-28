@@ -1,9 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft, ChevronDown } from "lucide-react";
-import { saveWalletAddress, updateWalletAddress } from "./action";
-import { toast } from "sonner"; // or your preferred toast library
+import {
+  deleteWalletAddress,
+  getUsersWalletAddress,
+  saveWalletAddress,
+  updateWalletAddress,
+} from "./action";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 interface WalletAddressFormProps {
@@ -11,12 +16,22 @@ interface WalletAddressFormProps {
   walletId?: string;
   initialData?: WalletFormData;
 }
+
 interface WalletFormData {
   currency: string;
   network: string;
   walletAddress: string;
   confirmWalletAddress: string;
 }
+
+interface SavedWallet {
+  id: string;
+  currency: string;
+  network: string;
+  wallet_address: string;
+  created_at: string;
+}
+
 const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
   onBack,
   walletId,
@@ -32,6 +47,19 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
       confirmWalletAddress: "",
     }
   );
+  const [savedWallets, setSavedWallets] = useState<SavedWallet[]>([]);
+
+  const getUserWallet = async () => {
+    const res = await getUsersWalletAddress();
+    if (res && res.success) {
+      setSavedWallets(res.wallets as SavedWallet[]);
+    }
+    console.log(res.error);
+  };
+
+  useEffect(() => {
+    getUserWallet();
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -336,6 +364,124 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Saved Wallet Addresses Section */}
+      {savedWallets.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-white text-xl font-bold mb-6">
+            Saved Wallet Addresses
+          </h2>
+
+          <div className="grid gap-4">
+            {savedWallets.map((wallet) => (
+              <div
+                key={wallet.id}
+                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all"
+              >
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  {/* Wallet Info */}
+                  <div className="flex-1 space-y-3">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      {/* Currency Badge */}
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                        {wallet.currency}
+                      </span>
+
+                      {/* Network Badge */}
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        {wallet.network}
+                      </span>
+
+                      {/* Date */}
+                      <span className="text-white/50 text-xs">
+                        Added:{" "}
+                        {new Date(wallet.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    {/* Wallet Address */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-white/70 text-sm font-mono break-all">
+                        {wallet.wallet_address}
+                      </span>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(wallet.wallet_address);
+                          toast.success("Address copied to clipboard");
+                        }}
+                        className="flex-shrink-0 text-white/50 hover:text-white transition p-1"
+                        aria-label="Copy address"
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        // Set form data for editing
+                        setFormData({
+                          currency: wallet.currency.toLowerCase(),
+                          network: wallet.network.toLowerCase(),
+                          walletAddress: wallet.wallet_address,
+                          confirmWalletAddress: wallet.wallet_address,
+                        });
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }}
+                      className="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition text-sm font-medium border border-blue-500/30"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (
+                          confirm(
+                            "Are you sure you want to delete this wallet address?"
+                          )
+                        ) {
+                          const result = await deleteWalletAddress(wallet.id);
+
+                          if (result.success) {
+                            // Remove from local state
+                            setSavedWallets(
+                              savedWallets.filter((w) => w.id !== wallet.id)
+                            );
+                            toast.success(
+                              result.message || "Wallet address deleted"
+                            );
+                          } else {
+                            toast.error(
+                              result.error || "Failed to delete wallet address"
+                            );
+                          }
+                        }
+                      }}
+                      className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition text-sm font-medium border border-red-500/30"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

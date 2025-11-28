@@ -92,7 +92,7 @@ const ProfileSettings: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#201d4c] p-2 px-6 md:px-0">
+    <div className="min-h-screen bg-[#201d4c] p-2 px-6 ">
       <div>
         <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl p-6 border border-slate-700/30 mb-6">
           <div className="flex items-center justify-between gap-4">
@@ -277,7 +277,7 @@ const ProfileSettings: React.FC = () => {
               </div>
 
               {/* Theme */}
-              <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
+              {/* <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,23 +292,27 @@ const ProfileSettings: React.FC = () => {
                   <span className="text-white text-sm font-medium">Theme</span>
                 </div>
                 <button className="text-white text-sm">Dark/Light</button>
-              </div>
+              </div> */}
 
               {/* Two-Factor Authentication */}
               <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
                 <span className="text-white text-sm font-medium">
                   Two-Factor Authentication
                 </span>
-                <button
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none ${
-                    twoFactorEnabled ? "bg-[#2723FF]" : "bg-slate-600"
-                  }`}
-                >
-                  <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                      twoFactorEnabled ? "translate-x-6" : "translate-x-1"
-                    }`}
-                  />
+                <button className="text-white transition-colors">
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>

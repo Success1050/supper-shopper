@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { getActivePackage } from "../actions/getActivePackage";
 import ClientLayout from "./ClientLayout";
-
 interface LayoutProps {
   children: ReactNode;
 }

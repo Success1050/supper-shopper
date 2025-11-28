@@ -110,7 +110,7 @@ export default function EditProfile({
         {/* Form Fields */}
         <div className="space-y-4">
           {/* First Name */}
-          <div>
+          {/* <div>
             <label className="block text-white text-sm mb-2">First Name</label>
             <input
               type="text"
@@ -122,10 +122,10 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div>
+          </div> */}
 
           {/* Last Name */}
-          <div>
+          {/* <div>
             <label className="block text-white text-sm mb-2">Last Name</label>
             <input
               type="text"
@@ -137,10 +137,10 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div>
+          </div> */}
 
           {/* Email */}
-          <div>
+          {/* <div>
             <label className="block text-white text-sm mb-2">Email</label>
             <input
               type="email"
@@ -152,7 +152,7 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div>
+          </div> */}
 
           {/* Mobile Number */}
           <div>
@@ -202,7 +202,7 @@ export default function EditProfile({
           </div>
 
           {/* Country */}
-          <div>
+          {/* <div>
             <label className="block text-white text-sm mb-2">Country</label>
             <input
               type="text"
@@ -214,7 +214,7 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div>
+          </div> */}
 
           {/* Submit */}
           <div className="pt-4">

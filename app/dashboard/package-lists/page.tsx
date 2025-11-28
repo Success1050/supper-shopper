@@ -1,8 +1,14 @@
-import PackageSelection from "@/Components/PackageSelection";
-import React from "react";
+// app/dashboard/package-lists/page.tsx
+import { getActivePackage } from "@/app/actions/getActivePackage";
+import { redirect } from "next/navigation";
+import PackageSelectionClient from "./PackageSelectionClient";
 
-const page = () => {
-  return <PackageSelection />;
-};
+export default async function PackageListPage() {
+  const activePackage = await getActivePackage();
 
-export default page;
+  if (activePackage?.data?.is_active) {
+    redirect("/dashboard");
+  } else {
+    return <PackageSelectionClient />;
+  }
+}

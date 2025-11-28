@@ -240,32 +240,47 @@ const MyTeam: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-[#2b2a54] rounded-2xl p-6">
-          {/* Header */}
-          <div>
-            <h2 className="text-white text-xl font-semibold mb-1">
-              Team Task Career Progress
-            </h2>
-            <p className="text-white text-3xl font-bold">20</p>
+        <div className="bg-[#2b2a54] rounded-2xl p-6 relative">
+          {/* Blurred Content */}
+          <div className="blur-sm pointer-events-none">
+            {/* Header */}
+            <div>
+              <h2 className="text-white text-xl font-semibold mb-1">
+                Team Task Career Progress
+              </h2>
+              <p className="text-white text-3xl font-bold">20</p>
+            </div>
+            <div className="flex justify-end items-start mb-6">
+              <div className="text-right">
+                <p className="text-white text-sm mb-1">Next Reward At</p>
+                <p className="text-white text-2xl font-bold">100</p>
+                <p className="text-white text-sm">40%</p>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="mb-6">
+              <p className="text-white text-sm mb-2">Progress</p>
+              <Progressbar />
+            </div>
+
+            {/* Deposit Button */}
+            <button className="w-fit bg-[#2723FF] text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+              Deposit
+            </button>
           </div>
-          <div className="flex justify-end items-start mb-6">
-            <div className="text-right">
-              <p className="text-white text-sm mb-1">Next Reward At</p>
-              <p className="text-white text-2xl font-bold">100</p>
-              <p className="text-white text-sm">40%</p>
+
+          {/* Coming Soon Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-4">
+              <h3 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
+                Coming Soon
+              </h3>
+              <p className="text-white/70 text-sm md:text-base">
+                This feature will be available shortly
+              </p>
             </div>
           </div>
-
-          {/* Progress Bar */}
-          <div className="mb-6">
-            <p className="text-white text-sm mb-2">Progress</p>
-            <Progressbar />
-          </div>
-
-          {/* Deposit Button */}
-          <button className="w-fit bg-[#2723FF] text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-            Deposit
-          </button>
         </div>
       </div>
     </div>

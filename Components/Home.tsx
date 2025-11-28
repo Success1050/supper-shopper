@@ -121,7 +121,7 @@ const DashboardHome = () => {
         <UserEarnings walletAmount={walletAmount} />
 
         <div>
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-start gap-20 items-center mb-4">
             <h2 className="text-xl md:text-2xl font-bold text-white ">
               Active Products
             </h2>

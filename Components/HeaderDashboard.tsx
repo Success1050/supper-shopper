@@ -1,5 +1,6 @@
 "use client";
 
+import { getActivePackage } from "@/app/actions/getActivePackage";
 import { getProfile, getUserProfile } from "@/app/dashboard/profile/actions";
 import { Bell, HelpCircle, Settings } from "lucide-react";
 import Image from "next/image";
@@ -18,11 +19,24 @@ const HeaderDashboard = ({
   menuIId,
   sidebarItems,
 }: {
-  menuIId?: number;
   setMenuId?: (id: number) => void;
+  menuIId?: number;
   sidebarItems?: SidebarItem[];
+  activePackage: any | null;
 }) => {
   const [userImage, setUserImage] = useState<string>("");
+  const [currPackage, setCurrPackage] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchUserPackage = async () => {
+      const res = await getActivePackage();
+      if (res && res.success) {
+        console.log("the man", res.data);
+        setCurrPackage(res.data);
+      }
+    };
+    fetchUserPackage();
+  }, []);
 
   useEffect(() => {
     const getUserImage = async () => {
@@ -38,9 +52,11 @@ const HeaderDashboard = ({
     <>
       <div className="w-full p-3 bg-[#201d4c]">
         <div className="hidden md:flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
-          <div className="w-fit p-4 flex justify-center items-center bg-[#403f65] rounded-[42px]">
-            <h2 className="text-white text-[16px]">
-              Name of active purchased packages
+          <div className="w-fit px-6 py-2 flex justify-center items-center bg-[#403f65] rounded-[42px]">
+            <h2 className="text-white text-[16px] font-bold">
+              {currPackage?.is_active
+                ? currPackage?.packages?.plan_name
+                : "No active package"}
             </h2>
           </div>
 
@@ -50,10 +66,6 @@ const HeaderDashboard = ({
               size={24}
             />
 
-            <Settings
-              className="text-white cursor-pointer hover:text-blue-200"
-              size={24}
-            />
             <Link href={"/dashboard/profile"}>
               <div className="w-[60px] h-[60px] rounded-full bg-orange-400 flex items-center justify-center">
                 <img

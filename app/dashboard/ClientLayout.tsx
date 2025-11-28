@@ -41,9 +41,11 @@ interface ClientLayoutProps {
 const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
   const [menuIId, setMenuId] = useState<number>(0);
 
+  console.log("gbu", activePackage);
+
   // Sidebar for desktop
   const sidebarItems: NavItem[] = [
-    ...(activePackage
+    ...(activePackage?.data?.is_active
       ? []
       : [
           {
@@ -135,7 +137,11 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
 
         {/* Main Content */}
         <div className="flex-1 bg-[#201d4c]">
-          <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
+          <HeaderDashboard
+            setMenuId={setMenuId}
+            menuIId={menuIId}
+            activePackage={activePackage}
+          />
           {children}
         </div>
       </div>
@@ -146,6 +152,7 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
           setMenuId={setMenuId}
           menuIId={menuIId}
           sidebarItems={restItems}
+          activePackage={activePackage}
         />
 
         {children || menus[menuIId]}

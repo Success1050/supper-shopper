@@ -12,12 +12,11 @@ export async function getActivePackage() {
 
   const { data, error } = await supabase
     .from("user_packages")
-    .select("*")
+    .select(`*, packages(plan_name)`)
     .eq("user_id", user.id)
-    .eq("is_active", true) // your active flag
     .single();
 
-  if (error) return null;
+  if (error) return { sucess: false, error: error };
 
-  return data;
+  return { success: true, data };
 }

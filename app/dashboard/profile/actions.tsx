@@ -87,13 +87,9 @@ export const saveProfile = async (
   const { data, error } = await supabase
     .from("profiles")
     .update({
-      first_name: editUserProfile?.first_name,
-      last_name: editUserProfile?.last_name,
-      country: editUserProfile?.country,
       postalCode: editUserProfile?.postalCode,
       address: editUserProfile?.address,
       mobilenumber: editUserProfile?.mobilenumber,
-      email: editUserProfile?.email,
     })
     .eq("id", profileId)
     .single();

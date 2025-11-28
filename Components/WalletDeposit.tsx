@@ -348,7 +348,7 @@ const MyBalanceDeposit: React.FC = () => {
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {chain.network_code}
+                        {chain.name}
                       </button>
                     ))}
                   </div>
@@ -452,14 +452,15 @@ const MyBalanceDeposit: React.FC = () => {
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
                     {tokens.map((curr) => (
                       <button
-                        key={curr}
+                        key={curr.id}
                         onClick={() => {
-                          setCurrency(curr);
+                          setCurrency(curr.symbol);
+                          setCurrencyId(curr.id);
                           setShowCurrencyDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {curr}
+                        {curr.symbol.toUpperCase()}
                       </button>
                     ))}
                   </div>
@@ -490,24 +491,22 @@ const MyBalanceDeposit: React.FC = () => {
                   onClick={() => setShowNetworkDropdown(!showNetworkDropdown)}
                   className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white flex items-center justify-between focus:outline-none focus:border-blue-500"
                 >
-                  <span>
-                    {network.length > 0 ? network[0] : "choose network"}
-                  </span>
+                  <span>{network.length > 0 ? network : "choose network"}</span>
                   <ChevronDown className="w-4 h-4" />
                 </button>
 
                 {showNetworkDropdown && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-blue-800 border border-[#37355d] rounded-lg overflow-hidden z-10">
-                    {chains.map((net: string) => (
+                    {chains.map((net) => (
                       <button
-                        key={net}
+                        key={net.id}
                         onClick={() => {
-                          setWalletAddress(net);
+                          setNetwork(net.name);
                           setShowNetworkDropdown(false);
                         }}
                         className="w-full px-4 py-2 text-left text-white hover:bg-blue-700 transition-colors"
                       >
-                        {net}
+                        {net.name}
                       </button>
                     ))}
                   </div>
