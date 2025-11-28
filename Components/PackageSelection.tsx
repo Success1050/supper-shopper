@@ -6,10 +6,14 @@ import {
 } from "@/app/dashboard/package-lists/action";
 import { useRouter } from "next/navigation";
 import LoadingBar from "./MainLoading";
+import { getUserSession, getUserWallet } from "@/app/dashboard/wallet/action";
+import { Session } from "@supabase/supabase-js";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
+  const [userSession, setusersession] = useState<Session | null>(null);
   const [loadingPackages, setLoadingPackages] = useState<{
     [key: number]: boolean;
   }>({});
@@ -30,6 +34,30 @@ const PackageSelection: React.FC = () => {
 
     fetchuserPackages();
   }, []);
+
+  const getWalletBal = async () => {
+    const res = await getUserWallet(userSession?.user?.id);
+    if (!res.success) {
+      return;
+    }
+
+    console.log("user balance", res.data);
+
+    setWalletAmount(res?.data);
+  };
+
+  const fetchUserSession = async () => {
+    const res = await getUserSession();
+    if (!res.success) {
+      return;
+    }
+    setusersession(res?.data ?? null);
+  };
+
+  useEffect(() => {
+    getWalletBal();
+    fetchUserSession();
+  }, [userSession?.user?.id]);
 
   const buyPackage = async (packageId: number) => {
     console.log("Buying package:", packageId);
@@ -76,7 +104,9 @@ const PackageSelection: React.FC = () => {
           </div>
 
           <div className="w-fit rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[20px] gap-2.5 mx-auto">
-            <h2 className="text-white text-[20px] font-bold">$0.00</h2>
+            <h2 className="text-white text-[20px] font-bold">
+              ${walletAmount?.toFixed(2) ?? 0}
+            </h2>
             <h2 className="text-white whitespace-nowrap">
               My available balance
             </h2>
@@ -84,7 +114,7 @@ const PackageSelection: React.FC = () => {
               className="w-fit bg-[#2723FF] hover:bg-blue-700 text-white font-semibold px-3 py-2 rounded-lg transition-colors"
               onClick={() => router.push("/dashboard/wallet")}
             >
-              Deposite
+              Deposit
             </button>
           </div>
         </div>

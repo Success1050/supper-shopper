@@ -6,6 +6,8 @@ import { Bell, HelpCircle, Settings } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 type SidebarItem = {
   icon: React.ElementType;
@@ -25,15 +27,42 @@ const HeaderDashboard = ({
 }) => {
   const [userImage, setUserImage] = useState<string>("");
   const [currPackage, setCurrPackage] = useState<any | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    const supabase = createClient();
+
     const fetchUserPackage = async () => {
       const res = await getActivePackage();
       if (res && res.success) {
         console.log("the man", res.data);
         setCurrPackage(res.data);
+
+        // START realtime listener
+        const channel = supabase
+          .channel("user-packages-realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "user_packages",
+              filter: `user_id=eq.${res.userId}`,
+            },
+            (payload) => {
+              console.log("Realtime update:", payload);
+              setCurrPackage(payload.new);
+            }
+          )
+          .subscribe();
+
+        // Cleanup when component unmounts
+        return () => {
+          supabase.removeChannel(channel);
+        };
       }
     };
+
     fetchUserPackage();
   }, []);
 
@@ -47,12 +76,22 @@ const HeaderDashboard = ({
     };
     getUserImage();
   }, []);
+
+  const handleNavigation = () => {
+    if (currPackage.is_active) {
+      router.push("/dashboard/taskCenter");
+    }
+    router.push("/dashboard/package-lists");
+  };
   return (
     <>
       <div className="w-full p-3 bg-[#201d4c]">
         <div className="hidden md:flex items-center justify-between mb-6 p-2.5 rounded-b-lg bg-[#2d2c54]">
           <div className="w-fit px-6 py-2 flex justify-center items-center bg-[#403f65] rounded-[42px]">
-            <h2 className="text-white text-[16px] font-bold">
+            <h2
+              className="text-white text-[16px] font-bold cursor-pointer"
+              onClick={handleNavigation}
+            >
               {currPackage?.is_active
                 ? currPackage?.packages?.plan_name
                 : "No active package"}

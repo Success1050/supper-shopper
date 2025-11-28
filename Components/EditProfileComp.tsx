@@ -110,11 +110,12 @@ export default function EditProfile({
         {/* Form Fields */}
         <div className="space-y-4">
           {/* First Name */}
-          {/* <div>
+          <div>
             <label className="block text-white text-sm mb-2">First Name</label>
             <input
               type="text"
               value={editUserProfile?.first_name ?? ""}
+              disabled
               onChange={(e) =>
                 seteditUserProfile((prev) =>
                   prev ? { ...prev, first_name: e.target.value } : null
@@ -122,14 +123,15 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div> */}
+          </div>
 
           {/* Last Name */}
-          {/* <div>
+          <div>
             <label className="block text-white text-sm mb-2">Last Name</label>
             <input
               type="text"
               value={editUserProfile?.last_name ?? ""}
+              disabled
               onChange={(e) =>
                 seteditUserProfile((prev) =>
                   prev ? { ...prev, last_name: e.target.value } : null
@@ -137,14 +139,15 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div> */}
+          </div>
 
           {/* Email */}
-          {/* <div>
+          <div>
             <label className="block text-white text-sm mb-2">Email</label>
             <input
               type="email"
               value={editUserProfile?.email ?? ""}
+              disabled
               onChange={(e) =>
                 seteditUserProfile((prev) =>
                   prev ? { ...prev, email: e.target.value } : null
@@ -152,7 +155,7 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div> */}
+          </div>
 
           {/* Mobile Number */}
           <div>
@@ -167,7 +170,7 @@ export default function EditProfile({
                   prev ? { ...prev, mobilenumber: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#fff] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -182,7 +185,7 @@ export default function EditProfile({
                   prev ? { ...prev, address: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#fff] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
@@ -197,16 +200,17 @@ export default function EditProfile({
                   prev ? { ...prev, postalCode: e.target.value } : null
                 )
               }
-              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
+              className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#fff] rounded-lg border border-[#37355d] border-opacity-20"
             />
           </div>
 
           {/* Country */}
-          {/* <div>
+          <div>
             <label className="block text-white text-sm mb-2">Country</label>
             <input
               type="text"
               value={editUserProfile?.country ?? ""}
+              disabled
               onChange={(e) =>
                 seteditUserProfile((prev) =>
                   prev ? { ...prev, country: e.target.value } : null
@@ -214,7 +218,7 @@ export default function EditProfile({
               }
               className="w-full px-4 py-3 bg-[#37355d] bg-opacity-10 text-[#9696ae] rounded-lg border border-[#37355d] border-opacity-20"
             />
-          </div> */}
+          </div>
 
           {/* Submit */}
           <div className="pt-4">

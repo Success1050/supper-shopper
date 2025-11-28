@@ -35,11 +35,14 @@ const AboutHero: React.FC<WhoWeAreProps> = ({
 
             <p className="text-gray-700 text-base md:text-lg leading-relaxed">
               Super Shopper operates at the intersection of fintech, e-commerce,
-              and user engagement. We are building a transparent ecosystem where
-              shoppers can earn rewards for genuine actions, and sellers gain
-              reliable, measurable visibility for their products. We believe
-              that online engagement should be fair, transparent, and mutually
-              valuable — not driven by bots, fake views, or inflated metrics.
+              and user engagement.
+            </p>
+            <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+              We are building a transparent ecosystem where shoppers can earn
+              rewards for genuine actions, and sellers gain reliable, measurable
+              visibility for their products. We believe that online engagement
+              should be fair, transparent, and mutually valuable — not driven by
+              bots, fake views, or inflated metrics.
             </p>
 
             {/* Alert Box */}

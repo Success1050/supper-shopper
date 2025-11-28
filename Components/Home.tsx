@@ -74,14 +74,6 @@ const DashboardHome = () => {
 
   console.log("products listed:", products);
 
-  //  if (loading) {
-  //    return (
-  //      <div className="min-h-full flex justify-center items-center bg-[#201d4c]">
-  //        <LoadingBar />
-  //      </div>
-  //    );
-  //  }
-
   const completedTask = products.filter((product) => product.completed);
 
   const totalReward = completedTask.reduce<number>(
@@ -117,7 +109,7 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden px-5">
+      <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden px-8">
         <UserEarnings walletAmount={walletAmount} />
 
         <div>

@@ -14,11 +14,11 @@ const FastSecureWithdrawals: React.FC<WithdrawalsProps> = ({
         {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-4">
-            FAST & SECURE WITHDRAWALS
+            Payouts & Withdrawals (Pilot Mode)
           </h2>
           <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto">
-            Your earnings are protected with bank-level security and multiple
-            cryptocurrency withdrawal options
+            During the pilot, all withdrawals are processed manually to ensure
+            accuracy and security
           </p>
         </div>
 
@@ -49,7 +49,7 @@ const FastSecureWithdrawals: React.FC<WithdrawalsProps> = ({
               </div>
               <div className="flex-1">
                 <h4 className="text-lg md:text-xl font-bold text-black mb-2">
-                  Minimum Withdrawal $10
+                  Minimum withdrawal: $10
                 </h4>
                 <p className="text-gray-600 text-sm md:text-base">
                   Low minimum threshold for easy access to your earnings
@@ -76,7 +76,7 @@ const FastSecureWithdrawals: React.FC<WithdrawalsProps> = ({
               </div>
               <div className="flex-1">
                 <h4 className="text-lg md:text-xl font-bold text-black mb-2">
-                  Processing Time 12-72 Hours
+                  Processing time: 12–72 hours
                 </h4>
                 <p className="text-gray-600 text-sm md:text-base">
                   Fast processing for quick access to your funds
@@ -103,7 +103,8 @@ const FastSecureWithdrawals: React.FC<WithdrawalsProps> = ({
               </div>
               <div className="flex-1">
                 <h4 className="text-lg md:text-xl font-bold text-black mb-2">
-                  Fee 10%
+                  Pilot fee: 10% (covers operational and network costs
+                  during test phase)
                 </h4>
                 <p className="text-gray-600 text-sm md:text-base">
                   Winners are notified and prizes are delivered within 30 days

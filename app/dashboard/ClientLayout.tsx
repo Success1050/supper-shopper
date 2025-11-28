@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import {
   Home,
   TestTube,
@@ -11,21 +11,20 @@ import {
   LogOut,
   PackageIcon,
   Bell,
-  Users2,
+  ClipboardPen,
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
 
-// Mobile imports
 import DashboardHome from "@/Components/Home";
 import TaskCenter from "@/Components/TaskCenter";
 import MyTeam from "@/Components/MyTeam";
 import MyBalanceDeposit from "@/Components/WalletDeposit";
 import Records from "@/Components/Records";
-import { createClient } from "@/utils/supabase/client";
-import { redirect } from "next/navigation";
-import { handleLogout } from "@/Components/LogoutFunc";
 import PackageSelection from "@/Components/PackageSelection";
+
+import { createClient } from "@/utils/supabase/client";
+import { handleLogout } from "@/Components/LogoutFunc";
 
 interface NavItem {
   icon: React.ComponentType<{ size?: number }>;
@@ -35,15 +34,47 @@ interface NavItem {
 
 interface ClientLayoutProps {
   children: ReactNode;
-  activePackage: any | null; // you can replace with your actual type later
+  activePackage: any | null; // now includes data & userId
 }
 
 const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
+  const supabase = createClient();
+  const [currPackage, setCurrPackage] = useState(activePackage?.data || null);
+
+  // 🟢 REALTIME SUBSCRIPTION
+  useEffect(() => {
+    if (!activePackage?.userId) return;
+
+    const channel = supabase
+      .channel("user-packages-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "user_packages",
+          filter: `user_id=eq.${activePackage.userId}`,
+        },
+        (payload) => {
+          console.log("Realtime Package Update:", payload);
+          setCurrPackage(payload.new);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [activePackage?.userId]);
+
+  // use currPackage everywhere instead of activePackage.data
+  const isActive = currPackage?.is_active;
+
   const [menuIId, setMenuId] = useState<number>(0);
 
-  // Sidebar for desktop
+  // Desktop Sidebar Items
   const sidebarItems: NavItem[] = [
-    ...(activePackage?.data?.is_active
+    ...(isActive
       ? []
       : [
           {
@@ -53,14 +84,19 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
           },
         ]),
     { icon: Home, label: "Home", url: "/dashboard" },
-    { icon: TestTube, label: "Task Center", url: "/dashboard/taskCenter" },
+    {
+      icon: ClipboardPen,
+      label: "Task Center",
+      url: "/dashboard/taskCenter",
+    },
     { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
     { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
     { icon: FileText, label: "Record", url: "/dashboard/records" },
   ];
 
+  // Mobile Items
   const mobileNavItems: NavItem[] = [
-    ...(activePackage
+    ...(isActive
       ? []
       : [
           {
@@ -75,7 +111,6 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
 
   const [firstItems, ...restItems] = sidebarItems;
 
-  // Mobile menu content
   const menus = [
     <PackageSelection key="packages" />,
     <DashboardHome key="home" />,
@@ -89,7 +124,6 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
     <div className="min-h-screen bg-[#201d4c]">
       {/* Desktop Layout */}
       <div className="hidden md:flex ">
-        {/* Sidebar */}
         <div className="w-64 min-h-screen bg-[#2d2c54] px-3 pt-5 items-start relative">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8 w-[172px] h-auto">
@@ -98,7 +132,7 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
               alt="logo"
               width={300}
               height={300}
-              className="rounded-full w-full h-full"
+              className=" w-full h-full"
             />
           </div>
 
@@ -151,7 +185,7 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
         {children || menus[menuIId]}
       </div>
 
-      {/* Bottom Navigation (Mobile only) */}
+      {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-[#3B3A61] backdrop-blur-sm md:hidden py-1 z-10">
         <div className="flex items-center justify-around py-2">
           {mobileNavItems.map((item, index) => (

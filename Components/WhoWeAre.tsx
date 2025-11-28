@@ -39,8 +39,14 @@ const WhoWeAre: React.FC<HeroSectionProps> = ({
             </h1>
 
             <p className="text-gray-600 text-base md:text-lg">
-              Super shopper is a fir-tech a eronmerce ad businesses interact
-              turning everyday engagement into real value.
+              Super Shopper is a next-generation fintech and e-commerce platform
+              that connects shoppers, brands, and marketplaces through
+              meaningful digital engagement.
+            </p>
+
+            <p className="text-gray-600 text-base md:text-lg">
+              Our mission is simple: turn everyday online interactions into real
+              value — for both users and sellers.
             </p>
 
             {/* Buttons */}

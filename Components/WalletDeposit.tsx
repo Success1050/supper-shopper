@@ -523,7 +523,7 @@ const MyBalanceDeposit: React.FC = () => {
           </div>
         )}
       </div>
-      {activeTab === "Withdrawal" ? (
+      {/* {activeTab === "Withdrawal" ? (
         <>
           <button
             onClick={confirmWithdrawal}
@@ -538,7 +538,7 @@ const MyBalanceDeposit: React.FC = () => {
         </>
       ) : (
         ""
-      )}
+      )} */}
     </div>
   );
 };

@@ -10,13 +10,18 @@ export async function getActivePackage() {
   } = await supabase.auth.getUser();
   if (!user) return null;
 
+  // Initial fetch
   const { data, error } = await supabase
     .from("user_packages")
     .select(`*, packages(plan_name)`)
     .eq("user_id", user.id)
     .single();
 
-  if (error) return { sucess: false, error: error };
+  if (error) return { success: false, error };
 
-  return { success: true, data };
+  return {
+    success: true,
+    data,
+    userId: user.id,
+  };
 }
