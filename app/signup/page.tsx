@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition, Suspense } from "react";
 import { ChevronDown } from "lucide-react";
 import { signup } from "./action";
 import { Loader } from "@/Components/Loader";
@@ -8,6 +8,29 @@ import Image from "next/image";
 import { MdOutlineHelpOutline } from "react-icons/md";
 import { GoGlobe } from "react-icons/go";
 import { useSearchParams } from "next/navigation";
+
+// Separate component that uses useSearchParams
+const ReferralCodeHandler: React.FC<{
+  onCodeChange: (code: string) => void;
+}> = ({ onCodeChange }) => {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const code = searchParams.get("ref");
+
+    if (code) {
+      onCodeChange(code);
+      localStorage.setItem("referrer_code", code);
+    } else {
+      const saved = localStorage.getItem("referrer_code");
+      if (saved) {
+        onCodeChange(saved);
+      }
+    }
+  }, [searchParams, onCodeChange]);
+
+  return null;
+};
 
 const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -35,25 +58,11 @@ const CreateAccountForm: React.FC = () => {
     investment: true,
   });
 
-  console.log("the code", formData.referralCode);
-
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const code = searchParams.get("ref");
-
-    if (code) {
-      setFormData((prev) => ({ ...prev, referralCode: code }));
-
-      localStorage.setItem("referrer_code", code);
-    } else {
-      const saved = localStorage.getItem("referrer_code");
-      if (saved) {
-        setFormData((prev) => ({ ...prev, referralCode: saved }));
-      }
-    }
-  }, []);
+  const handleReferralCodeChange = (code: string) => {
+    setFormData((prev) => ({ ...prev, referralCode: code }));
+  };
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -72,8 +81,6 @@ const CreateAccountForm: React.FC = () => {
     };
     fetchCountries();
   }, []);
-
-  console.log("our country", countries);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -101,9 +108,13 @@ const CreateAccountForm: React.FC = () => {
     }
   };
 
-  console.log(message);
   return (
     <div className="min-h-screen bg-[#201d4c] p-6">
+      {/* Wrap the referral code handler in Suspense */}
+      <Suspense fallback={null}>
+        <ReferralCodeHandler onCodeChange={handleReferralCodeChange} />
+      </Suspense>
+
       <div className="flex justify-between items-center">
         <div>
           <Image
@@ -170,33 +181,6 @@ const CreateAccountForm: React.FC = () => {
                         className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>
-                    {/* <div>
-                      <label className="text-white text-sm mb-2 block">
-                        Date of birth
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.dob}
-                        placeholder="dd/mm/yy"
-                        onChange={(e) =>
-                          handleInputChange("dob", e.target.value)
-                        }
-                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-white text-sm mb-2 block">
-                        Gender
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.gender}
-                        onChange={(e) =>
-                          handleInputChange("gender", e.target.value)
-                        }
-                        className="w-full bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
-                      />
-                    </div> */}
                   </div>
 
                   <label className="text-white text-sm my-2 block">
