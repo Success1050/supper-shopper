@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useTransition, Suspense } from "react";
+import React, {
+  useEffect,
+  useState,
+  useTransition,
+  Suspense,
+  useCallback,
+} from "react";
 import { ChevronDown } from "lucide-react";
 import { signup } from "./action";
 import { Loader } from "@/Components/Loader";
@@ -60,9 +66,9 @@ const CreateAccountForm: React.FC = () => {
 
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
 
-  const handleReferralCodeChange = (code: string) => {
+  const handleReferralCodeChange = useCallback((code: string) => {
     setFormData((prev) => ({ ...prev, referralCode: code }));
-  };
+  }, []);
 
   useEffect(() => {
     const fetchCountries = async () => {
