@@ -9,6 +9,8 @@ import LoadingBar from "./MainLoading";
 import TeamHierarchyList from "./TeamHierarchyList";
 import ComingSoonBanner from "./shortComingSoon";
 import EarningsOverviewBox from "./Earning";
+import { getProfile, getUserProfile } from "@/app/dashboard/profile/actions";
+import { getUserSession } from "@/app/dashboard/wallet/action";
 
 export interface TeamMember {
   id: string;
@@ -27,28 +29,51 @@ const MyTeam: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = React.useState(false);
-  const affiliateUrl = "https://www.1point.AI/";
-
+  const [refferralCode, setReferralCode] = useState<string | "">("");
+  const [userId, setUserId] = useState<string | "">("");
+  const affiliateUrl = `https://www.supershopper.app/signup?ref=${refferralCode}`;
   const handleCopy = () => {
     navigator.clipboard.writeText(affiliateUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  useEffect(() => {
-    const fetchTeamMembers = async () => {
-      const res = await getTeamMembers();
-      if (res && res.success) {
-        console.log("Team Data:", res.data);
-        setTeamMembers(res.data ?? []);
-      } else {
-        console.log("Error loading team", res?.error);
-      }
-      setLoading(false);
-    };
+  const fetchUserSession = async () => {
+    const res = await getUserSession();
+    if (res && res.success) {
+      setUserId(res.data?.user.id ?? "");
+    }
+    console.log(res.message);
+  };
 
-    fetchTeamMembers();
+  useEffect(() => {
+    fetchUserSession();
   }, []);
+
+  const fetchTeamMembers = async () => {
+    const res = await getTeamMembers();
+    if (res && res.success) {
+      console.log("Team Data:", res.data);
+      setTeamMembers(res.data ?? []);
+    } else {
+      console.log("Error loading team", res?.error);
+    }
+    setLoading(false);
+  };
+
+  const getUserProfile = async () => {
+    const res = await getProfile();
+    if (res && res.success) {
+      setReferralCode(res.data.personal_referral_code);
+      console.log("mine is", res.data.personal_referral_code);
+    }
+    console.log("referralcode error", res.message);
+  };
+
+  useEffect(() => {
+    fetchTeamMembers();
+    getUserProfile();
+  }, [userId]);
 
   // 🧮 Filter for search
   const filteredMembers = teamMembers.filter((member) => {

@@ -39,18 +39,6 @@ const HomeHeader = () => {
           >
             How it works
           </Link>
-          <Link
-            href="/faq"
-            className="text-white font-bold hover:text-[#2563EB] transition-colors"
-          >
-            FAQ
-          </Link>
-          <Link
-            href="/contact"
-            className="text-white font-bold hover:text-[#2563EB] transition-colors"
-          >
-            Contact Us
-          </Link>
         </div>
 
         {/* Desktop Auth Buttons */}
@@ -104,20 +92,7 @@ const HomeHeader = () => {
             >
               How it works
             </Link>
-            <Link
-              href="/faq"
-              className="text-white font-bold hover:text-[#2563EB] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/contact"
-              className="text-white font-bold hover:text-[#2563EB] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact Us
-            </Link>
+
             <div className="flex flex-col space-y-3 pt-4 border-t">
               <Link
                 href="/signup"

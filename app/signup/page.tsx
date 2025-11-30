@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { ChevronDown } from "lucide-react";
 import { signup } from "./action";
 import { Loader } from "@/Components/Loader";
 import Image from "next/image";
 import { MdOutlineHelpOutline } from "react-icons/md";
 import { GoGlobe } from "react-icons/go";
+import { useSearchParams } from "next/navigation";
 
 const CreateAccountForm: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,9 +17,9 @@ const CreateAccountForm: React.FC = () => {
     gender: "",
     city: "",
     mobileNumber: "",
+    verificationCode: "",
     address: "",
     dob: "",
-    verificationCode: "",
     country: "",
     referralCode: "",
     password: "",
@@ -26,6 +27,7 @@ const CreateAccountForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const [countries, setCountries] = useState<string[] | []>([]);
 
   const [agreements, setAgreements] = useState({
     privacy: true,
@@ -33,7 +35,45 @@ const CreateAccountForm: React.FC = () => {
     investment: true,
   });
 
+  console.log("the code", formData.referralCode);
+
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const code = searchParams.get("ref");
+
+    if (code) {
+      setFormData((prev) => ({ ...prev, referralCode: code }));
+
+      localStorage.setItem("referrer_code", code);
+    } else {
+      const saved = localStorage.getItem("referrer_code");
+      if (saved) {
+        setFormData((prev) => ({ ...prev, referralCode: saved }));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch(
+          "https://restcountries.com/v3.1/all?fields=name"
+        );
+        const data = await res.json();
+        const sorted = (data as Array<{ name: { common: string } }>)
+          .map((c) => c.name.common)
+          .sort((a: string, b: string) => a.localeCompare(b));
+        setCountries(sorted);
+      } catch (err) {
+        console.error("Error fetching countries:", err);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  console.log("our country", countries);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -43,37 +83,25 @@ const CreateAccountForm: React.FC = () => {
     setAgreements((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const sendVerificationCode = () => {
-    alert("Verification code sent!");
-  };
-
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Convert verificationCode to number before passing to signup
+
+    const ref =
+      formData.referralCode || localStorage.getItem("referrer_code") || "";
+
     const submitData = {
       ...formData,
-      verificationCode: formData.verificationCode.trim(),
+      referralCode: ref,
     };
-    const res = await signup(submitData, confirmPassword!);
 
-    if (res && res.message === "passwords does not match") {
-      setMessage(res.message);
-    }
+    const res = await signup(submitData, confirmPassword);
+
     if (res && !res.success) {
       alert(res.message);
     }
   };
 
   console.log(message);
-
-  const countries = [
-    "United States",
-    "Canada",
-    "United Kingdom",
-    "Australia",
-    "Germany",
-  ];
-
   return (
     <div className="min-h-screen bg-[#201d4c] p-6">
       <div className="flex justify-between items-center">
@@ -171,19 +199,24 @@ const CreateAccountForm: React.FC = () => {
                     </div> */}
                   </div>
 
-                  <label className="text-white text-sm mb-2 block">
+                  <label className="text-white text-sm my-2 block">
                     Country
                   </label>
                   <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Enter your country"
+                    <select
                       value={formData.country}
                       onChange={(e) => {
                         handleInputChange("country", e.target.value);
                       }}
                       className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                    />
+                    >
+                      <option value="">Select your country</option>
+                      {countries.map((country) => (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <label className="text-white text-sm my-2 block">
                     Email Address
@@ -200,38 +233,8 @@ const CreateAccountForm: React.FC = () => {
               </div>
             </div>
             {/* Verification Code & Location */}
-            <div className="flex items-center justify-between mb-4 flex-col md:flex-row gap-4">
-              <h3 className="text-white font-semibold text-lg mb-4">
-                Verification Code
-              </h3>
-              <button
-                type="button"
-                onClick={sendVerificationCode}
-                className="bg-[#2723FF] hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors"
-              >
-                Send Code
-              </button>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              {/* Verification Code */}
-              <div>
-                <label className="text-white text-sm mb-2 block">
-                  Verification Code
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Enter 6-Digit Code"
-                    value={formData.verificationCode}
-                    onChange={(e) =>
-                      handleInputChange("verificationCode", e.target.value)
-                    }
-                    className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-
+            <div className="mb-8">
               {/* phone number*/}
               <div>
                 <label className="text-white text-sm mb-2 block">

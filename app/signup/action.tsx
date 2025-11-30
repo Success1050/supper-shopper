@@ -13,6 +13,7 @@ type FormData = {
   gender: string;
   city: string;
   address: string;
+  mobileNumber: string;
   dob: string;
   referralCode?: string;
   password: string;
@@ -50,6 +51,7 @@ export async function signup(formdata: FormData, confirmPassword: string) {
         gender: formdata.gender,
         city: formdata.city,
         address: formdata.address,
+        mobilenumber: formdata.mobileNumber,
         dob: formdata.dob,
         personalReferralCode,
         referralCode: formdata.referralCode || null, // who referred them
@@ -90,6 +92,17 @@ export async function signup(formdata: FormData, confirmPassword: string) {
         console.log("Failed to set referrer_id:", updateError.message);
       }
     }
+  }
+
+  const { data: rankResult, error: rankError } = await supabase.rpc(
+    "get_country_rank",
+    { user_id_input: newUserId }
+  );
+
+  if (rankError) {
+    console.log("Error computing rank:", rankError.message);
+  } else {
+    console.log("User rank saved:", rankResult);
   }
 
   // 6️⃣ Done

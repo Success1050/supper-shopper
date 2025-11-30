@@ -25,6 +25,7 @@ interface ProfileTypes {
   profile_img: string;
   dob: string;
   gender: string;
+  country_rank: number;
   first_name: string;
   last_name: string;
   personal_referral_code: string;
@@ -118,7 +119,7 @@ const ProfileSettings: React.FC = () => {
                   {profile?.email || "null"}
                 </p>
                 <p className="text-[#fff] text-[12px]">
-                  {profile?.phone || "null"}
+                  Rank: #{profile?.country_rank || 0}
                 </p>
               </div>
             </div>
