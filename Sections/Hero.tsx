@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import HomeHeader from "./HomEHeader";
 import { useRouter } from "next/navigation";
