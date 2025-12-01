@@ -3,8 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { getUserSession } from "@/app/dashboard/wallet/action";
-
+import { useAuthStore } from "@/store";
 interface HeroSectionProps {
   imageUrl?: string;
 }
@@ -12,16 +11,12 @@ interface HeroSectionProps {
 const WhoWeAre: React.FC<HeroSectionProps> = ({
   imageUrl = "/api/placeholder/500/400",
 }) => {
+  const userId = useAuthStore((state) => state.userId);
   const handleNavigation = async () => {
-    const res = await getUserSession();
-    if (res && res.success) {
-      if (res.data) {
-        router.push("/dashboard");
-      } else {
-        router.push("/login");
-      }
+    if (userId) {
+      router.push("/dashboard");
     } else {
-      console.log(res.message);
+      router.push("/login");
     }
   };
   const router = useRouter();
