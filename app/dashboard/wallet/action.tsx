@@ -39,8 +39,6 @@ export const fetchToken = async () => {
     return { success: false, message: error.message };
   }
 
-  console.log(data);
-
   return { success: true, data: data };
 };
 
@@ -56,25 +54,7 @@ export const fetchChain = async (CurrencyId: number) => {
     return { success: false, message: error.message };
   }
 
-  console.log(error);
-
   return { success: true, data: data };
-};
-
-export const getUserSession = async () => {
-  const supabase = await createClient();
-  const {
-    data: { session },
-    error: sessionError,
-  } = await supabase.auth.getSession();
-
-  if (sessionError) {
-    return { success: false, message: sessionError.message };
-  }
-
-  console.log(session);
-
-  return { success: true, data: session };
 };
 
 export const GetExistingData = async (
@@ -93,7 +73,6 @@ export const GetExistingData = async (
     .single();
 
   if (error) {
-    console.log(error);
     return { success: false, message: error.message };
   }
 

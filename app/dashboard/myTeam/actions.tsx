@@ -6,7 +6,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 // 🧠 Recursive function to get all team members (referrals of referrals)
 async function getTeamRecursive(
   supabase: SupabaseClient,
-  userId: string,
+  userId: string | undefined,
   level = 1
 ): Promise<
   {
@@ -52,18 +52,9 @@ async function getTeamRecursive(
 }
 
 // 📦 Main function to get all referrals under current user
-export const getTeamMembers = async () => {
+export const getTeamMembers = async (userId: string | undefined) => {
   const supabase = await createClient();
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) return { success: false, error: "Not authenticated" };
-
-  const allTeamMembers = await getTeamRecursive(supabase, session.user.id);
-
-  console.log("All team members:", allTeamMembers);
+  const allTeamMembers = await getTeamRecursive(supabase, userId);
 
   return {
     success: true,

@@ -6,10 +6,9 @@ import {
   fetchChain,
   fetchToken,
   GetExistingData,
-  getUserSession,
   getUserWallet,
 } from "@/app/dashboard/wallet/action";
-import { useUserStore } from "@/store";
+import { useAuthStore } from "@/store";
 import {
   Session,
   User,
@@ -20,7 +19,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const MyBalanceDeposit: React.FC = () => {
-  const user = useUserStore((state) => state.user);
+  const userId = useAuthStore((state) => state.userId);
   const [activeTab, setActiveTab] = useState<"Deposit" | "Withdrawal">(
     "Deposit"
   );
@@ -46,18 +45,13 @@ const MyBalanceDeposit: React.FC = () => {
   const generateAddress = useCallback(async () => {
     try {
       if (!network || !currency) return;
-      if (!userSession?.user?.id) {
-        console.log("user does not exists");
+      if (!userId) {
         return;
       }
 
       setloading(true);
 
-      const existing = await GetExistingData(
-        userSession?.user?.id,
-        currency,
-        network
-      );
+      const existing = await GetExistingData(userId, currency, network);
 
       if (existing.success && existing.data) {
         setGeneratedAddress(existing.data.address);
@@ -72,7 +66,7 @@ const MyBalanceDeposit: React.FC = () => {
           Authorization: `Bearer ${userSession}`,
         },
         body: JSON.stringify({
-          user_id: userSession?.user?.id,
+          user_id: userId,
           coin: currency,
           network: network,
         }),
@@ -125,27 +119,23 @@ const MyBalanceDeposit: React.FC = () => {
   }, [amount, walletAddress, network, walletAmount]);
 
   const getWalletBal = useCallback(async () => {
-    if (!userSession?.user?.id) return;
+    if (!userId) return;
 
-    const res = await getUserWallet(userSession.user.id);
+    const res = await getUserWallet(userId);
     if (!res.success) {
       return;
     }
 
-    console.log("user balance", res.data);
     setWalletAmount(res?.data);
-  }, [userSession?.user?.id]);
+  }, [userId]);
 
   const FetchSelectedChain = useCallback(async () => {
     if (!CurrencyId) return;
 
     const res = await fetchChain(CurrencyId);
     if (!res.success) {
-      console.log(res.message);
       return;
     }
-
-    console.log("Raw chain data:", res.data);
 
     const formatted = (res.data ?? []).map((item) => ({
       id: item.id,
@@ -161,29 +151,15 @@ const MyBalanceDeposit: React.FC = () => {
     if (!res.success) {
       return;
     }
-    console.log("tokens", res.data);
     setTokens(res.data || []);
   }, []);
 
-  const fetchUserSession = useCallback(async () => {
-    const res = await getUserSession();
-    if (!res.success) {
-      return;
-    }
-    setusersession(res?.data ?? null);
-  }, []);
-
-  // Fetch user session first (only once)
-  useEffect(() => {
-    fetchUserSession();
-  }, [fetchUserSession]);
-
   // Fetch wallet balance when session is available
   useEffect(() => {
-    if (userSession?.user?.id) {
+    if (userId) {
       getWalletBal();
     }
-  }, [userSession?.user?.id, getWalletBal]);
+  }, [userId, getWalletBal]);
 
   // Fetch tokens only once
   useEffect(() => {

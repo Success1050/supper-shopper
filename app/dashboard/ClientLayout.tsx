@@ -25,62 +25,27 @@ import Records from "@/Components/Records";
 import PackageSelection from "@/Components/PackageSelection";
 
 import { handleLogout } from "@/Components/LogoutFunc";
+import { ClientLayoutProps } from "@/type";
+import { mobileNavItems, sidebarItems } from "@/constants";
 
-interface NavItem {
-  icon: React.ComponentType<{ size?: number }>;
-  label: string;
-  url: string;
-}
-
-interface ClientLayoutProps {
-  children: ReactNode;
-  activePackage: any | null;
-}
-
-const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
+const ClientLayout = ({ children }: ClientLayoutProps) => {
   const pathname = usePathname();
-  const [menuIId, setMenuId] = useState<number>(0);
+  const [active, setActive] = useState(pathname);
+  const [currentRoute, setCurrentRoute] = useState(pathname);
 
-  // Desktop Sidebar Items
-  const sidebarItems: NavItem[] = [
-    {
-      icon: PackageIcon,
-      label: "All Packages",
-      url: "/dashboard/package-lists",
-    },
-    { icon: Home, label: "Home", url: "/dashboard" },
-    {
-      icon: ClipboardPen,
-      label: "Task Center",
-      url: "/dashboard/taskCenter",
-    },
-    { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
-    { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
-    { icon: FileText, label: "Record", url: "/dashboard/records" },
-  ];
-
-  // Mobile Items
-  const mobileNavItems: NavItem[] = [
-    {
-      icon: PackageIcon,
-      label: "All Packages",
-      url: "/dashboard/package-lists",
-    },
-    { icon: Home, label: "Home", url: "/dashboard" },
-    { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
-  ];
-
-  // Sync menuIId with current URL on mount and route change
   useEffect(() => {
-    const currentIndex = sidebarItems.findIndex(
-      (item) => item.url === pathname
-    );
-    if (currentIndex !== -1) {
-      setMenuId(currentIndex);
-    } else if (pathname === "/dashboard") {
-      setMenuId(1); // Home is at index 1
-    }
+    setCurrentRoute(pathname);
   }, [pathname]);
+
+  // update when actual path changes
+  useEffect(() => {
+    setActive(pathname);
+  }, [pathname]);
+
+  const activeMenuIndex = sidebarItems.findIndex(
+    (item) => item.url === pathname
+  );
+  const menuIId = activeMenuIndex !== -1 ? activeMenuIndex : 1; //
 
   const [firstItems, ...restItems] = sidebarItems;
 
@@ -114,8 +79,9 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
             {sidebarItems.map((item, index) => (
               <Link href={item.url} key={index}>
                 <div
+                  onClick={() => setActive(item.url)} // 👈 instant update
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg w-full cursor-pointer ${
-                    index === menuIId
+                    active === item.url
                       ? "bg-[#263bf6] text-white"
                       : "text-white hover:bg-blue-700/50 bg-[#343758]"
                   }`}
@@ -141,20 +107,29 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
 
         {/* Main Content */}
         <div className="flex-1 bg-[#201d4c]">
-          <HeaderDashboard setMenuId={setMenuId} menuIId={menuIId} />
-          {children}
+          <HeaderDashboard menuIId={menuIId} />
+
+          {(() => {
+            const menuIndex = sidebarItems.findIndex(
+              (item) => item.url === currentRoute
+            );
+            // If route matches a sidebar item, show menu component, otherwise show children
+            return menuIndex !== -1 ? menus[menuIndex] : children;
+          })()}
         </div>
       </div>
 
       {/* Mobile Layout */}
       <div className="md:hidden pb-20">
-        <HeaderDashboard
-          setMenuId={setMenuId}
-          menuIId={menuIId}
-          sidebarItems={restItems}
-        />
+        <HeaderDashboard menuIId={menuIId} sidebarItems={restItems} />
 
-        {children || menus[menuIId]}
+        {(() => {
+          const menuIndex = sidebarItems.findIndex(
+            (item) => item.url === currentRoute
+          );
+          // If route matches a sidebar item, show menu component, otherwise show children
+          return menuIndex !== -1 ? menus[menuIndex] : children;
+        })()}
       </div>
 
       {/* Bottom Navigation */}
@@ -163,10 +138,11 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
           {mobileNavItems.map((item, index) => (
             <Link href={item.url} key={index}>
               <div
-                className={`flex flex-col items-center px-3 py-2 ${
-                  pathname === item.url
-                    ? "bg-[#2622fb] rounded-full text-white"
-                    : "text-white"
+                onClick={() => setActive(item.url)} // 👈 instant update
+                className={`flex items-center gap-3 px-3 py-3 rounded-lg w-full cursor-pointer ${
+                  active === item.url
+                    ? "bg-[#263bf6] text-white"
+                    : "text-white hover:bg-blue-700/50 bg-[#343758]"
                 }`}
               >
                 <item.icon size={20} />

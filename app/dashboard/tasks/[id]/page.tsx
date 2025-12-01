@@ -9,5 +9,7 @@ export default async function TaskPage({
 }) {
   const { id } = await params; // ⬅️ FIX: await it
 
+  console.log("Page loaded with ID:", id);
+
   return <TaskExecution productId={parseInt(id, 10)} />;
 }

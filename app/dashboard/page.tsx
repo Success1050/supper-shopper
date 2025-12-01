@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import DashboardHome from "@/Components/Home";
 
 const Dashboard = () => {
-
   return <DashboardHome />;
 };
 

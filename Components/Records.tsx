@@ -2,16 +2,7 @@
 
 import React, { useState } from "react";
 import HeaderDashboard from "./HeaderDashboard";
-
-interface HistoryRecord {
-  id: string;
-  date: string;
-  time: string;
-  type: string;
-  status: "Completed" | "Processing";
-  amount: string;
-  color: string;
-}
+import { HistoryRecord } from "@/type";
 
 const Records: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("All History");

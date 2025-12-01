@@ -6,6 +6,7 @@ import Progressbar from "./Progressbar";
 import Link from "next/link";
 import { getProducts } from "@/app/dashboard/taskCenter/action";
 import LoadingBar from "./MainLoading";
+import { useAuthStore } from "@/store";
 
 export interface UserTaskWithProduct {
   id: number;
@@ -23,9 +24,11 @@ export interface UserTaskWithProduct {
 const TaskCenter = () => {
   const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const userId = useAuthStore((state) => state.userId);
 
   const fetchProducts = useCallback(async () => {
-    const res = await getProducts();
+    if (!userId) return;
+    const res = await getProducts(userId ?? undefined);
     if (!res.success) return console.log("an error occured");
 
     setProducts(res.data ?? []);

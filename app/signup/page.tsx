@@ -189,7 +189,7 @@ const CreateAccountForm: React.FC = () => {
                     </div>
                   </div>
 
-                  <label className="text-white text-sm my-2 block">
+                  <label className="text-white text-sm my-4 block">
                     Country
                   </label>
                   <div className="flex gap-2">
@@ -198,7 +198,7 @@ const CreateAccountForm: React.FC = () => {
                       onChange={(e) => {
                         handleInputChange("country", e.target.value);
                       }}
-                      className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] focus:outline-none focus:border-blue-500"
+                      className="flex-1 bg-[#37355d] border border-[#37355d] rounded-lg px-4 py-3 text-white placeholder-[#b4b4b0] w-full focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Select your country</option>
                       {countries.map((country) => (
@@ -208,7 +208,7 @@ const CreateAccountForm: React.FC = () => {
                       ))}
                     </select>
                   </div>
-                  <label className="text-white text-sm my-2 block">
+                  <label className="text-white text-sm my-4 block">
                     Email Address
                   </label>
                   <input

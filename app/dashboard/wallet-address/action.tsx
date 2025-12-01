@@ -1,42 +1,15 @@
 "use server";
 
+import { ActionResponse, WalletAddressData } from "@/type";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-interface WalletAddressData {
-  currency: string;
-  network: string;
-  walletAddress: string;
-  confirmWalletAddress: string;
-}
-
-interface ActionResponse {
-  success: boolean;
-  message?: string;
-  error?: string;
-}
-
-/**
- * Save a new wallet address for the authenticated user
- */
 export async function saveWalletAddress(
-  formData: WalletAddressData
+  formData: WalletAddressData,
+  userId: string | undefined
 ): Promise<ActionResponse> {
   try {
     const supabase = await createClient();
-
-    // Get authenticated user
-    const {
-      data: { session },
-      error: authError,
-    } = await supabase.auth.getSession();
-
-    if (authError || !session?.user) {
-      return {
-        success: false,
-        error: "You must be logged in to save a wallet address",
-      };
-    }
 
     // Validate form data
     if (!formData.currency || !formData.network || !formData.walletAddress) {
@@ -58,7 +31,7 @@ export async function saveWalletAddress(
     const { error: deactivateError } = await supabase
       .from("wallet_addresses")
       .update({ is_active: false })
-      .eq("user_id", session.user.id)
+      .eq("user_id", userId)
       .eq("currency", formData.currency)
       .eq("is_active", true);
 
@@ -70,7 +43,7 @@ export async function saveWalletAddress(
     const { data, error } = await supabase
       .from("wallet_addresses")
       .insert({
-        user_id: session.user.id,
+        user_id: userId,
         currency: formData.currency,
         network: formData.network,
         wallet_address: formData.walletAddress,
@@ -104,23 +77,11 @@ export async function saveWalletAddress(
 
 export async function updateWalletAddress(
   walletId: string,
-  formData: WalletAddressData
+  formData: WalletAddressData,
+  userId: string | undefined
 ): Promise<ActionResponse> {
   try {
     const supabase = await createClient();
-
-    // Get authenticated user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return {
-        success: false,
-        error: "You must be logged in to update a wallet address",
-      };
-    }
 
     // Validate form data
     if (!formData.currency || !formData.network || !formData.walletAddress) {
@@ -147,7 +108,7 @@ export async function updateWalletAddress(
         wallet_address: formData.walletAddress,
       })
       .eq("id", walletId)
-      .eq("user_id", user.id) // Security: ensure user owns this wallet
+      .eq("user_id", userId) // Security: ensure user owns this wallet
       .select()
       .single();
 
@@ -174,25 +135,12 @@ export async function updateWalletAddress(
   }
 }
 
-export const getUsersWalletAddress = async () => {
+export const getUsersWalletAddress = async (userId: string | undefined) => {
   const supabase = await createClient();
-
-  const {
-    data: { session },
-    error: authError,
-  } = await supabase.auth.getSession();
-
-  if (authError || !session?.user) {
-    return {
-      success: false,
-      error: "You must be logged in to update a wallet address",
-    };
-  }
-
   const { data: wallets, error } = await supabase
     .from("wallet_addresses")
     .select(`*`)
-    .eq("user_id", session.user.id);
+    .eq("user_id", userId);
 
   if (error) {
     return {
@@ -204,35 +152,18 @@ export const getUsersWalletAddress = async () => {
   return { success: true, wallets };
 };
 
-/**
- * Delete a wallet address
- */
-
 export async function deleteWalletAddress(
-  walletId: string
+  walletId: string,
+  userId: string | undefined
 ): Promise<ActionResponse> {
   try {
     const supabase = await createClient();
-
-    // Get authenticated user
-    const {
-      data: { session },
-      error: authError,
-    } = await supabase.auth.getSession();
-
-    if (authError || !session?.user) {
-      return {
-        success: false,
-        error: "You must be logged in to delete a wallet address",
-      };
-    }
-
     // Delete wallet address
     const { error } = await supabase
       .from("wallet_addresses")
       .delete()
       .eq("id", walletId)
-      .eq("user_id", session.user.id); // Security: ensure user owns this wallet
+      .eq("user_id", userId); // Security: ensure user owns this wallet
 
     if (error) {
       console.error("Error deleting wallet address:", error);

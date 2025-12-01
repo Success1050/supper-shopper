@@ -1,21 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import HeaderDashboard from "./HeaderDashboard";
-import { Clock } from "lucide-react";
 import { ProductCard } from "./ProductCard";
-import Progressbar from "./Progressbar";
-import EarningsOverviewBox from "./Earning";
-import { StatCard } from "./StatsCard";
-import { RiTeamLine } from "react-icons/ri";
-import { FaRegCheckCircle } from "react-icons/fa";
 import EarningsSummary from "./smallscreenearningbox";
-import { getUserSession, getUserWallet } from "@/app/dashboard/wallet/action";
-import { Session } from "@supabase/supabase-js";
-import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
-import { TeamMember } from "./MyTeam";
-import LoadingBar from "./MainLoading";
+
 import { getProducts } from "@/app/dashboard/taskCenter/action";
 import { UserTaskWithProduct } from "./TaskCenter";
 import UserEarnings from "./UserEarnings";
+import { useAuthStore } from "@/store";
 
 // Loading skeleton for products
 const ProductSkeleton = () => (
@@ -27,55 +18,31 @@ const ProductSkeleton = () => (
 
 const DashboardHome = () => {
   const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
-  const [userSession, setUserSession] = useState<Session | null>(null);
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
+  const userId = useAuthStore((state) => state.userId);
 
   // Fetch all data in parallel on mount
   useEffect(() => {
+    if (!userId) return;
+
     const initializeDashboard = async () => {
       try {
-        // Fetch session, products, and team in parallel
-        const [sessionRes, productsRes, teamRes] = await Promise.all([
-          getUserSession(),
-          getProducts(),
-          getTeamMembers(),
-        ]);
+        const [productsRes] = await Promise.all([getProducts(userId)]);
 
-        // Set session
-        if (sessionRes.success) {
-          setUserSession(sessionRes.data ?? null);
-
-          // Fetch wallet only after we have session
-          if (sessionRes.data?.user?.id) {
-            getUserWallet(sessionRes.data.user.id).then((walletRes) => {
-              if (walletRes.success) {
-                setWalletAmount(walletRes.data);
-              }
-            });
-          }
-        }
-
-        // Set products
         if (productsRes.success) {
           setProducts(productsRes.data ?? []);
         }
-        setProductsLoading(false);
-
-        // Set team members
-        if (teamRes && teamRes.success) {
-          setTeamMembers(teamRes.data ?? []);
-        }
       } catch (error) {
         console.error("Error initializing dashboard:", error);
+      } finally {
         setProductsLoading(false);
       }
     };
 
     initializeDashboard();
-  }, []); // Empty dependency array - only run once on mount
+  }, [userId]);
 
   // Memoize computed values
   const completedTask = useMemo(

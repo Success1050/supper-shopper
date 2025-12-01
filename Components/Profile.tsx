@@ -1,50 +1,32 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { ChevronRight, LogOut, Edit, Router, Camera } from "lucide-react";
+import { ChevronRight, LogOut } from "lucide-react";
 import { handleLogout } from "./LogoutFunc";
 import { useTransition } from "react";
 import { Loader } from "./Loader";
-import { getProducts } from "@/app/dashboard/taskCenter/action";
 import {
   getProfile,
-  getUserProfile,
   uploadProfileImage,
 } from "@/app/dashboard/profile/actions";
 import { useRouter } from "next/navigation";
-import { resetPassword } from "@/app/dashboard/reset/action";
-
-interface ProfileTypes {
-  id: string;
-  email: string;
-  phone: string;
-  country: string;
-  city: string;
-  mobilenumber: string;
-  address: string;
-  profile_img: string;
-  dob: string;
-  gender: string;
-  country_rank: number;
-  first_name: string;
-  last_name: string;
-  personal_referral_code: string;
-}
+import { useAuthStore } from "@/store";
+import { ProfileTypes } from "@/type";
 
 const ProfileSettings: React.FC = () => {
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(true);
   const [profile, setProfile] = useState<ProfileTypes | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [editUserProfile, seteditUserProfile] = useState<string | null>(null);
+  const userId = useAuthStore((state) => state.userId);
 
-  // Optimized: Single fetch that gets all data at once
   useEffect(() => {
+    if (!userId) return;
     const fetchUserProfile = async () => {
       try {
-        const res = await getProfile();
+        const res = await getProfile(userId ?? undefined);
         if (!res || !res.success) {
           console.log("An error occurred");
           setLoading(false);
@@ -64,7 +46,7 @@ const ProfileSettings: React.FC = () => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [userId]);
 
   // Optimized: Memoized edit handler
   const handleEdit = useCallback(() => {
@@ -73,10 +55,6 @@ const ProfileSettings: React.FC = () => {
     }
   }, [profile?.id, router]);
 
-  // Optimized: Removed redundant second fetch - data already loaded from getProfile
-  // The second useEffect was fetching the same data again, causing delay
-
-  // Optimized: Memoized photo change handler
   const handlePhotoChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];

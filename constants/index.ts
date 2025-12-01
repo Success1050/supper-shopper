@@ -1,6 +1,17 @@
 // data/constants.ts
 
-import { Antenna } from "lucide-react";
+import { NavItem } from "@/type";
+import {
+  Home,
+  TestTube,
+  Users,
+  Wallet,
+  FileText,
+  LogOut,
+  PackageIcon,
+  Bell,
+  ClipboardPen,
+} from "lucide-react";
 
 export const pricingPlans = [
   {
@@ -337,3 +348,29 @@ export const whyChooseSuperShopper = [
   },
 ];
 
+ export const sidebarItems: NavItem[] = [
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      url: "/dashboard/package-lists",
+    },
+    { icon: Home, label: "Home", url: "/dashboard" },
+    {
+      icon: ClipboardPen,
+      label: "Task Center",
+      url: "/dashboard/taskCenter",
+    },
+    { icon: Users, label: "My Team", url: "/dashboard/myTeam" },
+    { icon: Wallet, label: "Wallet", url: "/dashboard/wallet" },
+    { icon: FileText, label: "Record", url: "/dashboard/records" },
+  ];
+
+    export const mobileNavItems: NavItem[] = [
+    {
+      icon: PackageIcon,
+      label: "All Packages",
+      url: "/dashboard/package-lists",
+    },
+    { icon: Home, label: "Home", url: "/dashboard" },
+    { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
+  ];

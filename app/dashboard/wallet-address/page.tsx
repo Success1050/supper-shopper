@@ -10,27 +10,8 @@ import {
 } from "./action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-interface WalletAddressFormProps {
-  onBack?: () => void;
-  walletId?: string;
-  initialData?: WalletFormData;
-}
-
-interface WalletFormData {
-  currency: string;
-  network: string;
-  walletAddress: string;
-  confirmWalletAddress: string;
-}
-
-interface SavedWallet {
-  id: string;
-  currency: string;
-  network: string;
-  wallet_address: string;
-  created_at: string;
-}
+import { useAuthStore } from "@/store";
+import { SavedWallet, WalletAddressFormProps, WalletFormData } from "@/type";
 
 const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
   onBack,
@@ -48,9 +29,10 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
     }
   );
   const [savedWallets, setSavedWallets] = useState<SavedWallet[]>([]);
+  const userId = useAuthStore((state) => state.userId);
 
   const getUserWallet = async () => {
-    const res = await getUsersWalletAddress();
+    const res = await getUsersWalletAddress(userId ?? undefined);
     if (res && res.success) {
       setSavedWallets(res.wallets as SavedWallet[]);
     }
@@ -58,8 +40,9 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
   };
 
   useEffect(() => {
+    if (!userId) return;
     getUserWallet();
-  }, []);
+  }, [userId]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -86,7 +69,7 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
     setIsLoading(true);
 
     try {
-      const result = await saveWalletAddress(formData);
+      const result = await saveWalletAddress(formData, userId ?? undefined);
 
       if (result.success) {
         alert(result.message || "Wallet address saved successfully!");
@@ -130,7 +113,11 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
     setIsLoading(true);
 
     try {
-      const result = await updateWalletAddress(walletId, formData);
+      const result = await updateWalletAddress(
+        walletId,
+        formData,
+        userId ?? undefined
+      );
 
       if (result.success) {
         toast.success(result.message || "Wallet address updated successfully!");
@@ -201,14 +188,11 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
                 <option value="" className="bg-[#312e81] text-white">
                   Choose select currency
                 </option>
-                <option value="btc" className="bg-[#312e81] text-white">
-                  Bitcoin (BTC)
+                <option value="USDT" className="bg-[#312e81] text-white">
+                  USDT
                 </option>
-                <option value="eth" className="bg-[#312e81] text-white">
-                  Ethereum (ETH)
-                </option>
-                <option value="usdt" className="bg-[#312e81] text-white">
-                  Tether (USDT)
+                <option value="USDC" className="bg-[#312e81] text-white">
+                  USDC
                 </option>
               </select>
               <ChevronDown
@@ -234,14 +218,23 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
                 <option value="" className="bg-[#312e81] text-white">
                   Choose your network
                 </option>
-                <option value="erc20" className="bg-[#312e81] text-white">
-                  ERC20
-                </option>
                 <option value="trc20" className="bg-[#312e81] text-white">
-                  TRC20
+                  TRC20(USDT)
                 </option>
-                <option value="bep20" className="bg-[#312e81] text-white">
-                  BEP20
+                <option value="ARB" className="bg-[#312e81] text-white">
+                  ARB(USDC)
+                </option>
+                <option value="BEP20" className="bg-[#312e81] text-white">
+                  BEP20(USDC)
+                </option>
+                <option value="POL" className="bg-[#312e81] text-white">
+                  POL(USDC)
+                </option>
+                <option value="BASE" className="bg-[#312e81] text-white">
+                  BASE(USDC)
+                </option>
+                <option value="SOL" className="bg-[#312e81] text-white">
+                  SOL(USDC)
                 </option>
               </select>
               <ChevronDown
@@ -454,7 +447,10 @@ const WalletAddressForm: React.FC<WalletAddressFormProps> = ({
                             "Are you sure you want to delete this wallet address?"
                           )
                         ) {
-                          const result = await deleteWalletAddress(wallet.id);
+                          const result = await deleteWalletAddress(
+                            wallet.id,
+                            userId ?? undefined
+                          );
 
                           if (result.success) {
                             // Remove from local state

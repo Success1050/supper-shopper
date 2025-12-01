@@ -3,21 +3,12 @@
 import { createClient } from "@/utils/supabase/server";
 import { UserProfileTypes } from "@/Components/EditProfileComp";
 
-export const getProfile = async () => {
+export const getProfile = async (userId: string | undefined) => {
   const supabase = await createClient();
-
-  const {
-    data: { session },
-    error: userError,
-  } = await supabase.auth.getSession();
-  if (userError) return { success: false, message: userError.message };
-  if (!session?.user?.id)
-    return { success: false, message: "No authenticated user" };
-
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", session.user.id)
+    .eq("id", userId)
     .single();
 
   if (error) return { success: false, message: error.message };

@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/Components/Loader";
+import { useAuthStore } from "@/store";
 
 type completedTask = {
   reward: number;
@@ -31,19 +32,32 @@ interface TaskSteps {
 }
 
 const TaskExecution = ({ productId }: { productId: number }) => {
+  console.log("TaskExecution component mounted with productId:", productId);
+
   const [rating, setRating] = useState<number>(0);
+  const userId = useAuthStore((state) => state.userId);
   const [comment, setComment] = useState<string>("");
   const [CompletedTask, setCompletedTask] = useState<completedTask[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  // ✅ ADD: Initial loading state
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+
   const [product, setProduct] = useState<any[]>([]);
   const [taskSteps, settaskStep] = useState<TaskSteps[] | []>([]);
 
   const [watchProgress, setWatchProgress] = useState<number>(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
 
-  console.log("my product id", productId);
+  console.log(
+    "TaskExecution render - productId:",
+    productId,
+    "userId:",
+    userId
+  );
 
   // Memoize task step lookups
   const watchStep = useMemo(
@@ -80,7 +94,12 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
     const userComment = comment.trim();
 
-    const res = await submission(productId, userComment, rating);
+    const res = await submission(
+      productId,
+      userComment,
+      userId ?? undefined,
+      rating
+    );
     if (!res?.success) {
       setLoading(false);
       return console.log(res?.message);
@@ -94,7 +113,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     setWatchProgress(0);
     setRating(0);
     setLoading(false);
-  }, [productId, comment, rating, router]);
+  }, [productId, comment, rating, router, userId]);
 
   // Memoize total reward calculation
   const totalReward = useMemo(() => {
@@ -105,14 +124,51 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   }, [CompletedTask]);
 
   const fetchProducts = useCallback(async () => {
-    const res = await getProducts();
-    if (!res.success) return console.log(res.message);
-    setProduct(res?.data ?? []);
-  }, []);
+    try {
+      const res = await getProducts(userId ?? undefined);
+      if (!res.success) {
+        console.log(res.message);
+        return;
+      }
+      setProduct(res?.data ?? []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  }, [userId]);
 
+  const fetchTaskSteps = useCallback(async () => {
+    try {
+      const res = await getTaskSteps(productId);
+      if (res && res.success) {
+        console.log("shout gbu", res.data);
+        settaskStep(res.data as TaskSteps[]);
+      } else {
+        console.log(res?.message);
+      }
+    } catch (error) {
+      console.error("Error fetching task steps:", error);
+    }
+  }, [productId]);
+
+  // ✅ FIXED: Combined data fetching with loading state
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    const fetchAllData = async () => {
+      if (!userId || !productId) return;
+
+      setInitialLoading(true);
+
+      try {
+        // Fetch both in parallel for faster loading
+        await Promise.all([fetchProducts(), fetchTaskSteps()]);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [userId, productId, fetchProducts, fetchTaskSteps]);
 
   // Memoize single task lookup
   const singleTask = useMemo(
@@ -121,20 +177,6 @@ const TaskExecution = ({ productId }: { productId: number }) => {
   );
 
   console.log("the single tasks", singleTask);
-
-  const fetchTaskSteps = useCallback(async () => {
-    const res = await getTaskSteps(productId);
-    if (res && res.success) {
-      console.log("shout gbu", res.data);
-      settaskStep(res.data as TaskSteps[]);
-    } else {
-      console.log(res?.message);
-    }
-  }, [productId]);
-
-  useEffect(() => {
-    fetchTaskSteps();
-  }, [fetchTaskSteps]);
 
   // Memoize video source
   const videoSource = useMemo(
@@ -149,6 +191,34 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     () => singleTask?.products?.image_url || "/images/taskimg1.png",
     [singleTask]
   );
+
+  // ✅ SHOW LOADING STATE
+  if (initialLoading) {
+    return (
+      <div className="min-h-screen bg-[#201d4c] flex items-center justify-center">
+        <div className="text-center">
+          <Loader />
+          <p className="text-white mt-4">Loading task...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ SHOW ERROR STATE if product not found
+  if (!singleTask && !initialLoading) {
+    return (
+      <div className="min-h-screen bg-[#201d4c] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white text-xl">Task not found</p>
+          <Link href="/dashboard/taskCenter">
+            <button className="mt-4 bg-[#2723FF] text-white px-6 py-2 rounded-lg">
+              Back to Tasks
+            </button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#201d4c] px-4">

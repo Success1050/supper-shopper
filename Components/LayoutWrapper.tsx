@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import Header from "@/Sections/Header";
 import Footer from "@/Sections/Footer";
-import { useUserStore } from "@/store";
+import { useAuthStore } from "@/store";
 import { useEffect, useState } from "react";
 
 export default function LayoutWrapper({
@@ -11,14 +11,13 @@ export default function LayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const fetchUser = useUserStore((state) => state.fetchUser);
+  const session = useAuthStore((state) => state.session);
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    fetchUser();
-  }, [fetchUser]);
+  }, [session]);
 
   // Exact routes - NO HEADER (they have their own custom headers)
   const noHeaderExactRoutes = ["/login", "/signup", "/"];

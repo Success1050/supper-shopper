@@ -1,39 +1,29 @@
-// store/userStore.ts
-// "use server";
+"use client";
 
 import { create } from "zustand";
-import { createClient } from "@/utils/supabase/client"; 
-import type { User } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 
-type UserState = {
-  user: User | null;
-  loading: boolean;
-  setUser: (user: User | null) => void;
-  fetchUser: () => Promise<void>;
+type AuthState = {
+  session: Session | null;
+  userId: string | null;
+
+  setSession: (session: Session | null) => void;
+  clearSession: () => void;
 };
 
-export const useUserStore = create<UserState>((set) => ({
-  user: null,
-  loading: true,
+export const useAuthStore = create<AuthState>((set) => ({
+  session: null,
+  userId: null,
 
-  setUser: (user) => set({ user }),
+  setSession: (session) =>
+    set({
+      session,
+      userId: session?.user?.id ?? null,
+    }),
 
-  fetchUser: async () => {
-    const supabase = createClient();
-
-    const { data, error } = await supabase.auth.getUser();
-
-    if (error) {
-      console.error(error);
-      set({ user: null, loading: false });
-      return;
-    }
-
-    set({ user: data.user ?? null, loading: false });
-
-    // Listen for auth changes
-    supabase.auth.onAuthStateChange((_event, session) => {
-      set({ user: session?.user ?? null, loading: false });
-    });
-  },
+  clearSession: () =>
+    set({
+      session: null,
+      userId: null,
+    }),
 }));

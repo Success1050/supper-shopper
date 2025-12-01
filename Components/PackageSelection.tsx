@@ -6,32 +6,36 @@ import {
 } from "@/app/dashboard/package-lists/action";
 import { useRouter } from "next/navigation";
 import LoadingBar from "./MainLoading";
-import { getUserSession, getUserWallet } from "@/app/dashboard/wallet/action";
 import { Session } from "@supabase/supabase-js";
 import { getActivePackage } from "@/app/actions/getActivePackage";
+import { useAuthStore } from "@/store";
+import { getUserWallet } from "@/app/dashboard/wallet/action";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
-  const [userSession, setusersession] = useState<Session | null>(null);
   const [loadingPackages, setLoadingPackages] = useState<{
     [key: number]: boolean;
   }>({});
   const [message, setMessage] = useState<string | null>(null);
+  const userId = useAuthStore((state) => state.userId);
   const [currPackage, setCurrPackage] = useState<any | null>(null);
   const router = useRouter();
+
+  console.log("current user gbu", userId);
 
   // Load ALL data together in background - UI only shows when EVERYTHING is ready
   useEffect(() => {
     const initializeData = async () => {
       try {
         // Fetch ALL data in parallel - nothing shows until everything is loaded
-        const [packagesRes, sessionRes, activePackageRes] = await Promise.all([
-          fetchPackages(),
-          getUserSession(),
-          getActivePackage(),
-        ]);
+        const [packagesRes, activePackageRes, userWalletRes] =
+          await Promise.all([
+            fetchPackages(),
+            getActivePackage(userId ?? undefined),
+            getUserWallet(userId ?? undefined),
+          ]);
 
         // Set packages
         if (packagesRes.success) {
@@ -40,24 +44,17 @@ const PackageSelection: React.FC = () => {
           console.log(packagesRes.error);
         }
 
-        // Set session
-        if (sessionRes.success) {
-          setusersession(sessionRes.data ?? null);
-
-          // Also fetch wallet with the session data
-          if (sessionRes.data?.user?.id) {
-            const walletRes = await getUserWallet(sessionRes.data.user.id);
-            if (walletRes.success) {
-              setWalletAmount(walletRes.data);
-            }
-          }
-        }
-
         // Set active package
         if (activePackageRes?.success) {
           setCurrPackage(activePackageRes.data);
         } else {
           console.log(activePackageRes?.error);
+        }
+
+        if (userWalletRes?.success) {
+          setWalletAmount(userWalletRes?.data);
+        } else {
+          console.log(userWalletRes?.message);
         }
 
         // NOW stop loading - everything is ready with correct button states
@@ -94,7 +91,7 @@ const PackageSelection: React.FC = () => {
       try {
         setLoadingPackages((prev) => ({ ...prev, [packageId]: true }));
 
-        const res = await userBuyPackages(packageId);
+        const res = await userBuyPackages(packageId, userId ?? undefined);
 
         if (!res) {
           alert("No response from server");
@@ -127,6 +124,10 @@ const PackageSelection: React.FC = () => {
     },
     [router, packages, walletAmount]
   );
+
+  const formattedWalletAmount = useMemo(() => {
+    return walletAmount?.toFixed(2) ?? "0.00";
+  }, [walletAmount]);
 
   // Optimized: Memoized navigation handler
   const navigateToWallet = useCallback(() => {
@@ -226,7 +227,7 @@ const PackageSelection: React.FC = () => {
 
           <div className="w-fit rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[20px] gap-2.5 mx-auto">
             <h2 className="text-white text-[20px] font-bold">
-              ${walletDisplay}
+              ${formattedWalletAmount}
             </h2>
             <h2 className="text-white whitespace-nowrap">My balance</h2>
             <button

@@ -3,26 +3,14 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Users, Search, User } from "lucide-react";
 import Progressbar from "./Progressbar";
-import { useUserStore } from "@/store";
+import { useAuthStore } from "@/store";
 import { getTeamMembers } from "@/app/dashboard/myTeam/actions";
 import LoadingBar from "./MainLoading";
 import TeamHierarchyList from "./TeamHierarchyList";
 import ComingSoonBanner from "./shortComingSoon";
 import EarningsOverviewBox from "./Earning";
 import { getProfile, getUserProfile } from "@/app/dashboard/profile/actions";
-import { getUserSession } from "@/app/dashboard/wallet/action";
-
-export interface TeamMember {
-  id: string;
-  email: string;
-  first_name: string | null;
-  last_name: string | null;
-  country: string | null;
-  referral_code: string | null;
-  personal_referral_code: string | null;
-  referrer_id: string | null;
-  level: number;
-}
+import { TeamMember } from "@/type";
 
 const MyTeam: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -30,6 +18,7 @@ const MyTeam: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = React.useState(false);
   const [refferralCode, setReferralCode] = useState<string | "">("");
+  const userId = useAuthStore((state) => state.userId);
 
   const affiliateUrl = useMemo(
     () => `https://www.supershopper.app/signup?ref=${refferralCode}`,
@@ -44,29 +33,26 @@ const MyTeam: React.FC = () => {
 
   // Fetch all data in parallel on mount
   useEffect(() => {
+    if (!userId) return;
     const initializeTeamData = async () => {
       setLoading(true);
 
       try {
         // Fetch all data in parallel
-        const [sessionRes, teamRes, profileRes] = await Promise.all([
-          getUserSession(),
-          getTeamMembers(),
-          getProfile(),
+        const [teamRes, profileRes] = await Promise.all([
+          getTeamMembers(userId ?? undefined),
+          getProfile(userId ?? undefined),
         ]);
 
         // Set team members
         if (teamRes && teamRes.success) {
           console.log("Team Data:", teamRes.data);
           setTeamMembers(teamRes.data ?? []);
-        } else {
-          console.log("Error loading team", teamRes?.error);
         }
 
         // Set referral code
         if (profileRes && profileRes.success) {
           setReferralCode(profileRes.data.personal_referral_code);
-          console.log("mine is", profileRes.data.personal_referral_code);
         }
         console.log("referralcode error", profileRes.message);
       } catch (error) {
@@ -77,7 +63,7 @@ const MyTeam: React.FC = () => {
     };
 
     initializeTeamData();
-  }, []); // Run only once on mount
+  }, [userId]); // Run only once on mount
 
   // 🧮 Filter for search - memoized
   const filteredMembers = useMemo(() => {
