@@ -1,6 +1,6 @@
 import React from "react";
-import { TeamMember } from "./MyTeam";
 import { Search } from "lucide-react";
+import { TeamMember } from "@/type";
 
 interface Member {
   id: string;
