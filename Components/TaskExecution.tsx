@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from "react";
+import React, {
+  useEffect,
+  useState,
+  useTransition,
+  useCallback,
+  useMemo,
+} from "react";
 import { HelpCircle, Play, Star } from "lucide-react";
 import Progressbar from "./Progressbar";
 import HeaderDashboard from "./HeaderDashboard";
@@ -39,16 +45,32 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
   console.log("my product id", productId);
 
-  const watchStep = taskSteps.find((s) => s.step_type === "watch");
-  const commentStep = taskSteps.find((s) => s.step_type === "comment");
-  const likeStep = taskSteps.find((s) => s.step_type === "like");
-  const linkStep = taskSteps.find((s) => s.step_type === "open_link");
+  // Memoize task step lookups
+  const watchStep = useMemo(
+    () => taskSteps.find((s) => s.step_type === "watch"),
+    [taskSteps]
+  );
 
-  const handleRatingClick = (value: number) => {
+  const commentStep = useMemo(
+    () => taskSteps.find((s) => s.step_type === "comment"),
+    [taskSteps]
+  );
+
+  const likeStep = useMemo(
+    () => taskSteps.find((s) => s.step_type === "like"),
+    [taskSteps]
+  );
+
+  const linkStep = useMemo(
+    () => taskSteps.find((s) => s.step_type === "open_link"),
+    [taskSteps]
+  );
+
+  const handleRatingClick = useCallback((value: number) => {
     setRating(value);
-  };
+  }, []);
 
-  const onsubmit = async () => {
+  const onsubmit = useCallback(async () => {
     if (!productId) return;
 
     if (!comment || rating == 0) {
@@ -60,6 +82,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
     const res = await submission(productId, userComment, rating);
     if (!res?.success) {
+      setLoading(false);
       return console.log(res?.message);
     }
 
@@ -70,45 +93,62 @@ const TaskExecution = ({ productId }: { productId: number }) => {
     setComment("");
     setWatchProgress(0);
     setRating(0);
-  };
+    setLoading(false);
+  }, [productId, comment, rating, router]);
 
-  // const taskCompleted = CompletedTask.filter((task) => task.completed);
+  // Memoize total reward calculation
+  const totalReward = useMemo(() => {
+    return CompletedTask.reduce<number>(
+      (acc, task) => acc + (task.reward ?? 0),
+      0
+    );
+  }, [CompletedTask]);
 
-  const totalReward = CompletedTask.reduce<number>(
-    (acc, task) => acc + (task.reward ?? 0),
-    0
-  );
+  const fetchProducts = useCallback(async () => {
+    const res = await getProducts();
+    if (!res.success) return console.log(res.message);
+    setProduct(res?.data ?? []);
+  }, []);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await getProducts();
-      if (!res.success) return console.log(res.message);
-      setProduct(res?.data ?? []);
-    };
-
     fetchProducts();
-  }, []); // only fetch once
+  }, [fetchProducts]);
 
-  const singleTask = product.find((t) => t.product_id === productId);
+  // Memoize single task lookup
+  const singleTask = useMemo(
+    () => product.find((t) => t.product_id === productId),
+    [product, productId]
+  );
 
   console.log("the single tasks", singleTask);
 
+  const fetchTaskSteps = useCallback(async () => {
+    const res = await getTaskSteps(productId);
+    if (res && res.success) {
+      console.log("shout gbu", res.data);
+      settaskStep(res.data as TaskSteps[]);
+    } else {
+      console.log(res?.message);
+    }
+  }, [productId]);
+
   useEffect(() => {
-    const fetchTaskSteps = async () => {
-      const res = await getTaskSteps(productId);
-      if (res && res.success) {
-        console.log("shout gbu", res.data);
-
-        settaskStep(res.data as TaskSteps[]);
-      } else {
-        console.log(res?.message);
-      }
-    };
-
     fetchTaskSteps();
-  }, [productId]); // ⬅️ watch singleTask, not productId
+  }, [fetchTaskSteps]);
 
-  // console.log("a single task", singleTask);
+  // Memoize video source
+  const videoSource = useMemo(
+    () =>
+      watchStep?.step_value ||
+      "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
+    [watchStep]
+  );
+
+  // Memoize image source
+  const imageSource = useMemo(
+    () => singleTask?.products?.image_url || "/images/taskimg1.png",
+    [singleTask]
+  );
 
   return (
     <div className="min-h-screen bg-[#201d4c] px-4">
@@ -124,7 +164,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
           <div className="flex items-center space-x-4">
             <div className="w-[20%] h-full">
               <img
-                src={singleTask?.products?.image_url || "/images/taskimg1.png"}
+                src={imageSource}
                 alt="Task Reward"
                 className="w-full h-full rounded-lg object-cover"
               />
@@ -156,10 +196,7 @@ const TaskExecution = ({ productId }: { productId: number }) => {
 
             <div className="relative bg-gray-900 rounded-lg overflow-hidden">
               <video
-                src={
-                  watchStep?.step_value ||
-                  "https://samplelib.com/lib/preview/mp4/sample-5s.mp4"
-                }
+                src={videoSource}
                 controls
                 loop
                 playsInline
@@ -211,10 +248,11 @@ const TaskExecution = ({ productId }: { productId: number }) => {
             </h3>
 
             <button
-              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
+              className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => startTransition(() => onsubmit())}
+              disabled={isPending || loading}
             >
-              {isPending ? <Loader /> : "Done"}
+              {isPending || loading ? <Loader /> : "Done"}
             </button>
             <div className="flex-1 mt-2 flex items-center justify-start">
               <span className="text-white text-sm">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
   fetchPackages,
   userBuyPackages,
@@ -12,7 +12,7 @@ import { getActivePackage } from "@/app/actions/getActivePackage";
 
 const PackageSelection: React.FC = () => {
   const [packages, setPackages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
   const [userSession, setusersession] = useState<Session | null>(null);
   const [loadingPackages, setLoadingPackages] = useState<{
@@ -22,86 +22,193 @@ const PackageSelection: React.FC = () => {
   const [currPackage, setCurrPackage] = useState<any | null>(null);
   const router = useRouter();
 
-  // Fetch packages from Supabase
+  // Load ALL data together in background - UI only shows when EVERYTHING is ready
   useEffect(() => {
-    const fetchuserPackages = async () => {
-      setLoading(true);
-      const res = await fetchPackages();
-      if (!res.success) {
-        return console.log(res.error);
+    const initializeData = async () => {
+      try {
+        // Fetch ALL data in parallel - nothing shows until everything is loaded
+        const [packagesRes, sessionRes, activePackageRes] = await Promise.all([
+          fetchPackages(),
+          getUserSession(),
+          getActivePackage(),
+        ]);
+
+        // Set packages
+        if (packagesRes.success) {
+          setPackages(packagesRes.data ?? []);
+        } else {
+          console.log(packagesRes.error);
+        }
+
+        // Set session
+        if (sessionRes.success) {
+          setusersession(sessionRes.data ?? null);
+
+          // Also fetch wallet with the session data
+          if (sessionRes.data?.user?.id) {
+            const walletRes = await getUserWallet(sessionRes.data.user.id);
+            if (walletRes.success) {
+              setWalletAmount(walletRes.data);
+            }
+          }
+        }
+
+        // Set active package
+        if (activePackageRes?.success) {
+          setCurrPackage(activePackageRes.data);
+        } else {
+          console.log(activePackageRes?.error);
+        }
+
+        // NOW stop loading - everything is ready with correct button states
+        setLoading(false);
+      } catch (error) {
+        console.error("Error initializing data:", error);
+        setLoading(false);
       }
-      setLoading(false);
-      setPackages(res.data ?? []);
     };
 
-    fetchuserPackages();
+    initializeData();
   }, []);
 
-  useEffect(() => {
-    const getUserActivePackage = async () => {
-      const res = await getActivePackage();
-      if (res && res.success) {
-        setCurrPackage(res?.data);
-      }
-      console.log(res?.error);
-    };
+  // Optimized: Memoized buy package handler with better UX
+  const buyPackage = useCallback(
+    async (packageId: number) => {
+      console.log("Buying package:", packageId);
 
-    getUserActivePackage();
-  }, []);
-
-  const getWalletBal = async () => {
-    const res = await getUserWallet(userSession?.user?.id);
-    if (!res.success) {
-      return;
-    }
-
-    console.log("user balance", res.data);
-
-    setWalletAmount(res?.data);
-  };
-
-  const fetchUserSession = async () => {
-    const res = await getUserSession();
-    if (!res.success) {
-      return;
-    }
-    setusersession(res?.data ?? null);
-  };
-
-  useEffect(() => {
-    getWalletBal();
-    fetchUserSession();
-  }, [userSession?.user?.id]);
-
-  const buyPackage = async (packageId: number) => {
-    console.log("Buying package:", packageId);
-
-    try {
-      setLoadingPackages((prev) => ({ ...prev, [packageId]: true }));
-
-      const res = await userBuyPackages(packageId);
-
-      if (!res) {
-        alert("No response from server");
+      // Check wallet balance before attempting purchase
+      const selectedPackage = packages.find((pkg) => pkg.id === packageId);
+      if (
+        selectedPackage &&
+        walletAmount !== undefined &&
+        walletAmount < selectedPackage.price
+      ) {
+        alert(
+          `Insufficient balance. You need $${
+            selectedPackage.price
+          } but have $${walletAmount.toFixed(2)}`
+        );
         return;
       }
 
-      // safely check success
-      if (!res.success) {
-        alert(res.error || "Failed to purchase package");
-        return;
+      try {
+        setLoadingPackages((prev) => ({ ...prev, [packageId]: true }));
+
+        const res = await userBuyPackages(packageId);
+
+        if (!res) {
+          alert("No response from server");
+          return;
+        }
+
+        if (!res.success) {
+          alert(res.error || "Failed to purchase package");
+          return;
+        }
+
+        console.log("Purchase response:", res.data);
+
+        // Show success message briefly before redirecting
+        setMessage(`Successfully purchased package!`);
+
+        // Update local state to reflect purchase
+        setCurrPackage({ package_id: packageId });
+
+        // Redirect after a short delay so user sees success message
+        setTimeout(() => {
+          router.push("/dashboard/taskCenter");
+        }, 1000);
+      } catch (error) {
+        console.error("Error buying package:", error);
+        alert("An error occurred while purchasing the package");
+      } finally {
+        setLoadingPackages((prev) => ({ ...prev, [packageId]: false }));
+      }
+    },
+    [router, packages, walletAmount]
+  );
+
+  // Optimized: Memoized navigation handler
+  const navigateToWallet = useCallback(() => {
+    router.push("/dashboard/wallet");
+  }, [router]);
+
+  // Optimized: Memoized package button renderer
+  const renderPackageButton = useCallback(
+    (pkg: any) => {
+      const isActive = currPackage && currPackage.package_id === pkg.id;
+      const hasOtherPackage = currPackage && currPackage.package_id !== pkg.id;
+      const isLoading = loadingPackages[pkg.id];
+
+      if (pkg.available_slots <= 0) {
+        return (
+          <button
+            disabled
+            className="w-full bg-gray-600 text-gray-300 font-medium py-3 px-4 rounded-lg cursor-not-allowed"
+          >
+            No More Slots
+          </button>
+        );
       }
 
-      console.log("Purchase response:", res.data);
-      setMessage(`Successfully purchased package ${packageId}`);
-      router.push("/dashboard/taskCenter");
-    } catch (error) {
-      console.error("Error buying package:", error);
-      alert("An error occurred while purchasing the package");
-    } finally {
-      setLoadingPackages((prev) => ({ ...prev, [packageId]: false }));
-    }
-  };
+      if (isActive) {
+        return (
+          <div className="w-full bg-[#2723FF] text-white font-medium py-3 px-4 rounded-lg text-center">
+            Active Package
+          </div>
+        );
+      }
+
+      if (hasOtherPackage) {
+        return (
+          <button
+            disabled
+            className="w-full bg-gray-600 text-gray-300 font-medium py-3 px-4 rounded-lg cursor-not-allowed"
+          >
+            Unavailable
+          </button>
+        );
+      }
+
+      return (
+        <button
+          onClick={() => buyPackage(pkg.id)}
+          disabled={isLoading}
+          className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isLoading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              Processing...
+            </span>
+          ) : (
+            "Buy Now"
+          )}
+        </button>
+      );
+    },
+    [currPackage, loadingPackages, buyPackage]
+  );
+
+  // Optimized: Memoized wallet display
+  const walletDisplay = useMemo(() => {
+    return walletAmount?.toFixed(2) ?? "0.00";
+  }, [walletAmount]);
 
   return (
     <div className="min-h-screen bg-[#201d4c] p-6">
@@ -119,14 +226,12 @@ const PackageSelection: React.FC = () => {
 
           <div className="w-fit rounded-[16px] flex justify-center items-center bg-[#2b2a5d] py-[25px] px-[20px] gap-2.5 mx-auto">
             <h2 className="text-white text-[20px] font-bold">
-              ${walletAmount?.toFixed(2) ?? 0}
+              ${walletDisplay}
             </h2>
-            <h2 className="text-white whitespace-nowrap">
-              My available balance
-            </h2>
+            <h2 className="text-white whitespace-nowrap">My balance</h2>
             <button
               className="w-fit bg-[#2723FF] hover:bg-blue-700 text-white font-semibold px-3 py-2 rounded-lg transition-colors"
-              onClick={() => router.push("/dashboard/wallet")}
+              onClick={navigateToWallet}
             >
               Deposit
             </button>
@@ -134,7 +239,9 @@ const PackageSelection: React.FC = () => {
         </div>
 
         {message && (
-          <div className="mb-4 text-center text-yellow-300">{message}</div>
+          <div className="mb-4 p-4 text-center text-white bg-green-600 rounded-lg animate-pulse">
+            {message}
+          </div>
         )}
 
         {loading ? (
@@ -144,7 +251,7 @@ const PackageSelection: React.FC = () => {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-gray-700/50"
+                className="bg-[#2b2a54] backdrop-blur-sm rounded-lg p-6 border border-gray-700/50 hover:border-gray-600/70 transition-all duration-200"
               >
                 <div className="text-center mb-6">
                   <h2 className="text-white text-3xl font-bold mb-2">
@@ -153,6 +260,12 @@ const PackageSelection: React.FC = () => {
                 </div>
 
                 <div className="space-y-4 mb-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white text-sm">Available Slots</span>
+                    <span className="text-white font-medium">
+                      {pkg.available_slots}
+                    </span>
+                  </div>
                   <div className="flex justify-between items-center">
                     <span className="text-white text-sm">Tasks/Day</span>
                     <span className="text-white font-medium">
@@ -185,30 +298,7 @@ const PackageSelection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Conditional rendering based on current package status */}
-                {currPackage && currPackage.package_id === pkg.id ? (
-                  // User's active package
-                  <div className="w-full bg-[#2723FF] text-white font-medium py-3 px-4 rounded-lg text-center">
-                    Active Package
-                  </div>
-                ) : currPackage ? (
-                  // User has a different package active
-                  <button
-                    disabled
-                    className="w-full bg-gray-600 text-gray-300 font-medium py-3 px-4 rounded-lg cursor-not-allowed"
-                  >
-                    Unavailable
-                  </button>
-                ) : (
-                  // No active package - allow purchase
-                  <button
-                    onClick={() => buyPackage(pkg.id)}
-                    disabled={loadingPackages[pkg.id]}
-                    className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50"
-                  >
-                    {loadingPackages[pkg.id] ? "Processing..." : "Buy Now"}
-                  </button>
-                )}
+                {renderPackageButton(pkg)}
               </div>
             ))}
           </div>

@@ -22,9 +22,7 @@ const UserEarnings = ({
           <Wallet className="w-5 h-5 text-white" />
           <div>
             <div className="text-gray-400 text-xs">My Active Balance</div>
-            <div className="text-white text-lg font-bold">
-              ${walletAmount?.toFixed(2) ?? 0}
-            </div>
+            <div className="text-white text-lg font-bold">$0</div>
           </div>
         </div>
 
@@ -33,7 +31,9 @@ const UserEarnings = ({
           <DollarSign className="w-5 h-5 text-white" />
           <div>
             <div className="text-gray-400 text-xs">Available Balance</div>
-            <div className="text-white text-lg font-bold">$105.00</div>
+            <div className="text-white text-lg font-bold">
+              ${walletAmount?.toFixed(2) ?? 0}
+            </div>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ const UserEarnings = ({
 
           <div>
             <div className="text-gray-400 text-xs">Daily Rewards:</div>
-            <div className="text-white text-lg font-bold">$680</div>
+            <div className="text-white text-lg font-bold">$0</div>
           </div>
         </div>
 
@@ -52,7 +52,7 @@ const UserEarnings = ({
           <Award className="w-5 h-5 text-white" />
           <div>
             <div className="text-gray-400 text-xs">Weekly Rewards:</div>
-            <div className="text-white text-lg font-bold">$680</div>
+            <div className="text-white text-lg font-bold">$0</div>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ const UserEarnings = ({
           <TrendingUp className="w-5 h-5 text-white" />
           <div>
             <div className="text-gray-400 text-xs">Total Reward:</div>
-            <div className="text-white text-lg font-bold">$680</div>
+            <div className="text-white text-lg font-bold">$0</div>
           </div>
         </div>
       </div>

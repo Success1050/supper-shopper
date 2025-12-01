@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ChevronDown, Copy } from "lucide-react";
 import {
   fetchChain,
@@ -43,11 +43,12 @@ const MyBalanceDeposit: React.FC = () => {
   const [loading, setloading] = useState<boolean>(false);
   const router = useRouter();
 
-  const generateAddress = async () => {
+  const generateAddress = useCallback(async () => {
     try {
       if (!network || !currency) return;
       if (!userSession?.user?.id) {
         console.log("user does not exists");
+        return;
       }
 
       setloading(true);
@@ -87,7 +88,6 @@ const MyBalanceDeposit: React.FC = () => {
       if (data.success && data.wallet) {
         setGeneratedAddress(data.wallet);
         setIsdropdown(true);
-
         return data;
       } else {
         throw new Error(data.message || "Wallet generation failed");
@@ -98,11 +98,9 @@ const MyBalanceDeposit: React.FC = () => {
     } finally {
       setloading(false);
     }
-  };
+  }, [network, currency, userSession]);
 
-  console.log(network, currency);
-
-  const confirmDeposit = () => {
+  const confirmDeposit = useCallback(() => {
     if (amount && txId) {
       alert(
         "Deposit confirmed! Your account will be credited within 24 hours."
@@ -110,9 +108,9 @@ const MyBalanceDeposit: React.FC = () => {
     } else {
       alert("Please fill in all required fields.");
     }
-  };
+  }, [amount, txId]);
 
-  const confirmWithdrawal = async () => {
+  const confirmWithdrawal = useCallback(async () => {
     if (!amount || !walletAddress || !network) {
       alert("Please fill all fields correctly.");
       return;
@@ -124,20 +122,21 @@ const MyBalanceDeposit: React.FC = () => {
       alert("Insufficient balance for this withdrawal.");
       return;
     }
-  };
+  }, [amount, walletAddress, network, walletAmount]);
 
-  const getWalletBal = async () => {
-    const res = await getUserWallet(userSession?.user?.id);
+  const getWalletBal = useCallback(async () => {
+    if (!userSession?.user?.id) return;
+
+    const res = await getUserWallet(userSession.user.id);
     if (!res.success) {
       return;
     }
 
     console.log("user balance", res.data);
-
     setWalletAmount(res?.data);
-  };
+  }, [userSession?.user?.id]);
 
-  const FetchSelectedChain = async () => {
+  const FetchSelectedChain = useCallback(async () => {
     if (!CurrencyId) return;
 
     const res = await fetchChain(CurrencyId);
@@ -155,38 +154,51 @@ const MyBalanceDeposit: React.FC = () => {
     }));
 
     setChain(formatted);
-  };
+  }, [CurrencyId]);
 
-  const getAllTokens = async () => {
+  const getAllTokens = useCallback(async () => {
     const res = await fetchToken();
     if (!res.success) {
       return;
     }
     console.log("tokens", res.data);
-
     setTokens(res.data || []);
-  };
+  }, []);
 
-  const fetchUserSession = async () => {
+  const fetchUserSession = useCallback(async () => {
     const res = await getUserSession();
     if (!res.success) {
       return;
     }
     setusersession(res?.data ?? null);
-  };
-
-  useEffect(() => {
-    getWalletBal();
-    fetchUserSession();
-  }, [userSession?.user?.id]);
-
-  useEffect(() => {
-    getAllTokens();
   }, []);
 
+  // Fetch user session first (only once)
+  useEffect(() => {
+    fetchUserSession();
+  }, [fetchUserSession]);
+
+  // Fetch wallet balance when session is available
+  useEffect(() => {
+    if (userSession?.user?.id) {
+      getWalletBal();
+    }
+  }, [userSession?.user?.id, getWalletBal]);
+
+  // Fetch tokens only once
+  useEffect(() => {
+    getAllTokens();
+  }, [getAllTokens]);
+
+  // Fetch chains when currency changes
   useEffect(() => {
     FetchSelectedChain();
-  }, [CurrencyId]);
+  }, [FetchSelectedChain]);
+
+  // Memoize formatted wallet amount
+  const formattedWalletAmount = useMemo(() => {
+    return walletAmount?.toFixed(2) ?? "0.00";
+  }, [walletAmount]);
 
   return (
     <div className="min-h-screen bg-[#201d4c] to-purple-900 p-6">
@@ -211,7 +223,7 @@ const MyBalanceDeposit: React.FC = () => {
                     My Active Balance
                   </h1>
                   <h2 className="text-white text-2xl md:text-3xl font-bold">
-                    ${walletAmount?.toFixed(2) ?? 0}
+                    $0
                   </h2>
                 </div>
               </div>
@@ -248,7 +260,7 @@ const MyBalanceDeposit: React.FC = () => {
                     My Balance
                   </h1>
                   <h2 className="text-white text-2xl md:text-3xl font-bold">
-                    $22,330
+                    ${formattedWalletAmount}
                   </h2>
                 </div>
               </div>
@@ -361,7 +373,8 @@ const MyBalanceDeposit: React.FC = () => {
               <div className="w-full">
                 <button
                   onClick={generateAddress}
-                  className="w-full bg-[#454368] hover:bg-[#2723FF]/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2"
+                  disabled={loading}
+                  className="w-full bg-[#454368] hover:bg-[#2723FF]/50 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-between space-x-2 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span>
                     {loading ? "Generating..." : "Generate & Copy Address"}
@@ -375,7 +388,12 @@ const MyBalanceDeposit: React.FC = () => {
                       <span className="text-white text-sm font-mono break-all">
                         {generatedAddress}
                       </span>
-                      <Copy className="w-4 h-4 text-white cursor-pointer hover:text-white ml-2" />
+                      <Copy
+                        className="w-4 h-4 text-white cursor-pointer hover:text-white ml-2"
+                        onClick={() =>
+                          navigator.clipboard.writeText(generatedAddress)
+                        }
+                      />
                     </div>
                   </div>
                 )}
@@ -523,22 +541,6 @@ const MyBalanceDeposit: React.FC = () => {
           </div>
         )}
       </div>
-      {/* {activeTab === "Withdrawal" ? (
-        <>
-          <button
-            onClick={confirmWithdrawal}
-            className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition-colors mb-6"
-          >
-            Withdraw now
-          </button>
-          <p className="text-white text-sm text-center">
-            Congratulations! Your withdrawal is in process. It may take up to 72
-            hours.
-          </p>
-        </>
-      ) : (
-        ""
-      )} */}
     </div>
   );
 };

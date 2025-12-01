@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import HeaderDashboard from "./HeaderDashboard";
 import { Clock } from "lucide-react";
 import { ProductCard } from "./ProductCard";
@@ -17,68 +17,76 @@ import { getProducts } from "@/app/dashboard/taskCenter/action";
 import { UserTaskWithProduct } from "./TaskCenter";
 import UserEarnings from "./UserEarnings";
 
+// Loading skeleton for products
+const ProductSkeleton = () => (
+  <div className="bg-[#2b2a5b] rounded-2xl border border-[#3b376c] p-4 animate-pulse">
+    <div className="w-full h-32 bg-[#373575] rounded-lg mb-3"></div>
+    <div className="h-4 bg-[#373575] rounded w-3/4"></div>
+  </div>
+);
+
 const DashboardHome = () => {
   const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
-  const [userSession, setusersession] = useState<Session | null>(null);
+  const [userSession, setUserSession] = useState<Session | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [loading, setloading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
 
-  const getWalletBal = async () => {
-    const res = await getUserWallet(userSession?.user?.id);
-    if (!res.success) {
-      return;
-    }
-
-    console.log("user balance", res.data);
-
-    setWalletAmount(res?.data);
-  };
-
-  const fetchUserSession = async () => {
-    const res = await getUserSession();
-    if (!res.success) {
-      return;
-    }
-    setusersession(res?.data ?? null);
-  };
-
+  // Fetch all data in parallel on mount
   useEffect(() => {
-    getWalletBal();
-    fetchUserSession();
-  }, [userSession?.user?.id]);
+    const initializeDashboard = async () => {
+      try {
+        // Fetch session, products, and team in parallel
+        const [sessionRes, productsRes, teamRes] = await Promise.all([
+          getUserSession(),
+          getProducts(),
+          getTeamMembers(),
+        ]);
 
-  useEffect(() => {
-    const fetchTeamMembers = async () => {
-      const res = await getTeamMembers();
-      if (res && res.success) {
-        console.log("Team Data:", res.data);
-        setTeamMembers(res.data ?? []);
-      } else {
-        console.log("Error loading team", res?.error);
+        // Set session
+        if (sessionRes.success) {
+          setUserSession(sessionRes.data ?? null);
+
+          // Fetch wallet only after we have session
+          if (sessionRes.data?.user?.id) {
+            getUserWallet(sessionRes.data.user.id).then((walletRes) => {
+              if (walletRes.success) {
+                setWalletAmount(walletRes.data);
+              }
+            });
+          }
+        }
+
+        // Set products
+        if (productsRes.success) {
+          setProducts(productsRes.data ?? []);
+        }
+        setProductsLoading(false);
+
+        // Set team members
+        if (teamRes && teamRes.success) {
+          setTeamMembers(teamRes.data ?? []);
+        }
+      } catch (error) {
+        console.error("Error initializing dashboard:", error);
+        setProductsLoading(false);
       }
-      setloading(false);
     };
 
-    fetchTeamMembers();
-  }, []);
+    initializeDashboard();
+  }, []); // Empty dependency array - only run once on mount
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await getProducts();
-      if (!res.success) return console.log("an error occured");
-      setProducts(res.data ?? []);
-    };
-    fetchProducts();
-  }, []);
+  // Memoize computed values
+  const completedTask = useMemo(
+    () => products.filter((product) => product.completed),
+    [products]
+  );
 
-  console.log("products listed:", products);
-
-  const completedTask = products.filter((product) => product.completed);
-
-  const totalReward = completedTask.reduce<number>(
-    (acc, task) => acc + (task.reward ?? 0),
-    0
+  const totalReward = useMemo(
+    () =>
+      completedTask.reduce<number>((acc, task) => acc + (task.reward ?? 0), 0),
+    [completedTask]
   );
 
   return (
@@ -93,20 +101,29 @@ const DashboardHome = () => {
             Active Products
           </h2>
           <h2 className="text-xl md:text-2xl font-bold text-white">
-            {products.length}
+            {productsLoading ? "..." : products.length}
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
-          {products.map((product: UserTaskWithProduct) => (
-            <ProductCard
-              key={product.id}
-              productId={product.product_id}
-              title={product.products.name}
-              image={product?.products.image_url || "/images/product2.png"}
-            />
-          ))}
-        </div>
+        {productsLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
+            {products.map((product: UserTaskWithProduct) => (
+              <ProductCard
+                key={product.id}
+                productId={product.product_id}
+                title={product.products.name}
+                image={product?.products.image_url || "/images/product2.png"}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden px-8">
@@ -118,11 +135,18 @@ const DashboardHome = () => {
               Active Products
             </h2>
             <h2 className="text-xl md:text-2xl font-bold text-white ">
-              {products.length}
+              {productsLoading ? "..." : products.length}
             </h2>
           </div>
 
-          {products.length > 0 ? (
+          {productsLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
+              <ProductSkeleton />
+              <ProductSkeleton />
+              <ProductSkeleton />
+              <ProductSkeleton />
+            </div>
+          ) : products.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 w-full">
               {products.map((product: UserTaskWithProduct) => (
                 <ProductCard

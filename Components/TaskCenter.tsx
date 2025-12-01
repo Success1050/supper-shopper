@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import HeaderDashboard from "./HeaderDashboard";
 import Progressbar from "./Progressbar";
 import Link from "next/link";
@@ -24,19 +24,53 @@ const TaskCenter = () => {
   const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const res = await getProducts();
-      if (!res.success) return console.log("an error occured");
-      // console.log(res?.data);
+  const fetchProducts = useCallback(async () => {
+    const res = await getProducts();
+    if (!res.success) return console.log("an error occured");
 
-      setProducts(res.data ?? []);
-      setLoading(false);
-    };
-    fetchProducts();
+    setProducts(res.data ?? []);
+    setLoading(false);
   }, []);
 
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   console.log("products listed:", products);
+
+  // Memoize today's date string to avoid recalculating on every render
+  const todayDateString = useMemo(() => {
+    return new Date().toISOString().split("T")[0];
+  }, []);
+
+  // Memoize completed today tasks
+  const completedToday = useMemo(() => {
+    return products.filter((product) => {
+      if (!product.completed) return false;
+
+      const completedDate = new Date(product.completedAt)
+        .toISOString()
+        .split("T")[0];
+
+      return completedDate === todayDateString;
+    });
+  }, [products, todayDateString]);
+
+  // Memoize total reward calculation
+  const totalReward = useMemo(() => {
+    return completedToday.reduce<number>(
+      (acc, task) => acc + (task.reward ?? 0),
+      0
+    );
+  }, [completedToday]);
+
+  // Memoize total completed tasks count
+  const totalCompletedCount = useMemo(() => {
+    return products.filter((p) => p.completed).length;
+  }, [products]);
+
+  // Memoize whether there are products
+  const hasProducts = useMemo(() => products.length > 0, [products.length]);
 
   if (loading) {
     return (
@@ -45,21 +79,6 @@ const TaskCenter = () => {
       </div>
     );
   }
-
-  const completedToday = products.filter((product) => {
-    if (!product.completed) return false;
-
-    const completedDate = new Date(product.completedAt)
-      .toISOString()
-      .split("T")[0];
-
-    return completedDate === new Date().toISOString().split("T")[0];
-  });
-
-  const totalReward = completedToday.reduce<number>(
-    (acc, task) => acc + (task.reward ?? 0),
-    0
-  );
 
   return (
     <div className="bg-[#201d4c] min-h-screen px-2 md:px-0">
@@ -84,7 +103,7 @@ const TaskCenter = () => {
               Task Completed Total :
             </span>
             <span className="text-white font-semibold text-[25px]">
-              {products.filter((p) => p.completed).length}
+              {totalCompletedCount}
             </span>
           </div>
 
@@ -104,13 +123,13 @@ const TaskCenter = () => {
         <div className="rounded-lg p-6">
           <h3
             className={`text-white font-semibold text-[34px] md:text-[40px] mb-6 ${
-              products.length === 0 ? "hidden" : "block"
+              !hasProducts ? "hidden" : "block"
             }`}
           >
             Active Tasks
           </h3>
 
-          {products.length === 0 ? (
+          {!hasProducts ? (
             <div className="min-h-full flex justify-center items-center">
               {" "}
               <h3 className="text-white font-semibold text-lg mb-6">

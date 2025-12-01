@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Users, Search, User } from "lucide-react";
 import Progressbar from "./Progressbar";
 import { useUserStore } from "@/store";
@@ -30,64 +30,83 @@ const MyTeam: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = React.useState(false);
   const [refferralCode, setReferralCode] = useState<string | "">("");
-  const [userId, setUserId] = useState<string | "">("");
-  const affiliateUrl = `https://www.supershopper.app/signup?ref=${refferralCode}`;
-  const handleCopy = () => {
+
+  const affiliateUrl = useMemo(
+    () => `https://www.supershopper.app/signup?ref=${refferralCode}`,
+    [refferralCode]
+  );
+
+  const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(affiliateUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
+  }, [affiliateUrl]);
 
-  const fetchUserSession = async () => {
-    const res = await getUserSession();
-    if (res && res.success) {
-      setUserId(res.data?.user.id ?? "");
-    }
-    console.log(res.message);
-  };
-
+  // Fetch all data in parallel on mount
   useEffect(() => {
-    fetchUserSession();
-  }, []);
+    const initializeTeamData = async () => {
+      setLoading(true);
 
-  const fetchTeamMembers = async () => {
-    const res = await getTeamMembers();
-    if (res && res.success) {
-      console.log("Team Data:", res.data);
-      setTeamMembers(res.data ?? []);
-    } else {
-      console.log("Error loading team", res?.error);
-    }
-    setLoading(false);
-  };
+      try {
+        // Fetch all data in parallel
+        const [sessionRes, teamRes, profileRes] = await Promise.all([
+          getUserSession(),
+          getTeamMembers(),
+          getProfile(),
+        ]);
 
-  const getUserProfile = async () => {
-    const res = await getProfile();
-    if (res && res.success) {
-      setReferralCode(res.data.personal_referral_code);
-      console.log("mine is", res.data.personal_referral_code);
-    }
-    console.log("referralcode error", res.message);
-  };
+        // Set team members
+        if (teamRes && teamRes.success) {
+          console.log("Team Data:", teamRes.data);
+          setTeamMembers(teamRes.data ?? []);
+        } else {
+          console.log("Error loading team", teamRes?.error);
+        }
 
-  useEffect(() => {
-    fetchTeamMembers();
-    getUserProfile();
-  }, [userId]);
+        // Set referral code
+        if (profileRes && profileRes.success) {
+          setReferralCode(profileRes.data.personal_referral_code);
+          console.log("mine is", profileRes.data.personal_referral_code);
+        }
+        console.log("referralcode error", profileRes.message);
+      } catch (error) {
+        console.error("Error initializing team data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // 🧮 Filter for search
-  const filteredMembers = teamMembers.filter((member) => {
-    const name = `${member.first_name ?? ""} ${member.last_name ?? ""}`.trim();
-    return (
-      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (member.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
-    );
-  });
+    initializeTeamData();
+  }, []); // Run only once on mount
 
-  const getInitials = (first?: string | null, last?: string | null) => {
-    if (!first && !last) return "??";
-    return `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase();
-  };
+  // 🧮 Filter for search - memoized
+  const filteredMembers = useMemo(() => {
+    return teamMembers.filter((member) => {
+      const name = `${member.first_name ?? ""} ${
+        member.last_name ?? ""
+      }`.trim();
+      return (
+        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (member.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+      );
+    });
+  }, [teamMembers, searchQuery]);
+
+  const getInitials = useCallback(
+    (first?: string | null, last?: string | null) => {
+      if (!first && !last) return "??";
+      return `${first?.[0] ?? ""}${last?.[0] ?? ""}`.toUpperCase();
+    },
+    []
+  );
+
+  // Memoize team stats
+  const directMembersCount = useMemo(
+    () => teamMembers.filter((m) => m.level === 1).length,
+    [teamMembers]
+  );
+
+  const totalMembersCount = useMemo(() => teamMembers.length, [teamMembers]);
 
   if (loading) {
     return (
@@ -118,7 +137,7 @@ const MyTeam: React.FC = () => {
               </h2>
             </div>
             <h2 className="text-white font-bold text-[25px] md:justify-self-end md:self-center">
-              {teamMembers.filter((m) => m.level === 1).length}
+              {directMembersCount}
             </h2>
           </div>
 
@@ -132,7 +151,7 @@ const MyTeam: React.FC = () => {
                   My Direct Members
                 </h2>
                 <h2 className="text-white font-bold text-lg md:text-2xl">
-                  {teamMembers.filter((m) => m.level === 1).length}
+                  {directMembersCount}
                 </h2>
               </div>
             </div>
@@ -148,7 +167,7 @@ const MyTeam: React.FC = () => {
                   Total Team Members
                 </h2>
                 <h2 className="text-white font-bold text-lg md:text-2xl">
-                  {teamMembers.length}
+                  {totalMembersCount}
                 </h2>
               </div>
             </div>
@@ -165,7 +184,7 @@ const MyTeam: React.FC = () => {
               </h2>
             </div>
             <h2 className="text-white font-bold text-[25px]">
-              {teamMembers.length}
+              {totalMembersCount}
             </h2>
           </div>
         </div>

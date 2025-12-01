@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import {
   Home,
   TestTube,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import DashboardHome from "@/Components/Home";
 import TaskCenter from "@/Components/TaskCenter";
@@ -33,10 +34,11 @@ interface NavItem {
 
 interface ClientLayoutProps {
   children: ReactNode;
-  activePackage: any | null; // now includes data & userId
+  activePackage: any | null;
 }
 
 const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
+  const pathname = usePathname();
   const [menuIId, setMenuId] = useState<number>(0);
 
   // Desktop Sidebar Items
@@ -67,6 +69,18 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
     { icon: Home, label: "Home", url: "/dashboard" },
     { icon: Bell, label: "Notification", url: "/dashboard/notifications" },
   ];
+
+  // Sync menuIId with current URL on mount and route change
+  useEffect(() => {
+    const currentIndex = sidebarItems.findIndex(
+      (item) => item.url === pathname
+    );
+    if (currentIndex !== -1) {
+      setMenuId(currentIndex);
+    } else if (pathname === "/dashboard") {
+      setMenuId(1); // Home is at index 1
+    }
+  }, [pathname]);
 
   const [firstItems, ...restItems] = sidebarItems;
 
@@ -100,7 +114,6 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
             {sidebarItems.map((item, index) => (
               <Link href={item.url} key={index}>
                 <div
-                  onClick={() => setMenuId(index)}
                   className={`flex items-center gap-3 px-3 py-3 rounded-lg w-full cursor-pointer ${
                     index === menuIId
                       ? "bg-[#263bf6] text-white"
@@ -150,9 +163,8 @@ const ClientLayout = ({ children, activePackage }: ClientLayoutProps) => {
           {mobileNavItems.map((item, index) => (
             <Link href={item.url} key={index}>
               <div
-                onClick={() => setMenuId(index)}
                 className={`flex flex-col items-center px-3 py-2 ${
-                  index === menuIId
+                  pathname === item.url
                     ? "bg-[#2622fb] rounded-full text-white"
                     : "text-white"
                 }`}

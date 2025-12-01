@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ChevronRight, LogOut, Edit, Router, Camera } from "lucide-react";
 import { handleLogout } from "./LogoutFunc";
 import { useTransition } from "react";
@@ -40,57 +40,101 @@ const ProfileSettings: React.FC = () => {
   const [isPending, startTransition] = useTransition();
   const [editUserProfile, seteditUserProfile] = useState<string | null>(null);
 
+  // Optimized: Single fetch that gets all data at once
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const res = await getProfile();
-      if (!res || !res.success) {
-        console.log("An error occurred");
-        return;
+      try {
+        const res = await getProfile();
+        if (!res || !res.success) {
+          console.log("An error occurred");
+          setLoading(false);
+          return;
+        }
+
+        setProfile(res.data);
+        // Set profile image immediately from initial data
+        const profileImg = res.data.profile_img ?? null;
+        seteditUserProfile(profileImg);
+        setPreviewUrl(profileImg);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+        setLoading(false);
       }
-
-      setProfile(res.data);
-      console.log(res.data);
-      console.log("profile state", profile);
-
-      setLoading(false);
     };
 
     fetchUserProfile();
   }, []);
 
-  const handleEdit = () => {
-    router.push(`/dashboard/edit-profile/${profile?.id}`);
-  };
-
-  useEffect(() => {
-    const handleEdit = async () => {
-      const res = await getUserProfile(profile?.id);
-      if (!res.success) {
-        console.log(res.message);
-        return;
-      }
-      seteditUserProfile(res.data.profile_img ?? null);
-      setPreviewUrl(res.data.profile_img ?? null);
-    };
-    handleEdit();
-  }, [profile?.id]);
-
-  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !profile?.id) return;
-
-    const localPreview = URL.createObjectURL(file);
-    setPreviewUrl(localPreview);
-
-    const res = await uploadProfileImage(profile?.id, file);
-    if (res.success && res.url) {
-      setPreviewUrl(res.url);
-      seteditUserProfile(res.url);
-      alert("Profile photo updated!");
-    } else {
-      alert(res.message ?? "Failed to upload image");
+  // Optimized: Memoized edit handler
+  const handleEdit = useCallback(() => {
+    if (profile?.id) {
+      router.push(`/dashboard/edit-profile/${profile.id}`);
     }
-  };
+  }, [profile?.id, router]);
+
+  // Optimized: Removed redundant second fetch - data already loaded from getProfile
+  // The second useEffect was fetching the same data again, causing delay
+
+  // Optimized: Memoized photo change handler
+  const handlePhotoChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file || !profile?.id) return;
+
+      // Immediate UI feedback
+      const localPreview = URL.createObjectURL(file);
+      setPreviewUrl(localPreview);
+
+      try {
+        const res = await uploadProfileImage(profile.id, file);
+        if (res.success && res.url) {
+          setPreviewUrl(res.url);
+          seteditUserProfile(res.url);
+          alert("Profile photo updated!");
+        } else {
+          // Revert to previous image on failure
+          setPreviewUrl(editUserProfile);
+          alert(res.message ?? "Failed to upload image");
+        }
+      } catch (error) {
+        setPreviewUrl(editUserProfile);
+        alert("Failed to upload image");
+      }
+    },
+    [profile?.id, editUserProfile]
+  );
+
+  // Optimized: Memoized navigation handlers
+  const navigateToReset = useCallback(() => {
+    router.push("/dashboard/reset");
+  }, [router]);
+
+  const navigateToWallet = useCallback(() => {
+    router.push("/dashboard/wallet-address");
+  }, [router]);
+
+  const navigateToSupport = useCallback(() => {
+    router.push("/dashboard/support");
+  }, [router]);
+
+  // Optimized: Memoized profile image source
+  const profileImageSrc = useMemo(() => {
+    return (
+      previewUrl ||
+      editUserProfile ||
+      "https://placehold.co/100x100?text=No+Photo"
+    );
+  }, [previewUrl, editUserProfile]);
+
+  // Show skeleton loader while loading
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#201d4c] p-2 px-6 flex items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#201d4c] p-2 px-6 ">
@@ -100,13 +144,10 @@ const ProfileSettings: React.FC = () => {
             <div className="flex items-center gap-4">
               <div className="relative">
                 <img
-                  src={
-                    previewUrl ||
-                    editUserProfile ||
-                    "https://placehold.co/100x100?text=No+Photo"
-                  }
+                  src={profileImageSrc}
                   alt="Profile"
                   className="w-16 h-16 rounded-full object-cover ring-2 ring-slate-700/50"
+                  loading="lazy"
                 />
               </div>
 
@@ -135,7 +176,7 @@ const ProfileSettings: React.FC = () => {
               </button>
 
               {/* Upload Photo Button */}
-              <label className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 border border-slate-600/50">
+              <label className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-white px-5 py-2 rounded-lg font-medium text-sm transition-all duration-200 border border-slate-600/50 cursor-pointer">
                 <h2 className="text-sm text-white whitespace-nowrap">
                   Upload Photo
                 </h2>
@@ -205,8 +246,8 @@ const ProfileSettings: React.FC = () => {
           <div className="bg-[#2b2a54] backdrop-blur-sm rounded-2xl border border-slate-700/30 shadow-2xl overflow-hidden">
             <div className="p-4">
               <div
-                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group"
-                onClick={() => router.push("/dashboard/reset")}
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group cursor-pointer"
+                onClick={navigateToReset}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
@@ -242,8 +283,8 @@ const ProfileSettings: React.FC = () => {
 
               {/* Wallet Address 2FA */}
               <div
-                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1"
-                onClick={() => router.push("/dashboard/wallet-address")}
+                className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1 cursor-pointer"
+                onClick={navigateToWallet}
               >
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
@@ -276,24 +317,6 @@ const ProfileSettings: React.FC = () => {
                   </svg>
                 </button>
               </div>
-
-              {/* Theme */}
-              {/* <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 text-white group-hover:text-white transition-colors">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                      />
-                    </svg>
-                  </div>
-                  <span className="text-white text-sm font-medium">Theme</span>
-                </div>
-                <button className="text-white text-sm">Dark/Light</button>
-              </div> */}
 
               {/* Two-Factor Authentication */}
               <div className="w-full flex items-center justify-between px-4 py-2 rounded-xl hover:bg-slate-800/50 transition-all duration-200 group mt-1">
@@ -329,7 +352,7 @@ const ProfileSettings: React.FC = () => {
             <div className="space-y-2 mb-6">
               <div
                 className="flex items-center justify-between py-3 hover:bg-blue-700/20 rounded-lg px-2 cursor-pointer transition-colors"
-                onClick={() => router.push("/dashboard/support")}
+                onClick={navigateToSupport}
               >
                 <span className="text-white">Help & Support</span>
                 <ChevronRight className="text-white w-5 h-5" />

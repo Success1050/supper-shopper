@@ -34,33 +34,45 @@ const HeaderDashboard = ({
     setHydrated(true);
   }, []);
 
+  // Fetch user profile and active package in parallel
   useEffect(() => {
     const supabase = createClient();
     let channel: any;
 
     async function load() {
-      const res = await getActivePackage();
+      // Fetch both profile and package in parallel
+      const [profileRes, packageRes] = await Promise.all([
+        getProfile(),
+        getActivePackage(),
+      ]);
 
-      if (!res?.success) return;
+      // Set user image
+      if (profileRes && profileRes?.success) {
+        setUserImage(profileRes.data.profile_img);
+      }
 
-      setCurrPackage(res.data);
+      // Set current package
+      if (packageRes?.success) {
+        setCurrPackage(packageRes.data);
 
-      channel = supabase
-        .channel("user-packages-realtime")
-        .on(
-          "postgres_changes",
-          {
-            event: "*",
-            schema: "public",
-            table: "user_packages",
-            filter: `user_id=eq.${res.userId}`,
-          },
-          (payload) => {
-            console.log("Realtime update:", payload);
-            setCurrPackage(payload.new);
-          }
-        )
-        .subscribe();
+        // Setup realtime subscription
+        channel = supabase
+          .channel("user-packages-realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "user_packages",
+              filter: `user_id=eq.${packageRes.userId}`,
+            },
+            (payload) => {
+              console.log("Realtime update:", payload);
+              setCurrPackage(payload.new);
+            }
+          )
+          .subscribe();
+      }
     }
 
     load();
@@ -70,23 +82,14 @@ const HeaderDashboard = ({
     };
   }, []);
 
-  useEffect(() => {
-    const getUserImage = async () => {
-      const res = await getProfile();
-
-      if (res && res?.success) {
-        setUserImage(res.data.profile_img);
-      }
-    };
-    getUserImage();
-  }, []);
-
   const handleNavigation = () => {
-    if (currPackage.is_active) {
+    if (currPackage?.is_active) {
       router.push("/dashboard/taskCenter");
+    } else {
+      router.push("/dashboard/package-lists");
     }
-    router.push("/dashboard/package-lists");
   };
+
   return (
     <>
       <div className="w-full p-3 bg-[#201d4c]">
