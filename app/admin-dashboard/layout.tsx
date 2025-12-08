@@ -30,7 +30,7 @@ import MyBalanceDeposit from "@/Components/WalletDeposit";
 import Records from "@/Components/Records";
 import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
-import { handleLogout } from "@/Components/LogoutFunc";
+import { useLogout } from "@/Components/LogoutFunc";
 import PackageSelection from "@/Components/PackageSelection";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -169,7 +169,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {/* Logout Button */}
           <div
             className="flex items-center justify-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 my-2 py-3 mt-[50%] bg-[#2723FF] hover:bg-blue-700/50 hover:text-white transition-colors w-full"
-            onClick={handleLogout}
+            onClick={useLogout}
           >
             <LogOut size={20} />
             <span className="font-medium">Log out</span>

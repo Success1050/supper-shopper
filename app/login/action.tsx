@@ -29,8 +29,20 @@ export async function login({ emailorPhone, password }: LoginData) {
 
   console.log(data);
 
+  // Fetch user role
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", data.user.id)
+    .single();
+
   revalidatePath("/", "layout");
-  redirect("/dashboard/package-lists");
+
+  if (profile?.role === "admin") {
+    redirect("/admin-dashboard");
+  } else {
+    redirect("/dashboard/package-lists");
+  }
 }
 
 export const resetUserPassword = async (email: string) => {

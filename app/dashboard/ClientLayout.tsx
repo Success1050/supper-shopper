@@ -24,17 +24,25 @@ import MyBalanceDeposit from "@/Components/WalletDeposit";
 import Records from "@/Components/Records";
 import PackageSelection from "@/Components/PackageSelection";
 
-import { handleLogout } from "@/Components/LogoutFunc";
+import { useLogout } from "@/Components/LogoutFunc";
 import { ClientLayoutProps } from "@/type";
 import { mobileNavItems, sidebarItems } from "@/constants";
 import { useAuthStore } from "@/store";
 
-const ClientLayout = ({ children }: ClientLayoutProps) => {
+const ClientLayout = ({ children, session }: ClientLayoutProps) => {
   const pathname = usePathname();
   const [active, setActive] = useState(pathname);
   const [currentRoute, setCurrentRoute] = useState(pathname);
   const clearSession = useAuthStore((state) => state.clearSession);
+  const setSession = useAuthStore((state) => state.setSession);
   const router = useRouter();
+
+  // Sync server session to store immediately on mount/update
+  useEffect(() => {
+    if (session) {
+      setSession(session);
+    }
+  }, [session, setSession]);
 
   useEffect(() => {
     setCurrentRoute(pathname);
@@ -45,15 +53,14 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
     setActive(pathname);
   }, [pathname]);
 
+  const logout = useLogout();
   const onLogout = useCallback(async () => {
     try {
-      await handleLogout();
-      clearSession();
-      router.push("/login");
+      await logout();
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  }, [clearSession, router]);
+  }, [logout]);
 
   const activeMenuIndex = sidebarItems.findIndex(
     (item) => item.url === pathname

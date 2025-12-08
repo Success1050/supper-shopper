@@ -2,34 +2,6 @@
 
 This document lists the main issues and anti‑patterns in the current codebase that can cause slow page loads (5s+), especially when clicking dashboard menu buttons.
 
----
-
-## 1. Expensive Supabase auth in middleware on every dashboard request
-
-- **File**: `middleware.ts`
-- **Problem**:
-  - All `/dashboard/*` requests go through `updateSession`, which calls `supabase.auth.getUser()` on **every** navigation.
-  - This introduces a network round‑trip to Supabase for each route change, adding latency even for simple client-side navigations.
-- **Code**:
-
-```4:6:middleware.ts
-export async function middleware(request: NextRequest) {
-  return await updateSession(request);
-}
-```
-
-```32:35:utils/supabase/middleware.ts
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-```
-
-- **Why it’s bad**:
-  - Auth is being revalidated on every dashboard route change, even when the user is already known and session cookies are present.
-  - This compounds with other Supabase calls (see below) to make each navigation noticeably slow.
-
----
-
 ## 2. Dashboard layout does a blocking Supabase/server fetch on every navigation
 
 - **File**: `app/dashboard/layout.tsx`

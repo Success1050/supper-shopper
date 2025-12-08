@@ -37,6 +37,7 @@ export interface ProfileTypes {
   first_name: string;
   last_name: string;
   personal_referral_code: string;
+  role: string;
 }
 
 export interface WalletAddressData {
@@ -81,4 +82,5 @@ export interface NavItem {
 
 export interface ClientLayoutProps {
   children: ReactNode;
+  session?: any;
 }

@@ -2,18 +2,6 @@ import React from "react";
 import { Search } from "lucide-react";
 import { TeamMember } from "@/type";
 
-interface Member {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  country: string;
-  referral_code: string;
-  personal_referral_code: string;
-  referrer_id: string | null;
-  level: number;
-}
-
 interface TeamHierarchyListProps {
   filteredMembers: TeamMember[];
   searchQuery: string;

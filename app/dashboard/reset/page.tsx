@@ -45,7 +45,7 @@ const PasswordResetPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 pb-20">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full mt-0">
         {/* Form Card */}
         <div className="mb-8">

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { useAuthStore } from "@/store"; 
+import { useAuthStore } from "@/store";
 
 export default function AuthInitializer() {
   const supabase = createClient();
@@ -15,20 +15,43 @@ export default function AuthInitializer() {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setSession(session);
-
-      console.log('user session', session?.user.id
-      );
       
+      // CRITICAL: Clear store first if no session
+      if (!session) {
+        clearSession();
+      } else {
+        setSession(session);
+        console.log('user session', session);
+        
+      }
+
+      console.log("user session", session?.user.id);
     };
 
     getInitialSession();
 
     // 2. Realtime updates (login, logout, token refresh)
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session) setSession(session);
-        else clearSession();
+      (event, session) => {
+        console.log("Auth state changed:", event, session?.user.id);
+
+        // CRITICAL: Handle all auth events properly
+        if (event === "SIGNED_OUT") {
+          clearSession();
+        } else if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
+          if (session) {
+            setSession(session);
+          }
+        } else if (event === "USER_UPDATED") {
+          if (session) {
+            setSession(session);
+          }
+        } else if (!session) {
+          // Fallback: if no session for any reason, clear
+          clearSession();
+        } else {
+          setSession(session);
+        }
       }
     );
 
@@ -37,5 +60,5 @@ export default function AuthInitializer() {
     };
   }, [supabase, setSession, clearSession]);
 
-  return null; // silent component
+  return null;
 }

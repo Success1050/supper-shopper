@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { ChevronRight, LogOut } from "lucide-react";
-import { handleLogout } from "./LogoutFunc";
+import { useLogout } from "./LogoutFunc";
 import { useTransition } from "react";
 import { Loader } from "./Loader";
 import {
@@ -84,15 +84,7 @@ const ProfileSettings: React.FC = () => {
     [profile?.id, editUserProfile]
   );
 
-  const onLogout = useCallback(async () => {
-    try {
-      await handleLogout();
-      clearSession();
-      router.push("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  }, [clearSession, router]);
+  const logout = useLogout();
 
   // Optimized: Memoized navigation handlers
   const navigateToReset = useCallback(() => {
@@ -354,7 +346,7 @@ const ProfileSettings: React.FC = () => {
             </div>
 
             <button
-              onClick={() => startTransition(() => onLogout())}
+              onClick={() => startTransition(() => logout())}
               className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
             >
               {isPending ? (
