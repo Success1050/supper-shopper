@@ -4,12 +4,12 @@ import { Award, DollarSign, TrendingUp, Trophy, Wallet } from "lucide-react";
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const UserEarnings = ({
-  walletAmount,
-}: {
-  walletAmount: number | undefined;
-}) => {
+import { useAuthStore } from "@/store";
+
+const UserEarnings = () => {
   const router = useRouter();
+  const walletAmount = useAuthStore((state) => state.walletAmount);
+  const activeBalance = useAuthStore((state) => state.activeBalance);
   return (
     <div className="bg-[#292852] rounded-2xl p-6 h-fit w-[500px]">
       <h2 className="text-white text-lg font-semibold mb-6">
@@ -22,7 +22,7 @@ const UserEarnings = ({
           <Wallet className="w-5 h-5 text-white" />
           <div>
             <div className="text-gray-400 text-xs">My Active Balance</div>
-            <div className="text-white text-lg font-bold">$0</div>
+            <div className="text-white text-lg font-bold">${activeBalance?.toFixed(2) ?? 0}</div>
           </div>
         </div>
 

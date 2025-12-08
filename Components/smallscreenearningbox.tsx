@@ -1,21 +1,17 @@
+import { useAuthStore } from "@/store";
 import React from "react";
 
 interface EarningsSummaryProps {
-  activeBalance?: number;
-  availableBalance?: number;
   dailyRewards?: number;
   weeklyRewards?: number;
   totalReward?: number;
-  walletAmount?: number | undefined;
   onPayout?: () => void;
 }
 
 export default function EarningsSummary({
-  availableBalance = 0.0,
   dailyRewards = 0.0,
   weeklyRewards = 0.0,
   totalReward = 0.0,
-  walletAmount,
   onPayout,
 }: EarningsSummaryProps) {
   const formatCurrency = (amount: number) => {
@@ -24,6 +20,10 @@ export default function EarningsSummary({
       maximumFractionDigits: 2,
     })}`;
   };
+
+
+  const walletAmount = useAuthStore((state) => state.walletAmount);
+  const activeBalance = useAuthStore((state) => state.activeBalance);
 
   return (
     <div className="bg-[#292852] rounded-2xl p-6 shadow-2xl border border-[#3d4167]">
@@ -46,7 +46,7 @@ export default function EarningsSummary({
             Available Balance
           </span>
           <span className="text-white text-lg font-bold">
-            {formatCurrency(availableBalance)}
+            {formatCurrency(activeBalance)}
           </span>
         </div>
       </div>

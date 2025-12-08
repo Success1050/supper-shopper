@@ -21,8 +21,6 @@ import { useRouter } from "next/navigation";
 
 const MyBalanceDeposit: React.FC = () => {
   const userId = useAuthStore((state) => state.userId);
-  const setWalletAmount = useAuthStore((state) => state.setWalletAmount);
-  const setActiveBalance = useAuthStore((state) => state.setActiveBalance);
   const walletAmount = useAuthStore((state) => state.walletAmount);
   const activeBalance = useAuthStore((state) => state.activeBalance);
   const [activeTab, setActiveTab] = useState<"Deposit" | "Withdrawal">(
@@ -125,25 +123,6 @@ const MyBalanceDeposit: React.FC = () => {
     }
   }, [amount, walletAddress, network, walletAmount]);
 
-useEffect(() => {
-  if (!userId) return;
-
-  const fetchBalances = async () => {
-    try {
-      const [walletRes, activeRes] = await Promise.all([
-        getUserWallet(userId),
-        GetActiveBalance(userId),
-      ]);
-
-      if (walletRes.success) setWalletAmount(walletRes.data ?? 0);
-      if (activeRes.success) setActiveBalance(activeRes.totalActiveBalance ?? 0);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchBalances();
-}, [userId, setWalletAmount, setActiveBalance]);
 
   const FetchSelectedChain = useCallback(async () => {
     if (!CurrencyId) return;

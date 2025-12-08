@@ -17,11 +17,12 @@ const ProductSkeleton = () => (
 );
 
 const DashboardHome = () => {
-  const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<UserTaskWithProduct[]>([]);
   const [productsLoading, setProductsLoading] = useState<boolean>(true);
   const userId = useAuthStore((state) => state.userId);
+  const walletAmount = useAuthStore((state) => state.walletAmount);
+  // const activeBalance = useAuthStore((state) => state.activeBalance);
 
   // Fetch all data in parallel on mount
   useEffect(() => {
@@ -59,7 +60,7 @@ const DashboardHome = () => {
   return (
     <section className="w-full p-2 px-6 md:px-0 bg-[#201d4c]">
       <div className="md:hidden mb-3">
-        <EarningsSummary walletAmount={walletAmount} />
+        <EarningsSummary />
       </div>
 
       <div className="md:hidden">
@@ -94,7 +95,7 @@ const DashboardHome = () => {
       </div>
 
       <div className="md:grid grid-cols-1 lg:grid-cols-2 hidden px-8">
-        <UserEarnings walletAmount={walletAmount} />
+        <UserEarnings />
 
         <div>
           <div className="flex justify-start gap-20 items-center mb-4">
