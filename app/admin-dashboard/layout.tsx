@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import {
   Home,
   TestTube,
@@ -32,9 +32,12 @@ import { createClient } from "@/utils/supabase/client";
 import { redirect } from "next/navigation";
 import { useLogout } from "@/Components/LogoutFunc";
 import PackageSelection from "@/Components/PackageSelection";
+import { Loader } from "@/Components/Loader";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const [menuIId, setMenuId] = useState<number>(0);
+   const [isPending, startTransition] = useTransition();
+  const logout= useLogout()
 
   // Sidebar for desktop
   const sidebarItems = [
@@ -167,13 +170,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </nav>
 
           {/* Logout Button */}
-          <div
+          <button
             className="flex items-center justify-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 my-2 py-3 mt-[50%] bg-[#2723FF] hover:bg-blue-700/50 hover:text-white transition-colors w-full"
-            onClick={useLogout}
+            onClick={() => startTransition(() => logout())}
           >
-            <LogOut size={20} />
-            <span className="font-medium">Log out</span>
-          </div>
+           {isPending ? (
+                         <Loader />
+                       ) : (
+                         <>
+                           <LogOut className="w-5 h-5" />
+                           <span>Logout</span>
+                         </>
+                       )}
+          </button>
         </div>
 
         {/* Main Content */}

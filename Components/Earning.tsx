@@ -17,13 +17,13 @@ export default function EarningsOverviewBox() {
         <div className="flex space-x-6 text-right">
           <div>
             <div className="text-blue-200 text-sm mb-1">Week</div>
-            <div className="text-white text-sm">$12.34</div>
-            <div className="text-white text-sm">$180.34</div>
+            <div className="text-white text-sm">$0</div>
+            <div className="text-white text-sm">$0</div>
           </div>
           <div>
             <div className="text-blue-200 text-sm mb-1">Month</div>
-            <div className="text-white text-sm">$54.83</div>
-            <div className="text-white text-sm">$54.83</div>
+            <div className="text-white text-sm">$0</div>
+            <div className="text-white text-sm">$0</div>
           </div>
         </div>
       </div>

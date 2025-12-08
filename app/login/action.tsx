@@ -27,8 +27,6 @@ export async function login({ emailorPhone, password }: LoginData) {
 
   if (error) return { success: false, message: error.message };
 
-  console.log(data);
-
   // Fetch user role
   const { data: profile } = await supabase
     .from("profiles")

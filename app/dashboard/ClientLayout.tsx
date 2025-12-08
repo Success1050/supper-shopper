@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode, useState, useEffect, useCallback } from "react";
+import React, { ReactNode, useState, useEffect, useCallback, useTransition } from "react";
 import {
   Home,
   TestTube,
@@ -28,10 +28,12 @@ import { useLogout } from "@/Components/LogoutFunc";
 import { ClientLayoutProps } from "@/type";
 import { mobileNavItems, sidebarItems } from "@/constants";
 import { useAuthStore } from "@/store";
+import { Loader } from "@/Components/Loader";
 
 const ClientLayout = ({ children, session }: ClientLayoutProps) => {
   const pathname = usePathname();
   const [active, setActive] = useState(pathname);
+   const [isPending, startTransition] = useTransition();
   const [currentRoute, setCurrentRoute] = useState(pathname);
   const clearSession = useAuthStore((state) => state.clearSession);
   const setSession = useAuthStore((state) => state.setSession);
@@ -117,10 +119,16 @@ const ClientLayout = ({ children, session }: ClientLayoutProps) => {
           <div className="absolute bottom-[10%] w-full">
             <button
               className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-[#2723FF] hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
-              onClick={onLogout}
+              onClick={() => startTransition(() => logout())}
             >
-              <LogOut size={20} />
-              <span className="font-medium">Log out</span>
+              {isPending ? (
+                <Loader />
+              ) : (
+                <>
+                  <LogOut className="w-5 h-5" />
+                  <span>Logout</span>
+                </>
+              )}
             </button>
           </div>
         </div>
