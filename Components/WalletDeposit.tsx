@@ -5,6 +5,7 @@ import { ChevronDown, Copy } from "lucide-react";
 import {
   fetchChain,
   fetchToken,
+  GetActiveBalance,
   GetExistingData,
   getUserWallet,
 } from "@/app/dashboard/wallet/action";
@@ -20,6 +21,10 @@ import { useRouter } from "next/navigation";
 
 const MyBalanceDeposit: React.FC = () => {
   const userId = useAuthStore((state) => state.userId);
+  const setWalletAmount = useAuthStore((state) => state.setWalletAmount);
+  const setActiveBalance = useAuthStore((state) => state.setActiveBalance);
+  const walletAmount = useAuthStore((state) => state.walletAmount);
+  const activeBalance = useAuthStore((state) => state.activeBalance);
   const [activeTab, setActiveTab] = useState<"Deposit" | "Withdrawal">(
     "Deposit"
   );
@@ -27,7 +32,7 @@ const MyBalanceDeposit: React.FC = () => {
   const [chains, setChain] = useState<any[]>([]);
   const [tokens, setTokens] = useState<any[]>([]);
   const [CurrencyId, setCurrencyId] = useState<number>(1);
-  const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
+  // const [walletAmount, setWalletAmount] = useState<number | undefined>(0);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [currency, setCurrency] = useState<string>("USDT");
   const [network, setNetwork] = useState<string>("");
@@ -39,6 +44,8 @@ const MyBalanceDeposit: React.FC = () => {
   const [generatedAddress, setGeneratedAddress] = useState<string>("");
   const [txId, setTxId] = useState<string>("");
   const [isDropdown, setIsdropdown] = useState<boolean>(false);
+  // const [activeBalance, setActiveBalance] = useState<number>(0);
+
   const [loading, setloading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -118,16 +125,29 @@ const MyBalanceDeposit: React.FC = () => {
     }
   }, [amount, walletAddress, network, walletAmount]);
 
-  const getWalletBal = useCallback(async () => {
+  useEffect(() => {
     if (!userId) return;
 
-    const res = await getUserWallet(userId);
-    if (!res.success) {
-      return;
-    }
+    const fetchBalances = async () => {
+      try {
+        const [walletRes, activeRes] = await Promise.all([
+          getUserWallet(userId),
+          GetActiveBalance(userId),
+        ]);
 
-    setWalletAmount(res?.data);
-  }, [userId]);
+        if (walletRes.success) setWalletAmount(walletRes.data ?? 0);
+        if (activeRes.success) {
+          setActiveBalance(activeRes.totalActiveBalance ?? 0);
+        } else {
+          console.log("active balabce error", activeRes.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBalances();
+  }, [userId, setWalletAmount, setActiveBalance]);
 
   const FetchSelectedChain = useCallback(async () => {
     if (!CurrencyId) return;
@@ -153,13 +173,6 @@ const MyBalanceDeposit: React.FC = () => {
     }
     setTokens(res.data || []);
   }, []);
-
-  // Fetch wallet balance when session is available
-  useEffect(() => {
-    if (userId) {
-      getWalletBal();
-    }
-  }, [userId, getWalletBal]);
 
   // Fetch tokens only once
   useEffect(() => {
@@ -199,7 +212,7 @@ const MyBalanceDeposit: React.FC = () => {
                     My Active Balance
                   </h1>
                   <h2 className="text-white text-2xl md:text-3xl font-bold">
-                    $0
+                    ${activeBalance.toFixed(2)}
                   </h2>
                 </div>
               </div>

@@ -78,3 +78,26 @@ export const GetExistingData = async (
 
   return { success: true, data: existingData };
 };
+
+export const GetActiveBalance = async (userId: string | undefined) => {
+  const supabase = await createClient();
+
+  // Fetch all active balances for the user
+  const { data: balances, error } = await supabase
+    .from("active_balances")
+    .select("amount")
+    .eq("user_id", userId)
+    .eq("status", "active"); // only active balances
+
+  if (error) {
+    return { success: false, message: error.message };
+  }
+
+  // Use reduce to sum all amounts
+  const totalActiveBalance =
+    balances?.reduce((acc, curr) => {
+      return acc + Number(curr.amount); // ensure numeric addition
+    }, 0) ?? 0;
+
+  return { success: true, totalActiveBalance };
+};

@@ -37,7 +37,7 @@ const TaskCenter = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+  }, [userId]);
 
   console.log("products listed:", products);
 

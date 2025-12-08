@@ -21,6 +21,7 @@ const ProfileSettings: React.FC = () => {
   const [isPending, startTransition] = useTransition();
   const [editUserProfile, seteditUserProfile] = useState<string | null>(null);
   const userId = useAuthStore((state) => state.userId);
+  const clearSession = useAuthStore((state) => state.clearSession);
 
   useEffect(() => {
     if (!userId) return;
@@ -82,6 +83,16 @@ const ProfileSettings: React.FC = () => {
     },
     [profile?.id, editUserProfile]
   );
+
+  const onLogout = useCallback(async () => {
+    try {
+      await handleLogout();
+      clearSession();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }, [clearSession, router]);
 
   // Optimized: Memoized navigation handlers
   const navigateToReset = useCallback(() => {
@@ -343,7 +354,7 @@ const ProfileSettings: React.FC = () => {
             </div>
 
             <button
-              onClick={() => startTransition(() => handleLogout())}
+              onClick={() => startTransition(() => onLogout())}
               className="w-full bg-[#2723FF] hover:bg-blue-700 text-white font-semibold py-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
             >
               {isPending ? (

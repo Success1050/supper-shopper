@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { ReactNode, useState, useEffect } from "react";
+import React, { ReactNode, useState, useEffect, useCallback } from "react";
 import {
   Home,
   TestTube,
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import HeaderDashboard from "@/Components/HeaderDashboard";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import DashboardHome from "@/Components/Home";
 import TaskCenter from "@/Components/TaskCenter";
@@ -27,11 +27,14 @@ import PackageSelection from "@/Components/PackageSelection";
 import { handleLogout } from "@/Components/LogoutFunc";
 import { ClientLayoutProps } from "@/type";
 import { mobileNavItems, sidebarItems } from "@/constants";
+import { useAuthStore } from "@/store";
 
 const ClientLayout = ({ children }: ClientLayoutProps) => {
   const pathname = usePathname();
   const [active, setActive] = useState(pathname);
   const [currentRoute, setCurrentRoute] = useState(pathname);
+  const clearSession = useAuthStore((state) => state.clearSession);
+  const router = useRouter();
 
   useEffect(() => {
     setCurrentRoute(pathname);
@@ -41,6 +44,16 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
+
+  const onLogout = useCallback(async () => {
+    try {
+      await handleLogout();
+      clearSession();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }, [clearSession, router]);
 
   const activeMenuIndex = sidebarItems.findIndex(
     (item) => item.url === pathname
@@ -95,13 +108,13 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
 
           {/* Logout Button */}
           <div className="absolute bottom-[10%] w-full">
-            <div
+            <button
               className="flex items-center gap-3 rounded-lg cursor-pointer text-blue-200 px-3 py-3 bg-[#2723FF] hover:bg-blue-700/50 hover:text-white transition-colors w-[50%]"
-              onClick={handleLogout}
+              onClick={onLogout}
             >
               <LogOut size={20} />
               <span className="font-medium">Log out</span>
-            </div>
+            </button>
           </div>
         </div>
 

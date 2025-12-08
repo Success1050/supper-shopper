@@ -66,7 +66,7 @@ const PackageSelection: React.FC = () => {
     };
 
     initializeData();
-  }, []);
+  }, [userId]);
 
   // Optimized: Memoized buy package handler with better UX
   const buyPackage = useCallback(
