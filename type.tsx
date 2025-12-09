@@ -14,10 +14,9 @@ export interface TeamMember {
 
 export interface HistoryRecord {
   id: string;
-  date: string;
-  time: string;
+  created_at: string;
   type: string;
-  status: "Completed" | "Processing";
+  status?: "Completed" | "Processing";
   amount: string;
   color: string;
 }

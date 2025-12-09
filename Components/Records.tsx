@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderDashboard from "./HeaderDashboard";
 import { HistoryRecord } from "@/type";
+import { useAuthStore } from "@/store";
+import { fetchHistoryRecords, fetchSubscriptions } from "@/app/dashboard/records/action";
+
 
 const Records: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("All History");
-
-  console.log("active tab", activeTab);
+  const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
+  const userId = useAuthStore((state) => state.userId);
 
   const tabs = [
     "All History",
@@ -19,8 +22,55 @@ const Records: React.FC = () => {
     "Withdrawals",
   ];
 
-  const historyRecords: HistoryRecord[] = [
-    // {
+  useEffect(()=> {
+    const getUserRecords = async() => {
+const [historyRes, subscriptionsRes] = await Promise.all([
+  fetchHistoryRecords(userId || undefined),
+  fetchSubscriptions(userId || undefined)
+])
+
+if (historyRes && historyRes.success) {
+  setHistoryRecords(historyRes.data as HistoryRecord[])
+}else {
+  console.log('historyRes.error', historyRes.error);
+}
+
+if (subscriptionsRes && subscriptionsRes.success) {
+  setHistoryRecords((prev)=> [...prev, ...subscriptionsRes.data as HistoryRecord[]])
+  console.log('subss', subscriptionsRes.data);
+  
+}else {
+  console.log('subscriptionsRes.error', subscriptionsRes.error);
+}
+
+}
+    getUserRecords()
+  }, [userId])
+
+
+
+  const formatDate = (createdAt: string) => {
+const dateObj = new Date(createdAt);
+
+const formattedDate = dateObj.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+const formattedTime = dateObj.toLocaleTimeString("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
+return {formattedDate, formattedTime}
+  }
+
+
+
+
+ // {
     //   id: "1",
     //   date: "2025-05-09",
     //   time: "14:35",
@@ -29,52 +79,8 @@ const Records: React.FC = () => {
     //   amount: "+$0.50",
     //   color: "text-green-400",
     // },
-    // {
-    //   id: "2",
-    //   date: "2025-05-09",
-    //   time: "13:22",
-    //   type: "Task Profit",
-    //   status: "Completed",
-    //   amount: "+$2.75",
-    //   color: "text-green-400",
-    // },
-    // {
-    //   id: "3",
-    //   date: "2025-05-09",
-    //   time: "12:15",
-    //   type: "Withdrawal",
-    //   status: "Processing",
-    //   amount: "-$50.00",
-    //   color: "text-red-400",
-    // },
-    // {
-    //   id: "4",
-    //   date: "2025-05-08",
-    //   time: "16:45",
-    //   type: "Deposit",
-    //   status: "Completed",
-    //   amount: "+$100.00",
-    //   color: "text-green-400",
-    // },
-    // {
-    //   id: "5",
-    //   date: "2025-05-08",
-    //   time: "16:30",
-    //   type: "Affiliate Bonus",
-    //   status: "Completed",
-    //   amount: "+$5.00",
-    //   color: "text-green-400",
-    // },
-    // {
-    //   id: "6",
-    //   date: "2025-05-08",
-    //   time: "14:20",
-    //   type: "Career Reward",
-    //   status: "Completed",
-    //   amount: "+$10.00",
-    //   color: "text-green-400",
-    // },
-  ];
+
+
 
   const getFilteredRecords = () => {
     if (activeTab === "All History") return historyRecords;
@@ -121,7 +127,7 @@ const Records: React.FC = () => {
                     <div className="flex-1">
                       <div className="flex items-center space-x-4 mb-2">
                         <h2 className="text-white text-[16px]">
-                          {record.date} - {record.time}
+                          {formatDate(record.created_at).formattedDate} - {formatDate(record.created_at).formattedTime}
                         </h2>
                       </div>
                       <div className="text-white font-medium text-lg">
@@ -141,9 +147,10 @@ const Records: React.FC = () => {
                           {record.status}
                         </span>
                       </div>
-                      <div className={`font-bold text-lg ${record.color}`}>
-                        {record.amount}
-                      </div>
+                      <h2 className={`font-bold text-lg text-white`}>
+                        {record.type == "Subscription Purchases" ? "-" : "+"}
+                        ${record.amount}
+                      </h2>
                     </div>
                   </div>
                 </div>

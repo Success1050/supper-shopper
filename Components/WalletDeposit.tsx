@@ -161,7 +161,7 @@ const MyBalanceDeposit: React.FC = () => {
 
   // Memoize formatted wallet amount
   const formattedWalletAmount = useMemo(() => {
-    return walletAmount?.toFixed(2) ?? "0.00";
+    return walletAmount?.toFixed(2) ?? 0.00;
   }, [walletAmount]);
 
   return (
