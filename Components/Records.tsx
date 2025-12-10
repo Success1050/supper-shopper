@@ -77,7 +77,7 @@ const Records: React.FC = () => {
   };
 
   const getFilteredRecords = () => {
-    if (activeTab === "All History") return historyRecords;
+
     
     // Broadened filter for Subscription Purchases
     if (activeTab === "Subscription Purchases") {
@@ -89,6 +89,42 @@ const Records: React.FC = () => {
       );
     }
     
+    const mockDeposits: HistoryRecord[] = [
+      {
+        id: "mock-dep-1",
+        created_at: new Date().toISOString(),
+        type: "Deposits",
+        status: "Completed",
+        amount: "100",
+        color: "green",
+      },
+      {
+        id: "mock-dep-2",
+        created_at: new Date(Date.now() - 86400000).toISOString(),
+        type: "Deposits",
+        status: "Processing",
+        amount: "500",
+        color: "yellow",
+      },
+      {
+        id: "mock-dep-3",
+        created_at: new Date(Date.now() - 172800000).toISOString(),
+        type: "Deposits",
+        status: "Completed",
+        amount: "250",
+        color: "green",
+      },
+    ];
+
+    if (activeTab === "Deposits") {
+      const realDeposits = historyRecords.filter((record) => record.type === "Deposits");
+      return [...realDeposits, ...mockDeposits];
+    }
+    
+    if (activeTab === "All History") {
+       return [...historyRecords, ...mockDeposits];
+    }
+
     return historyRecords.filter((record) => record.type === activeTab);
   };
 

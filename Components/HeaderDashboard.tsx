@@ -47,8 +47,18 @@ const HeaderDashboard = ({
   }, [pathname]);
 
   // Fetch user profile and active package in parallel - only once per session
+  // Fetch user profile and active package in parallel - only once per session
   useEffect(() => {
-    if (!userId || hasFetchedRef.current) return;
+    // Reset state when user changes
+    if (!userId) {
+      setCurrPackage(null);
+      setUserImage("");
+      hasFetchedRef.current = false;
+      return;
+    }
+
+    if (hasFetchedRef.current) return;
+    
     const supabase = createClient();
 
     async function load() {
