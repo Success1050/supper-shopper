@@ -27,12 +27,8 @@ const ReferralCodeHandler: React.FC<{
     if (code) {
       onCodeChange(code);
       localStorage.setItem("referrer_code", code);
-    } else {
-      const saved = localStorage.getItem("referrer_code");
-      if (saved) {
-        onCodeChange(saved);
-      }
     }
+
   }, [searchParams, onCodeChange]);
 
   return null;
@@ -99,8 +95,7 @@ const CreateAccountForm: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const ref =
-      formData.referralCode || localStorage.getItem("referrer_code") || "";
+    const ref = formData.referralCode || "";
 
     const submitData = {
       ...formData,
