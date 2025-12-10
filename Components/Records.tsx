@@ -5,12 +5,15 @@ import HeaderDashboard from "./HeaderDashboard";
 import { HistoryRecord } from "@/type";
 import { useAuthStore } from "@/store";
 import { fetchHistoryRecords, fetchSubscriptions } from "@/app/dashboard/records/action";
-
+import { Loader } from "./Loader";
 
 const Records: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("All History");
   const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const userId = useAuthStore((state) => state.userId);
+
+  console.log("active tab", activeTab);
 
   const tabs = [
     "All History",
@@ -22,68 +25,70 @@ const Records: React.FC = () => {
     "Withdrawals",
   ];
 
-  useEffect(()=> {
-    const getUserRecords = async() => {
-const [historyRes, subscriptionsRes] = await Promise.all([
-  fetchHistoryRecords(userId || undefined),
-  fetchSubscriptions(userId || undefined)
-])
+  useEffect(() => {
+    const getUserRecords = async () => {
+      if (!userId) return;
+      
+      setLoading(true);
+      try {
+        const [historyRes, subscriptionsRes] = await Promise.all([
+          fetchHistoryRecords(userId),
+          fetchSubscriptions(userId)
+        ]);
 
-if (historyRes && historyRes.success) {
-  setHistoryRecords(historyRes.data as HistoryRecord[])
-}else {
-  console.log('historyRes.error', historyRes.error);
-}
+        if (historyRes && historyRes.success) {
+          setHistoryRecords(historyRes.data as HistoryRecord[]);
+        } else {
+          console.log('historyRes.error', historyRes.error);
+        }
 
-if (subscriptionsRes && subscriptionsRes.success) {
-  setHistoryRecords((prev)=> [...prev, ...subscriptionsRes.data as HistoryRecord[]])
-  console.log('subss', subscriptionsRes.data);
-  
-}else {
-  console.log('subscriptionsRes.error', subscriptionsRes.error);
-}
+        if (subscriptionsRes && subscriptionsRes.success) {
+          setHistoryRecords((prev) => [...prev, ...subscriptionsRes.data as HistoryRecord[]]);
+          console.log('subss', subscriptionsRes.data);
+        } else {
+          console.log('subscriptionsRes.error', subscriptionsRes.error);
+        }
+      } catch (error) {
+        console.error("Error fetching records:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-}
-    getUserRecords()
-  }, [userId])
-
-
+    getUserRecords();
+  }, [userId]);
 
   const formatDate = (createdAt: string) => {
-const dateObj = new Date(createdAt);
+    const dateObj = new Date(createdAt);
 
-const formattedDate = dateObj.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-});
+    const formattedDate = dateObj.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
 
-const formattedTime = dateObj.toLocaleTimeString("en-US", {
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-});
+    const formattedTime = dateObj.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
 
-return {formattedDate, formattedTime}
-  }
-
-
-
-
- // {
-    //   id: "1",
-    //   date: "2025-05-09",
-    //   time: "14:35",
-    //   type: "Task Profit",
-    //   status: "Completed",
-    //   amount: "+$0.50",
-    //   color: "text-green-400",
-    // },
-
-
+    return { formattedDate, formattedTime };
+  };
 
   const getFilteredRecords = () => {
     if (activeTab === "All History") return historyRecords;
+    
+    // Broadened filter for Subscription Purchases
+    if (activeTab === "Subscription Purchases") {
+      return historyRecords.filter((record) => 
+        record.type === "Subscription Purchases" || 
+        record.type === "Subscription" || 
+        record.type === "Package" ||
+        record.type === "Purchase"
+      );
+    }
+    
     return historyRecords.filter((record) => record.type === activeTab);
   };
 
@@ -114,10 +119,13 @@ return {formattedDate, formattedTime}
         <div className="p-6 flex justify-between items-center flex-wrap">
           <h2 className="text-white text-xl font-semibold">Records</h2>
         </div>
+        
         {/* Records Section */}
         <div className=" backdrop-blur-sm  overflow-hidden">
           <div className=" max-h-[500px] overflow-y-auto ">
-            {filteredRecords.length > 0 ? (
+            {loading ? (
+              <Loader />
+            ) : filteredRecords.length > 0 ? (
               filteredRecords.map((record) => (
                 <div
                   key={record.id}
@@ -148,7 +156,9 @@ return {formattedDate, formattedTime}
                         </span>
                       </div>
                       <h2 className={`font-bold text-lg text-white`}>
-                        {record.type == "Subscription Purchases" ? "-" : "+"}
+                        {record.type == "Subscription Purchases" || 
+                         record.type == "Subscription" || 
+                         record.type == "Package" ? "-" : "+"}
                         ${record.amount}
                       </h2>
                     </div>
@@ -165,35 +175,6 @@ return {formattedDate, formattedTime}
             )}
           </div>
         </div>
-
-        {/* Summary Stats */}
-        {/* {filteredRecords.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
-              <div className="text-blue-200 text-sm mb-1">Total Records</div>
-              <div className="text-white font-bold text-xl">
-                {filteredRecords.length}
-              </div>
-            </div>
-
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
-              <div className="text-blue-200 text-sm mb-1">Completed</div>
-              <div className="text-green-400 font-bold text-xl">
-                {filteredRecords.filter((r) => r.status === "Completed").length}
-              </div>
-            </div>
-
-            <div className="bg-blue-800/40 backdrop-blur-sm rounded-lg p-4 border border-blue-700/50">
-              <div className="text-blue-200 text-sm mb-1">Processing</div>
-              <div className="text-yellow-400 font-bold text-xl">
-                {
-                  filteredRecords.filter((r) => r.status === "Processing")
-                    .length
-                }
-              </div>
-            </div>
-          </div>
-        )} */}
       </div>
     </div>
   );
