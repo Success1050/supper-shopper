@@ -312,6 +312,18 @@ const MyTeam: React.FC = () => {
             </div>
           </div>
         </div>
+
+        
+        {/* Team Hierarchy List */}
+        <div className="mb-8">
+            <TeamHierarchyList 
+                filteredMembers={filteredMembers}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                getInitials={getInitials}
+            />
+        </div>
+
       </div>
     </div>
   );

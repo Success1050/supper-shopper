@@ -10,6 +10,7 @@ export interface TeamMember {
   personal_referral_code: string | null;
   referrer_id: string | null;
   level: number;
+  created_at: string;
 }
 
 export interface HistoryRecord {

@@ -161,7 +161,7 @@ const MyBalanceDeposit: React.FC = () => {
 
   // Memoize formatted wallet amount
   const formattedWalletAmount = useMemo(() => {
-    return walletAmount?.toFixed(2) ?? 0.00;
+    return (walletAmount || 0).toFixed(2);
   }, [walletAmount]);
 
   return (
@@ -187,7 +187,7 @@ const MyBalanceDeposit: React.FC = () => {
                     My Active Balance
                   </h1>
                   <h2 className="text-white text-2xl md:text-3xl font-bold">
-                    ${activeBalance.toFixed(2)}
+                    ${(activeBalance || 0).toFixed(2)}
                   </h2>
                 </div>
               </div>

@@ -19,13 +19,14 @@ async function getTeamRecursive(
     personal_referral_code: string | null;
     referrer_id: string | null;
     level: number;
+    created_at: string;
   }[]
 > {
   // Get direct referrals for this user
   const { data: directRefs, error } = await supabase
     .from("profiles")
     .select(
-      "id, email, first_name, last_name, country, referral_code, personal_referral_code, referrer_id"
+      "id, email, first_name, last_name, country, referral_code, personal_referral_code, referrer_id, created_at"
     )
     .eq("referrer_id", userId);
 

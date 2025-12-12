@@ -16,7 +16,7 @@ export default function TeamHierarchyList({
   setSearchQuery,
 }: TeamHierarchyListProps) {
   return (
-    <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] w-full">
+    <div className="bg-[#2c2954] backdrop-blur-sm rounded-lg p-6 border border-[#2b2954] w-full mt-8">
       <h3 className="text-white text-[30px] font-semibold mb-4">
         Team Hierarchy
       </h3>
@@ -60,10 +60,9 @@ export default function TeamHierarchyList({
 
               {/* Right Section: Package + Date */}
               <div className="text-right ml-4">
-                <div className="text-white font-semibold text-base mb-1">
-                  $100
+                <div className="text-gray-400 text-sm">
+                  {new Date(member.created_at).toLocaleDateString()}
                 </div>
-                <div className="text-gray-400 text-sm">Jan 15 2024</div>
               </div>
             </div>
           ))
